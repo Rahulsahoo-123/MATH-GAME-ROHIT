@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Percentage Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background: #34495e;
+      color: white;
+      padding: 15px;
+    }
+    #quiz-box {
+      max-width: 700px;
+      width: 90%;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    #question {
+      font-size: 22px;
+      margin-bottom: 15px;
+      word-wrap: break-word;
+    }
+    .option-btn {
+      display: block;
+      margin: 8px auto;
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      border: none;
+      border-radius: 8px;
+      background: #ecf0f1;
+      font-size: 18px;
+      cursor: pointer;
+      transition: 0.3s;
+      word-wrap: break-word;
+    }
+    .option-btn:hover { background: #dcdde1; }
+    .correct { background: #2ecc71 !important; color: white; }
+    .wrong { background: #e74c3c !important; color: white; }
+    #solutionBtn {
+      margin-top: 12px;
+      padding: 8px 16px;
+      border: none;
+      background: #2980b9;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #solutionBox {
+      margin-top: 15px;
+      display: none;
+      padding: 10px;
+      background: #f9f9f9;
+      border-left: 4px solid #2980b9;
+      text-align: left;
+      word-wrap: break-word;
+    }
+    #progress {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #bdc3c7;
+      margin: 5px;
+      line-height: 30px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .circle.current { border: 2px solid #2980b9; }
+    .circle.correct { background: #2ecc71; }
+    .circle.wrong { background: #e74c3c; }
+    .circle.attempted { background: #f1c40f; }
+    .nav-arrows {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .nav-arrows button {
+      flex: 1 1 40%;
+      max-width: 150px;
+      padding: 10px;
+      border: none;
+      background: #8e44ad;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .back-btn {
+      margin-top: 20px;
+      padding: 10px 40px;
+      background: #16a085;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* ✅ Responsive for smaller devices */
+    @media (max-width: 600px) {
+      #question { font-size: 20px; }
+      .option-btn { font-size: 16px; width: 90%; padding: 12px; }
+      .nav-arrows button { flex: 1 1 45%; padding: 10px; font-size: 14px; }
+      .back-btn { width: 90%; padding: 12px; font-size: 14px; }
+    }
+
+    @media (max-width: 400px) {
+      #question { font-size: 18px; }
+      .option-btn { font-size: 14px; width: 95%; padding: 10px; }
+      .nav-arrows button { flex: 1 1 100%; }
+      .back-btn { font-size: 13px; padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Percentage Quiz</h1>
+</header>
+
+<div id="quiz-box">
+  <div id="progress"></div>
+  <h2 id="question">Loading...</h2>
+  <div id="options"></div>
+  <button id="solutionBtn" onclick="toggleSolution()">Show Solution</button>
+  <div id="solutionBox"></div>
+  <div class="nav-arrows">
+    <button onclick="prevSet()">⬅ Prev 10</button>
+    <button onclick="nextSet()">Next 10 ➡</button>
+  </div>
+  <button class="back-btn" onclick="goBack()">⬅ Back to Categories</button>
+</div>
+
+<audio id="correctSound" src="correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="wrong.mp3" preload="auto"></audio>
+
+<script>
+  const quizData = [ /* your quizData array here */
+     {q:"Find 20% of 450", options:["110","100","90","80"], answer:2, solution:"20% of 450 = 0.2×450 = 90"},
+  {q:"A price is increased by 25%. By what percent must it be reduced to bring back original price?", options:["19%","16%","20%","18%"], answer:2, solution:"Reduction%= (1 - 1/1.25)=0.2 = 20%"},
+  {q:"If 30% of x = 75, find x", options:["250","150","200","225"], answer:0, solution:"x=75/0.3=250"},
+  {q:"A salary increased from 24000 to 30000. Percentage increase is:", options:["20%","18%","30%","25%"], answer:3, solution:"Increase=6000; % =6000/24000×100=25%"},
+  {q:"If price falls by 10% and then by another 10%, overall decrease ≈", options:["19%","18%","21%","20%"], answer:0, solution:"Net factor=0.9×0.9=0.81 → decrease=19%"},
+  {q:"What is 12.5% of 640?", options:["90","85","80","75"], answer:2, solution:"12.5%=1/8 → 640/8=80"},
+  {q:"A commodity is marked 40% above CP and sold at 10% discount. Profit% = ?", options:["30%","28%","26%","24%"], answer:2, solution:"MP=1.4CP, SP=1.26CP → profit=26%"},
+  {q:"If 150 is 60% of a number, that number is:", options:["300","180","200","250"], answer:3, solution:"x=150/0.6=250"},
+  {q:"Increase 480 by 15%", options:["520","552","560","540"], answer:1, solution:"480×1.15=552"},
+  {q:"Decrease 250 by 12%", options:["220","220.0","220.0","220"], answer:0, solution:"250×0.88=220"},
+  {q:"If A gets 30% of total and B gets 45%, remaining share is:", options:["25%","10%","15%","20%"], answer:0, solution:"100-30-45=25%"},
+  {q:"A price after 20% discount is 360. Original price was:", options:["450","420","480","500"], answer:0, solution:"MP=360/0.8=450"},
+  {q:"A quantity increased by 50% becomes 150. Original quantity:", options:["90","80","75","100"], answer:3, solution:"x×1.5=150 → x=100"},
+  {q:"A number is decreased by 25% then increased by 25%. Net change is", options:["-6.25%","+6.25%","+1%","0%"], answer:0, solution:"0.75×1.25=0.9375 → decrease 6.25%"},
+  {q:"What percent is 3/8 as a percent?", options:["32.5%","35%","40%","37.5%"], answer:3, solution:"3/8=0.375=37.5%"},
+  {q:"If 5% of a number is 7.5, the number is:", options:["120","160","150","100"], answer:2, solution:"x=7.5/0.05=150"},
+  {q:"A reduces price by 30% making SP=350. Original price was:", options:["400","450","500","350"], answer:2, solution:"MP=350/0.7=500"},
+  {q:"Find 7.5% of 1600", options:["150","120","80","100"], answer:1, solution:"0.075×1600=120"},
+  {q:"If tax is 8% on ₹1250, tax amount is:", options:["100","120","96","110"], answer:0, solution:"1250×0.08=100"},
+  {q:"Successive increase 10% and 20% on 100 gives final value:", options:["130","132","110","120"], answer:1, solution:"100×1.1×1.2=132"},
+  {q:"If price increases by 12.5% then decreases by 12.5%, net change is:", options:["0%","+1.56%","-3%","-1.56%"], answer:3, solution:"1.125×0.875=0.984 → decrease 1.56%"},
+  {q:"A shop gives 25% off and then 10% off. Net discount ≈", options:["35%","32.5%","30%","25%"], answer:1, solution:"Net factor=0.75×0.9=0.675 → 32.5%"},
+  {q:"If 120 is 40% of a, then a is:", options:["200","250","300","320"], answer:2, solution:"a=120/0.4=300"},
+  {q:"A is 20% more than B. If B=150, A=", options:["190","170","160","180"], answer:3, solution:"A=150×1.2=180"},
+  {q:"If salary decreased by 8% to 23000, original salary was:", options:["25000","24891","24000","24900"], answer:0, solution:"x=23000/0.92=25000"},
+  {q:"A product marked at ₹800 with 15% discount sold at:", options:["680","720","700","660"], answer:0, solution:"SP=800×0.85=680"},
+  {q:"If 60 is 20% more than x, x is:", options:["50","40","48","45"], answer:0, solution:"x=60/1.2=50"},
+  {q:"Find 125% of 240", options:["260","320","280","300"], answer:3, solution:"1.25×240=300"},
+  {q:"A reduces by 40% then increases by 40%. Net change?", options:["-4%","+16%","0%","-16%"], answer:3, solution:"0.6×1.4=0.84 → decrease 16%"},
+  {q:"If GST 18% applied on 2500, total becomes:", options:["2900","3000","2955","2950"], answer:3, solution:"2500×1.18=2950"},
+  {q:"If 15% of x = 48, find x", options:["320","310","280","300"], answer:0, solution:"x=48/0.15=320"},
+  {q:"If 20% of a = 30% of b and a=50, find b", options:["30","33.33","34","35"], answer:1, solution:"b=(2/3)×50=33.33"},
+  {q:"Price is x. After 10% increase it becomes 352. x = ?", options:["340","320","300","330"], answer:1, solution:"x=352/1.1=320"},
+  {q:"Compound interest yearly 10% on 1000 for 2 years is:", options:["1210","1100","1200","2100"], answer:0, solution:"A=1000×1.1²=1210"},
+  {q:"If increase from 80 to 92, percent increase is:", options:["15%","14%","13%","12%"], answer:0, solution:"%=(12/80)×100=15%"},
+  {q:"A shopkeeper offers 2 successive discounts 20% and 10% on 1000; final price:", options:["720","760","740","780"], answer:0, solution:"1000×0.8×0.9=720"},
+  {q:"If x is decreased by 40% becomes 90. Original x:", options:["120","150","140","130"], answer:1, solution:"x=90/0.6=150"},
+  {q:"An item is 30% off then 20% off on the reduced price. Net price of 200 is:", options:["140","120","128","112"], answer:3, solution:"200×0.7×0.8=112"},
+  {q:"A population increases by 10% yearly. After 2 years factor is:", options:["1.1","1.2","1.21","1.3"], answer:2, solution:"1.1²=1.21"},
+  {q:"Find x: x + 25% of x = 250", options:["260","240","220","200"], answer:3, solution:"x×1.25=250 → x=200"},
+  {q:"If A gets 30% of profit and profit=₹1000, A gets:", options:["₹250","₹350","₹300","₹400"], answer:2, solution:"30% of 1000=300"},
+  {q:"A decreases price by 10% and sells 10% more units; revenue change approximately:", options:["-1%","0%","+1%","+2%"], answer:0, solution:"Revenue=0.9×1.1=0.99 → -1%"},
+  {q:"If 5% VAT on 200 is added then 10% discount on total, final price:", options:["189","190","198","180"], answer:0, solution:"200×1.05=210 → 10% off=189"},
+  {q:"Find % change: from 250 to 200", options:["-20%","-15%","-25%","-30%"], answer:0, solution:"Change=-50 → -50/250=-20%"},
+  {q:"If 18% of x = 54, x =", options:["280","300","250","200"], answer:1, solution:"x=54/0.18=300"},
+  {q:"A bank gives 5% annual interest. Effective % for 2 years (compound) ≈", options:["9.75%","11%","10.25%","10%"], answer:2, solution:"(1.05)²=1.1025 → 10.25%"},
+  {q:"If a is 40% of b and b is 50% of c, a is what % of c?", options:["15%","20%","25%","30%"], answer:1, solution:"a=0.4×0.5c=0.2c → 20%"},
+  {q:"If discount 30% makes price 280, original was:", options:["400","420","360","380"], answer:0, solution:"MP=280/0.7=400"},
+  {q:"Find 66⅔% of 90", options:["50","60","80","70"], answer:1, solution:"2/3×90=60"},
+  {q:"If 25% of students are absent and 150 present, total students:", options:["160","200","180","240"], answer:1, solution:"T=150/0.75=200"},
+  {q:"A and B share profit in ratio 3:2. If total profit 500 and A gets 60% of his share as tax, A receives:", options:["180","120","200","150"], answer:1, solution:"A share=300 → after tax=0.4×300=120"},
+  {q:"A price is reduced by x% then increased by x% → net effect zero? Which x?", options:["0 only","50","x=100","any x"], answer:0, solution:"Only x=0 gives no change"},
+  {q:"Find 30% of 2/3 of 900", options:["200","120","150","180"], answer:3, solution:"2/3×900=600 → 30% of 600=180"},
+  {q:"If 120 is increased by x% to 150, x%=", options:["25%","15%","20%","30%"], answer:0, solution:"30/120=25%"},
+  {q:"A shop markup 50% on CP then sells at 10% discount. Net% over CP:", options:["45%","30%","40%","35%"], answer:3, solution:"SP=1.35CP → 35% profit"},
+  {q:"If 40% of x is 24 and 60% of y is 54, x+y = ?", options:["150","90","100","110"], answer:0, solution:"x=60, y=90 → x+y=150"},
+  {q:"If 1/5 of number = 20% of another number; if first is 50, second is:", options:["150","125","200","100"], answer:3, solution:"10=0.2y → y=50"},
+  {q:"If A gets 10% more than B and B is 200, A is:", options:["210","220","240","230"], answer:1, solution:"A=1.1×200=220"}
+   ];
+  let current = 0;
+  let setStart = 0;
+
+  function renderProgress() {
+    const prog = document.getElementById("progress");
+    prog.innerHTML = "";
+    for (let i = setStart; i < setStart+10 && i < quizData.length; i++) {
+      const c = document.createElement("div");
+      c.className = "circle";
+      c.innerText = (i+1);
+      if (i === current) c.classList.add("current");
+      if (quizData[i].status === "correct") c.classList.add("correct");
+      if (quizData[i].status === "wrong") c.classList.add("wrong");
+      if (quizData[i].selected !== undefined && quizData[i].status === undefined) c.classList.add("attempted");
+      c.onclick = () => { current=i; loadQuestion(); };
+      prog.appendChild(c);
+    }
+  }
+
+  function loadQuestion() {
+    renderProgress();
+    const q = quizData[current];
+    document.getElementById("question").innerText = q.q;
+    const optBox = document.getElementById("options");
+    optBox.innerHTML = "";
+
+    q.options.forEach((opt, idx) => {
+      const btn = document.createElement("button");
+      btn.innerText = opt;
+      btn.className = "option-btn";
+
+      if (q.selected !== undefined) {
+        if (idx === q.answer) btn.classList.add("correct");
+        if (idx === q.selected && idx !== q.answer) btn.classList.add("wrong");
+      }
+
+      btn.onclick = () => checkAnswer(idx);
+      optBox.appendChild(btn);
+    });
+
+    document.getElementById("solutionBox").style.display = "none";
+  }
+
+  function checkAnswer(idx) {
+    const q = quizData[current];
+    q.selected = idx;
+
+    const all = document.querySelectorAll(".option-btn");
+    all.forEach((b, i) => {
+      b.classList.remove("correct","wrong");
+      if (i === q.answer) b.classList.add("correct");
+      if (i === idx && idx !== q.answer) b.classList.add("wrong");
+    });
+
+    q.status = (idx === q.answer) ? "correct" : "wrong";
+
+    if (q.status === "correct") {
+      document.getElementById("correctSound").play();
+    } else {
+      document.getElementById("wrongSound").play();
+    }
+
+    renderProgress();
+  }
+
+  function toggleSolution() {
+    const box = document.getElementById("solutionBox");
+    box.innerText = quizData[current].solution;
+    box.style.display = (box.style.display === "none") ? "block" : "none";
+  }
+
+  function nextSet() {
+    if (setStart+10 < quizData.length) {
+      setStart += 10;
+      current = setStart;
+      loadQuestion();
+    }
+  }
+
+  function prevSet() {
+    if (setStart-10 >= 0) {
+      setStart -= 10;
+      current = setStart;
+      loadQuestion();
+    }
+  }
+
+  function goBack() {
+    window.location.href = "categories.html"; 
+  }
+
+  loadQuestion();
+</script>
+
+</body>
+</html>

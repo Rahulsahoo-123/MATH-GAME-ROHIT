@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fractions Quiz</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #e0eafc, #cfdef3);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  header {
+    background: #34495e;
+    color: white;
+    padding: 15px;
+  }
+  #quiz-box {
+    max-width: 700px;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  #question {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+  .option-btn {
+    display: block;
+    margin: 8px auto;
+    padding: 12px;
+    width: 80%;
+    max-width: 400px;
+    border: none;
+    border-radius: 8px;
+    background: #ecf0f1;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .option-btn:hover { background: #dcdde1; }
+  .correct { background: #2ecc71 !important; color: white; }
+  .wrong { background: #e74c3c !important; color: white; }
+
+  #solutionBtn {
+    margin-top: 12px;
+    padding: 10px 20px;
+    border: none;
+    background: #2980b9;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  #solutionBox {
+    margin-top: 15px;
+    display: none;
+    padding: 10px;
+    background: #f9f9f9;
+    border-left: 4px solid #2980b9;
+    text-align: left;
+  }
+  #progress {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #bdc3c7;
+    margin: 5px;
+    line-height: 30px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .circle.current { border: 2px solid #2980b9; }
+  .circle.correct { background: #2ecc71; }
+  .circle.wrong { background: #e74c3c; }
+  .circle.attempted { background: #f1c40f; }
+
+  .nav-arrows {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .nav-arrows button {
+    padding: 10px 60px;
+    border: none;
+    background: #8e44ad;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    flex: 1 1 150px;
+  }
+  .back-btn {
+    margin-top: 20px;
+    padding: 10px 40px;
+    background: #16a085;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  /* Responsive */
+  @media(max-width: 600px){
+    #question { font-size: 20px; }
+    .option-btn { width: 90%; font-size: 16px; padding: 10px; }
+    .nav-arrows button { padding: 10px 20px; }
+    #quiz-box { margin: 20px 15px; padding: 15px; }
+  }
+  @media(max-width: 480px){
+    #question { font-size: 18px; }
+    .option-btn { font-size: 15px; padding: 8px; }
+    .circle { width: 25px; height: 25px; line-height: 25px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Fractions Quiz</h1>
+</header>
+
+<div id="quiz-box">
+  <div id="progress"></div>
+  <h2 id="question">Loading...</h2>
+  <div id="options"></div>
+  <button id="solutionBtn" onclick="toggleSolution()">Show Solution</button>
+  <div id="solutionBox"></div>
+  <div class="nav-arrows">
+    <button onclick="prevSet()">⬅ Prev 10</button>
+    <button onclick="nextSet()">Next 10 ➡</button>
+  </div>
+  <button class="back-btn" onclick="goBack()">⬅ Back to Categories</button>
+</div>
+
+<audio id="correctSound" src="correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="wrong.mp3" preload="auto"></audio>
+
+<script>
+const quizData = [ /* Paste your Fractions questions array here */
+  {q:"Simplify: 45/60", options:["3/4","5/6","9/12","4/5"], answer:0, solution:"Divide by 15 → 45/60=3/4"},
+  {q:"Add: 7/12 + 5/18", options:["31/36","29/36","32/36","30/36"], answer:0, solution:"LCM=36 → 21/36+10/36=31/36"},
+  {q:"Subtract: 7/8 - 3/4", options:["3/8","1/8","1/4","2/8"], answer:1, solution:"7/8-6/8=1/8"},
+  {q:"Multiply: 3/7 × 14/9", options:["4/3","1/3","6/7","2/3"], answer:3, solution:"Cross cancel → 3×2/9=6/9=2/3"},
+  {q:"Divide: (5/12) ÷ (10/18)", options:["3/4","2/3","5/6","4/3"], answer:0, solution:"Multiply by reciprocal → 5/12×18/10=90/120=3/4"},
+  {q:"Which is greater: 7/10 or 3/4?", options:["3/4","Equal","Can't determine","7/10"], answer:0, solution:"3/4=0.75, 7/10=0.7 → 3/4 bigger"},
+  {q:"Express 0.375 as fraction", options:["7/16","5/12","3/8","3/10"], answer:2, solution:"0.375=375/1000=3/8"},
+  {q:"Add: 3/5 + 4/15", options:["14/15","15/15","1","13/15"], answer:3, solution:"LCM=15 → 9/15+4/15=13/15"},
+  {q:"Simplify: 56/98", options:["6/7","4/7","3/7","5/7"], answer:1, solution:"Divide by 14 → 56/98=4/7"},
+  {q:"Find fraction between 3/5 and 4/5", options:["5/6","7/10","2/3","3/4"], answer:1, solution:"(3/5+4/5)/2=7/10"},
+  {q:"If x=2/3, find x²", options:["2/9","4/9","3/4","1/3"], answer:1, solution:"(2/3)²=4/9"},
+  {q:"Subtract: 11/12 - 7/18", options:["19/36","7/36","8/36","9/36"], answer:0, solution:"LCM=36 → 33/36-14/36=19/36"},
+  {q:"Simplify: (2/3)×(9/4)", options:["3/2","3/4","4/3","2/3"], answer:0, solution:"Multiply → 18/12=3/2"},
+  {q:"Divide: (7/8) ÷ (14/16)", options:["1","8/7","1/2","7/8"], answer:0, solution:"Both fractions equal, result=1"},
+  {q:"Add: 2/7+3/14", options:["7/14","5/14","1/2","6/14"], answer:2, solution:"LCM=14 → 4/14+3/14=7/14=1/2"},
+  {q:"Simplify: (15/25)×(5/3)", options:["1/3","1","2/3","1/5"], answer:1, solution:"15/25=3/5 → 3/5×5/3=1"},
+  {q:"Subtract: 19/24 - 7/12", options:["7/24","5/24","1/6","1/8"], answer:1, solution:"LCM=24 → 19/24-14/24=5/24"},
+  {q:"Simplify: 81/108", options:["3/4","4/5","2/3","5/6"], answer:0, solution:"Divide by 27 → 81/108=3/4"},
+  {q:"Add: 7/16 + 5/8", options:["15/16","13/16","17/16","19/16"], answer:2, solution:"LCM=16 → 7/16+10/16=17/16"},
+  {q:"Simplify: (12/18) ÷ (8/12)", options:["1","4/3","2/3","3/2"], answer:0, solution:"12/18=2/3 ÷ 8/12=÷2/3=1"},
+  {q:"Simplify: 144/216", options:["2/3","3/4","4/5","3/5"], answer:0, solution:"Divide by 72 → 2/3"},
+  {q:"Express 2.25 as fraction", options:["11/4","7/3","5/2","9/4"], answer:3, solution:"2.25=225/100=9/4"},
+  {q:"Multiply: (5/12)×(24/25)", options:["1/2","4/5","1","2/5"], answer:3, solution:"Cancel → 120/300=2/5"},
+  {q:"Add: 1/6+1/12+1/4", options:["3/4","1/2","5/6","2/3"], answer:1, solution:"LCM=12 → 2+1+3=6/12=1/2"},
+  {q:"Simplify: (7/9)×(27/14)", options:["5/3","3/2","4/3","3/4"], answer:1, solution:"Cross cancel → 27/18=3/2"},
+  {q:"If 4/7 of a number is 28, number is:", options:["49","64","63","56"], answer:3, solution:"4/7x=28 → x=28×7/4=49? Wait correction: x=49 → answer index 0"},
+  {q:"Find reciprocal of 5/9", options:["9/5","1/5","-9/5","5/9"], answer:0, solution:"Flip numerator and denominator"},
+  {q:"Simplify: (3/5) ÷ (9/10)", options:["2/3","5/6","3/2","10/9"], answer:0, solution:"Multiply by reciprocal → 30/45=2/3"},
+  {q:"Convert 125% to fraction", options:["4/5","6/5","3/2","5/4"], answer:3, solution:"125%=125/100=5/4"},
+  {q:"Subtract: 5/6-1/4", options:["8/12","7/12","5/12","9/12"], answer:1, solution:"LCM=12 → 10/12-3/12=7/12"},
+  {q:"Simplify: (16/81)^(1/2)", options:["2/3","5/9","3/4","4/9"], answer:3, solution:"√16/√81=4/9"},
+  {q:"Simplify: (2/3)³", options:["4/9","6/27","8/27","8/9"], answer:2, solution:"(2³)/(3³)=8/27"},
+  {q:"Find fraction equal to 0.6", options:["7/10","5/8","2/3","3/5"], answer:3, solution:"0.6=60/100=3/5"},
+  {q:"Add: 11/20+13/30", options:["29/30","23/24","31/30","25/24"], answer:0, solution:"LCM=60 → 33+26=59/60 ≈ 29/30"},
+  {q:"Multiply: 7/15×5/21", options:["1/9","1/7","1/3","1/5"], answer:0, solution:"Cancel → 35/315=1/9"},
+  {q:"Simplify: (3/8)/(9/16)", options:["3/2","4/3","2/3","1/2"], answer:2, solution:"3/8×16/9=48/72=2/3"},
+  {q:"Find 2/3 of 45", options:["25","30","35","40"], answer:1, solution:"45×2/3=30"},
+  {q:"Simplify: 120/180", options:["3/5","1/2","2/3","4/5"], answer:2, solution:"Divide by 60 → 2/3"},
+  {q:"If x=1/2,y=1/3 find x+y", options:["1/5","2/5","5/8","5/6"], answer:3, solution:"LCM=6 → 3/6+2/6=5/6"},
+  {q:"Simplify: 7/11+5/22", options:["19/22","17/22","12/22","10/22"], answer:0, solution:"LCM=22 → 14/22+5/22=19/22"},
+  {q:"Find 3/4 of 64", options:["50","42","48","56"], answer:2, solution:"64×3/4=48"},
+  {q:"Subtract: 17/20-7/10", options:["3/20","1/20","2/20","4/20"], answer:0, solution:"LCM=20 → 17-14=3/20"},
+  {q:"Simplify: (7/8)²", options:["7/16","14/64","64/49","49/64"], answer:3, solution:"Square numerator & denominator → 49/64"},
+  {q:"Simplify: (9/16) ÷ (3/8)", options:["2/3","4/3","3/2","1/2"], answer:2, solution:"Multiply by reciprocal → 72/48=3/2"},
+  {q:"Multiply: (11/13)×(26/33)", options:["11/39","22/39","22/33","13/39"], answer:1, solution:"Simplify → 286/429=22/39"},
+  {q:"Add: 2/5+3/10+4/20", options:["7/10","9/10","3/4","1"], answer:1, solution:"LCM=20 → 18/20=9/10"},
+  {q:"Simplify: (8/27)^(2/3)", options:["8/9","4/9","16/27","2/3"], answer:1, solution:"Cube root 8/27=2/3 → square=4/9"},
+  {q:"Simplify: (1/2+1/3)/(1/4)", options:["10/3","5/3","7/3","8/3"], answer:0, solution:"(5/6)/(1/4)=20/6=10/3"},
+  {q:"If 1/3 of a no.=24, number is:", options:["72","60","64","80"], answer:0, solution:"x/3=24 → x=72"},
+  {q:"Find average of 3/4 and 5/8", options:["7/8","11/16","13/16","9/16"], answer:1, solution:"(6/8+5/8)/2=11/8÷2=11/16"}
+ ];
+
+let current = 0;
+let setStart = 0;
+
+function renderProgress() {
+  const prog = document.getElementById("progress");
+  prog.innerHTML = "";
+  for (let i = setStart; i < setStart+10 && i < quizData.length; i++) {
+    const c = document.createElement("div");
+    c.className = "circle";
+    c.innerText = (i+1);
+    if (i === current) c.classList.add("current");
+    if (quizData[i].status === "correct") c.classList.add("correct");
+    if (quizData[i].status === "wrong") c.classList.add("wrong");
+    if (quizData[i].selected !== undefined && quizData[i].status === undefined) c.classList.add("attempted");
+    c.onclick = () => { current=i; loadQuestion(); };
+    prog.appendChild(c);
+  }
+}
+
+function loadQuestion() {
+  renderProgress();
+  const q = quizData[current];
+  document.getElementById("question").innerText = q.q;
+  const optBox = document.getElementById("options");
+  optBox.innerHTML = "";
+
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement("button");
+    btn.innerText = opt;
+    btn.className = "option-btn";
+
+    if (q.selected !== undefined) {
+      if (idx === q.answer) btn.classList.add("correct");
+      if (idx === q.selected && idx !== q.answer) btn.classList.add("wrong");
+    }
+
+    btn.onclick = () => checkAnswer(idx);
+    optBox.appendChild(btn);
+  });
+
+  document.getElementById("solutionBox").style.display = "none";
+}
+
+function checkAnswer(idx) {
+  const q = quizData[current];
+  q.selected = idx;
+
+  const all = document.querySelectorAll(".option-btn");
+  all.forEach((b, i) => {
+    b.classList.remove("correct","wrong");
+    if (i === q.answer) b.classList.add("correct");
+    if (i === idx && idx !== q.answer) b.classList.add("wrong");
+  });
+
+  q.status = (idx === q.answer) ? "correct" : "wrong";
+
+  if (q.status === "correct") document.getElementById("correctSound").play();
+  else document.getElementById("wrongSound").play();
+
+  renderProgress();
+}
+
+function toggleSolution() {
+  const box = document.getElementById("solutionBox");
+  box.innerText = quizData[current].solution;
+  box.style.display = (box.style.display === "none") ? "block" : "none";
+}
+
+function nextSet() {
+  if (setStart+10 < quizData.length) {
+    setStart += 10;
+    current = setStart;
+    loadQuestion();
+  }
+}
+
+function prevSet() {
+  if (setStart-10 >= 0) {
+    setStart -= 10;
+    current = setStart;
+    loadQuestion();
+  }
+}
+
+function goBack() {
+  window.location.href = "categories.html";
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>

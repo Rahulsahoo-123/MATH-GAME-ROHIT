@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background:#f8fbff;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:20px;
+      transition: background 0.3s ease;
+    }
+    h2 {color:#1e3a8a;}
+    .top-right { position:absolute; top:10px; right:10px; }
+    .top-right button {
+      padding:10px 20px; background:#1e3a8a; color:white; border:none;
+      border-radius:8px; cursor:pointer;
+    }
+    .color-picker {
+      position:absolute; top:10px; left:10px;
+      background:white; padding:5px; border-radius:8px;
+      box-shadow:0 2px 5px rgba(0,0,0,0.2);
+    }
+    .level-container {display:flex; gap:40px; margin:120px 0;}
+    .level-box {
+      background:white; border:2px solid #1e3a8a; border-radius:12px;
+      padding:40px; width:200px; text-align:center; cursor:pointer;
+      transition:0.3s; box-shadow:0 4px 8px rgba(0,0,0,0.1);
+    }
+    .level-box:hover {background:#e0ecff;}
+    .quiz-container {display:none; max-width:500px; background:white; padding:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.15);}
+    .question {font-size:18px; margin-bottom:10px;}
+    .options button {
+      display:block; width:100%; margin:6px 0; padding:12px;
+      border-radius:8px; border:1px solid #ccc; background:#f0f4ff;
+      cursor:pointer; transition:0.2s;
+    }
+    .options button:hover {background:#cce0ff;}
+    .result {font-size:20px; font-weight:bold; margin-top:10px; color:#1e3a8a;}
+    .back-buttons {margin-top:15px;}
+    .back-buttons button {margin:5px; padding:8px 16px; border-radius:8px; border:none; background:#1e3a8a; color:white; cursor:pointer;}
+
+    .review-container {
+      display:none;
+      flex-direction: row;
+      gap: 10px;
+      overflow-x: auto;
+      margin-top: 20px;
+      padding: 10px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      max-width: 90%;
+    }
+    .review-box {
+      flex: 0 0 auto;
+      min-width: 200px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      background: #f8f8f8;
+    }
+    .correct {background:#c8f7c5;}
+    .wrong {background:#f7c5c5;}
+    .review-question {font-weight:bold;}
+    #timer {font-weight:bold; margin-bottom:10px;}
+  </style>
+</head>
+<body>
+
+  <div class="color-picker">
+    <input type="color" id="bgColor" value="#f8fbff">
+  </div>
+
+  <div class="top-right">
+    <button onclick="location.href='categories.html'">⬅ Back</button>
+  </div>
+
+  <h1>TEST YOUR SKILL</h1>
+
+  <div class="level-container">
+    <div class="level-box" onclick="startTest('easy')">
+      <h2>Easy</h2>
+      <p>5 Questions • 5 min</p>
+    </div>
+    <div class="level-box" onclick="startTest('medium')">
+      <h2>Medium</h2>
+      <p>10 Questions • 5 min</p>
+    </div>
+    <div class="level-box" onclick="startTest('hard')">
+      <h2>Hard</h2>
+      <p>18 Questions • 5 min</p>
+    </div>
+  </div>
+
+  <div class="quiz-container" id="quiz">
+    <div class="timer" id="timer"></div>
+    <div class="question" id="questionText"></div>
+    <div class="options" id="options"></div>
+    <div class="result" id="result"></div>
+    <div id="reviewBtnContainer" style="display:none;">
+      <button onclick="showReview()">🔎 Review Answers</button>
+    </div>
+    <div class="back-buttons">
+      <button onclick="location.href='categories.html'">Back</button>
+      <button onclick="location.href='index.html'">Home</button>
+      <button onclick="location.href='test.html'">Back To Test</button>
+    </div>
+  </div>
+
+  <div class="review-container" id="reviewContainer"></div>
+
+<script>
+  // Color picker save
+  const colorInput = document.getElementById('bgColor');
+  const savedColor = localStorage.getItem('testBgColor');
+  if(savedColor){document.body.style.background=savedColor;colorInput.value=savedColor;}
+  colorInput.addEventListener('input', (e)=>{document.body.style.background=e.target.value; localStorage.setItem('testBgColor', e.target.value);});
+
+  // Question bank
+  const allQuestions = [
+    {q:"Solve: 4x²=64", options:["±6","±8","±4","8"], answer:2, solution:"x²=16 ⇒ x=±4"},
+  {q:"Simplify: (x²y³)²", options:["x³y²","x²y⁵","x⁴y⁶","x⁶y⁶"], answer:2, solution:"Multiply powers ⇒ x⁴y⁶"},
+  {q:"Solve: x²+4x+4=0", options:["2","-4","-2","4"], answer:2, solution:"(x+2)²=0 ⇒ x=-2"},
+  {q:"Factorize: x²-16", options:["(x-8)(x+2)","(x+16)(x-1)","Prime","(x-4)(x+4)"], answer:3, solution:"Difference of squares"},
+  {q:"If x+y=10, xy=21 find x²+y²", options:["58","64","62","50"], answer:0, solution:"x²+y²=(x+y)²-2xy=100-42=58"},
+  {q:"Simplify: (x+2)²-(x-2)²", options:["8","4x","8x","x²"], answer:2, solution:"Use a²-b² ⇒ 8x"},
+  {q:"Solve: 2x²-50=0", options:["±8","±6","±5","±7"], answer:2, solution:"x²=25 ⇒ x=±5"},
+  {q:"If x=3, y=2 find x³+y³", options:["27","30","31","35"], answer:3, solution:"x³+y³=27+8=35"},
+   {q:"A sum of money doubles itself in 8 years at simple interest. Find the rate.", options:["10%","8%","6.5%","12.5%"], answer:3, solution:"SI = P; SI = PRT/100 ⇒ R = 100/(8) = 12.5%"},
+  {q:"If 15 men can do a work in 20 days, how many men required to do it in 10 days?", options:["40","20","30","25"], answer:2, solution:"Men ∝ 1/Time ⇒ M1T1=M2T2 ⇒ M2=30"},
+  {q:"A can finish a work in 15 days, B in 20 days. Together they do it in?", options:["10 days","8.57 days","8 days","9 days"], answer:1, solution:"Work/day=(1/15+1/20)=7/60 ⇒ Time=60/7≈8.57 days"},
+  {q:"The average of 10 numbers is 25. If one number is removed, average becomes 24. Find removed number.", options:["35","34","33","32"], answer:1, solution:"Total=250, New total=216, removed=34"},
+  {q:"Ratio of boys and girls is 3:2. If total students=100, number of boys?", options:["50","40","70","60"], answer:3, solution:"Boys=3/5×100=60"},
+  {q:"Price of sugar increased by 25%. By how much consumption be reduced to keep expenditure same?", options:["16.66%","15%","25%","20%"], answer:3, solution:"Reduction=(25/125)×100=20%"},
+  {q:"If CP=₹500, SP=₹600, profit%=?", options:["10%","20%","15%","25%"], answer:1, solution:"Profit=100, Profit%=100/500×100=20%"},
+  {q:"Solve: (7+3)×(8-5)", options:["25","30","35","40"], answer:1, solution:"10×3=30"},
+  {q:"Simplify: 5×5 - 3×3", options:["25","16","18","20"], answer:1, solution:"25-9=16"},
+  {q:"Solve: (20+10)÷5 + 6", options:["10","12","14","16"], answer:1, solution:"30÷5=6 → 6+6=12"},
+  {q:"Simplify: 2³ + 4×2", options:["14","12","16","18"], answer:2, solution:"8+8=16"},
+  {q:"Solve: (50÷10)+(6×5)", options:["32","35","40","30"], answer:1, solution:"5+30=35"},
+  {q:"Simplify: (15-5)² ÷ 5", options:["10","25","20","15"], answer:0, solution:"10²=100, 100÷10=10"},
+  {q:"Solve: 9×9 - 8×8", options:["10","17","9","13"], answer:1, solution:"81-64=17"},
+  {q:"Simplify: (30-10)×(8÷4)", options:["10","15","40","25"], answer:2, solution:"20×2=40"},
+  {q:"Solve: 60÷(5+1)", options:["10","15","8","12"], answer:0, solution:"60÷6=10"},
+  {q:"Simplify: (3+5)×(3+2)", options:["35","30","40","25"], answer:2, solution:"8×5=40"},
+  {q:"Solve: 100-(20×3)", options:["30","40","50","60"], answer:1, solution:"100-60=40"},
+  {q:"Simplify: 3²+5²-4²", options:["18","21","25","30"], answer:2, solution:"9+25-16=18"},
+  {q:"Solve: (2×3)²", options:["36","12","18","30"], answer:0, solution:"6²=36"},
+  {q:"Add: 3/5 + 4/15", options:["14/15","15/15","1","13/15"], answer:3, solution:"LCM=15 → 9/15+4/15=13/15"},
+  {q:"Simplify: 56/98", options:["6/7","4/7","3/7","5/7"], answer:1, solution:"Divide by 14 → 56/98=4/7"},
+  {q:"Find fraction between 3/5 and 4/5", options:["5/6","7/10","2/3","3/4"], answer:1, solution:"(3/5+4/5)/2=7/10"},
+  {q:"If x=2/3, find x²", options:["2/9","4/9","3/4","1/3"], answer:1, solution:"(2/3)²=4/9"},
+  {q:"Subtract: 11/12 - 7/18", options:["19/36","7/36","8/36","9/36"], answer:0, solution:"LCM=36 → 33/36-14/36=19/36"},
+  {q:"Simplify: (2/3)×(9/4)", options:["3/2","3/4","4/3","2/3"], answer:0, solution:"Multiply → 18/12=3/2"},
+  {q:"Divide: (7/8) ÷ (14/16)", options:["1","8/7","1/2","7/8"], answer:0, solution:"Both fractions equal, result=1"},
+  {q:"Add: 2/7+3/14", options:["7/14","5/14","1/2","6/14"], answer:2, solution:"LCM=14 → 4/14+3/14=7/14=1/2"},
+  {q:"Simplify: (15/25)×(5/3)", options:["1/3","1","2/3","1/5"], answer:1, solution:"15/25=3/5 → 3/5×5/3=1"},
+  {q:"Subtract: 19/24 - 7/12", options:["7/24","5/24","1/6","1/8"], answer:1, solution:"LCM=24 → 19/24-14/24=5/24"},
+  {q:"Simplify: 81/108", options:["3/4","4/5","2/3","5/6"], answer:0, solution:"Divide by 27 → 81/108=3/4"},
+  {q:"Add: 7/16 + 5/8", options:["15/16","13/16","17/16","19/16"], answer:2, solution:"LCM=16 → 7/16+10/16=17/16"},
+  {q:"Simplify: (12/18) ÷ (8/12)", options:["1","4/3","2/3","3/2"], answer:0, solution:"12/18=2/3 ÷ 8/12=÷2/3=1"},
+  {q:"Simplify: 144/216", options:["2/3","3/4","4/5","3/5"], answer:0, solution:"Divide by 72 → 2/3"},
+  {q:"Express 2.25 as fraction", options:["11/4","7/3","5/2","9/4"], answer:3, solution:"2.25=225/100=9/4"},
+  {q:"Multiply: (5/12)×(24/25)", options:["1/2","4/5","1","2/5"], answer:3, solution:"Cancel → 120/300=2/5"},
+  {q:"Add: 1/6+1/12+1/4", options:["3/4","1/2","5/6","2/3"], answer:1, solution:"LCM=12 → 2+1+3=6/12=1/2"},
+  {q:"Simplify: (7/9)×(27/14)", options:["5/3","3/2","4/3","3/4"], answer:1, solution:"Cross cancel → 27/18=3/2"},
+  {q:"If 4/7 of a number is 28, number is:", options:["49","64","63","56"], answer:3, solution:"4/7x=28 → x=28×7/4=49? Wait correction: x=49 → answer index 0"},
+  {q:"Find reciprocal of 5/9", options:["9/5","1/5","-9/5","5/9"], answer:0, solution:"Flip numerator and denominator"},
+  {q:"Simplify: (3/5) ÷ (9/10)", options:["2/3","5/6","3/2","10/9"], answer:0, solution:"Multiply by reciprocal → 30/45=2/3"},
+  {q:"Convert 125% to fraction", options:["4/5","6/5","3/2","5/4"], answer:3, solution:"125%=125/100=5/4"},
+  {q:"Subtract: 5/6-1/4", options:["8/12","7/12","5/12","9/12"], answer:1, solution:"LCM=12 → 10/12-3/12=7/12"},
+  {q:"Simplify: (16/81)^(1/2)", options:["2/3","5/9","3/4","4/9"], answer:3, solution:"√16/√81=4/9"},
+  {q:"Simplify: (2/3)³", options:["4/9","6/27","8/27","8/9"], answer:2, solution:"(2³)/(3³)=8/27"},
+  {q:"Find fraction equal to 0.6", options:["7/10","5/8","2/3","3/5"], answer:3, solution:"0.6=60/100=3/5"},
+  {q:"Simplify: (12÷3)+(4×5)", options:["26","24","22","20"], answer:1, solution:"4+20=24"},
+  {q:"Solve: 7×(8-3)", options:["30","35","40","45"], answer:1, solution:"7×5=35"},
+  {q:"Simplify: (25-5)÷5", options:["2","3","4","5"], answer:2, solution:"20÷5=4"},
+  {q:"Solve: 6×6 ÷ 3", options:["10","12","15","18"], answer:1, solution:"36÷3=12"},
+  {q:"Simplify: (9+3)×(2+1)", options:["36","27","30","33"], answer:0, solution:"12×3=36"},
+  {q:"Solve: (5²-3²)", options:["14","18","16","12"], answer:2, solution:"25-9=16"},
+  {q:"Simplify: 100÷(4×5)", options:["4","5","6","8"], answer:1, solution:"100÷20=5"},
+  {q:"Solve: (8÷4)+3²", options:["11","12","8","9"], answer:0, solution:"2+9=11"},
+  {q:"Simplify: 20-(2×5)+6", options:["16","14","12","18"], answer:0, solution:"20-10+6=16"},
+  {q:"Solve: (50+30)÷(10-2)", options:["10","12","8","15"], answer:1, solution:"80÷8=10"},
+  {q:"Simplify: (3×3)+12÷6", options:["12","10","9","11"], answer:3, solution:"9+2=11"},
+  {q:"Solve: (18÷3)+4²", options:["22","20","18","16"], answer:0, solution:"6+16=22"},
+  {q:"Simplify: 7×7 + 2³", options:["49","57","56","54"], answer:1, solution:"49+8=57"},
+  {q:"A man rows 6 km/hr in still water. If stream speed=2 km/hr, find speed upstream.", options:["4","6","3","5"], answer:0, solution:"Upstream=6-2=4"},
+  {q:"Find simple interest on ₹5000 at 12% p.a for 3 years.", options:["2000","1200","1500","1800"], answer:3, solution:"SI=PRT/100=5000×12×3/100=1800"},
+  {q:"A and B invest in ratio 5:3. If profit=₹1600, share of A?", options:["₹900","₹1200","₹1000","₹800"], answer:2, solution:"A=5/8×1600=₹1000"},
+  {q:"Solve: 40% of 450 + 25% of 520", options:["300","310","320","295"], answer:1, solution:"180+130=310"},
+  {q:"A mixture has milk & water in ratio 3:1. Add 4 L water to make ratio 3:2. Find initial milk quantity.", options:["18L","30L","12L","24L"], answer:3, solution:"Let milk=3x, water=x. (3x)/(x+4)=3/2 ⇒ x=8 ⇒ milk=24"},
+  {q:"If a=5, b=3 find (a²+b²+2ab)", options:["64","64","64","64"], answer:0, solution:"(a+b)²=64"},
+{q:"If salary decreased by 8% to 23000, original salary was:", options:["25000","24891","24000","24900"], answer:0, solution:"x=23000/0.92=25000"},
+  {q:"A product marked at ₹800 with 15% discount sold at:", options:["680","720","700","660"], answer:0, solution:"SP=800×0.85=680"},
+  {q:"If 60 is 20% more than x, x is:", options:["50","40","48","45"], answer:0, solution:"x=60/1.2=50"},
+  {q:"Find 125% of 240", options:["260","320","280","300"], answer:3, solution:"1.25×240=300"},
+  {q:"A reduces by 40% then increases by 40%. Net change?", options:["-4%","+16%","0%","-16%"], answer:3, solution:"0.6×1.4=0.84 → decrease 16%"},
+  {q:"If GST 18% applied on 2500, total becomes:", options:["2900","3000","2955","2950"], answer:3, solution:"2500×1.18=2950"},
+  {q:"If 15% of x = 48, find x", options:["320","310","280","300"], answer:0, solution:"x=48/0.15=320"},
+  {q:"If 20% of a = 30% of b and a=50, find b", options:["30","33.33","34","35"], answer:1, solution:"b=(2/3)×50=33.33"},
+  {q:"Price is x. After 10% increase it becomes 352. x = ?", options:["340","320","300","330"], answer:1, solution:"x=352/1.1=320"},
+  {q:"Compound interest yearly 10% on 1000 for 2 years is:", options:["1210","1100","1200","2100"], answer:0, solution:"A=1000×1.1²=1210"},
+  {q:"If increase from 80 to 92, percent increase is:", options:["15%","14%","13%","12%"], answer:0, solution:"%=(12/80)×100=15%"},
+  {q:"A shopkeeper offers 2 successive discounts 20% and 10% on 1000; final price:", options:["720","760","740","780"], answer:0, solution:"1000×0.8×0.9=720"},
+  {q:"If x is decreased by 40% becomes 90. Original x:", options:["120","150","140","130"], answer:1, solution:"x=90/0.6=150"},
+  {q:"An item is 30% off then 20% off on the reduced price. Net price of 200 is:", options:["140","120","128","112"], answer:3, solution:"200×0.7×0.8=112"},
+  {q:"A population increases by 10% yearly. After 2 years factor is:", options:["1.1","1.2","1.21","1.3"], answer:2, solution:"1.1²=1.21"},
+  {q:"Find x: x + 25% of x = 250", options:["260","240","220","200"], answer:3, solution:"x×1.25=250 → x=200"},
+  {q:"If A gets 30% of profit and profit=₹1000, A gets:", options:["₹250","₹350","₹300","₹400"], answer:2, solution:"30% of 1000=300"},
+  {q:"A decreases price by 10% and sells 10% more units; revenue change approximately:", options:["-1%","0%","+1%","+2%"], answer:0, solution:"Revenue=0.9×1.1=0.99 → -1%"},
+  {q:"If 5% VAT on 200 is added then 10% discount on total, final price:", options:["189","190","198","180"], answer:0, solution:"200×1.05=210 → 10% off=189"},
+  {q:"Find % change: from 250 to 200", options:["-20%","-15%","-25%","-30%"], answer:0, solution:"Change=-50 → -50/250=-20%"},
+  {q:"If 18% of x = 54, x =", options:["280","300","250","200"], answer:1, solution:"x=54/0.18=300"},
+  {q:"A bank gives 5% annual interest. Effective % for 2 years (compound) ≈", options:["9.75%","11%","10.25%","10%"], answer:2, solution:"(1.05)²=1.1025 → 10.25%"},
+  {q:"If a is 40% of b and b is 50% of c, a is what % of c?", options:["15%","20%","25%","30%"], answer:1, solution:"a=0.4×0.5c=0.2c → 20%"},
+  {q:"If discount 30% makes price 280, original was:", options:["400","420","360","380"], answer:0, solution:"MP=280/0.7=400"},
+  {q:"Find 66⅔% of 90", options:["50","60","80","70"], answer:1, solution:"2/3×90=60"},
+  {q:"If 25% of students are absent and 150 present, total students:", options:["160","200","180","240"], answer:1, solution:"T=150/0.75=200"},
+  {q:"A and B share profit in ratio 3:2. If total profit 500 and A gets 60% of his share as tax, A receives:", options:["180","120","200","150"], answer:1, solution:"A share=300 → after tax=0.4×300=120"},
+  {q:"A price is reduced by x% then increased by x% → net effect zero? Which x?", options:["0 only","50","x=100","any x"], answer:0, solution:"Only x=0 gives no change"},
+  {q:"Find 30% of 2/3 of 900", options:["200","120","150","180"], answer:3, solution:"2/3×900=600 → 30% of 600=180"},
+  {q:"Compound interest on ₹5000 for 2 yrs at 10% p.a?", options:["1100","1000","1200","1050"], answer:3, solution:"A=5000(1+0.1)²=6050, CI=1050"},
+  {q:"Find LCM of 18, 24, 30", options:["180","360","120","240"], answer:1, solution:"LCM=360"},
+  {q:"A man covers half distance at 40 km/h & rest at 60 km/h. Find average speed.", options:["50","52","48","54"], answer:2, solution:"Average=2ab/(a+b)=48 km/h"},
+  {q:"Solve: (35% of 640) + (45% of 360)", options:["380","350","360","370"], answer:0, solution:"224+162=386"},
+  {q:"Find number which is 20% more than 250.", options:["300","350","275","280"], answer:0, solution:"250×1.2=300"},
+  {q:"If SP=₹720, Loss=10%, find CP.", options:["750","700","650","800"], answer:3, solution:"SP=90%, CP=720×100/90=800"},
+  {q:"If average of 8 numbers=15, average of first 6=14, find average of last 2.", options:["17","16","18","20"], answer:2, solution:"Total=120, first6=84, last2=36 ⇒ avg=36/2=18"},
+  {q:"Solve: 1/3 + 1/6 + 1/2", options:["1.5","0.5","1","2"], answer:2, solution:"Common denom=6 ⇒ 2+1+3=6/6=1"},
+  {q:"If A:B=3:5, B:C=2:3, find A:C", options:["6:15","3:5","6:15","6:15"], answer:0, solution:"A:B=3:5, B:C=10:15 ⇒ A:C=6:15"},
+  {q:"If salary increases from 12000 to 15000, % increase?", options:["25%","30%","20%","15%"], answer:0, solution:"Increase=3000, % = 3000/12000×100=25%"},
+  {q:"If 40 workers complete work in 15 days, 30 workers complete in?", options:["15","20","10","25"], answer:1, solution:"W1D1=W2D2 ⇒ D2=20"},
+  {q:"Simplify: 75×75", options:["5525","5725","5625","5325"], answer:2, solution:"75²=5625"},
+  {q:"Expand: (3x-4)²", options:["3x²-24x+16","9x²+24x+16","9x²-16x+24","9x²-24x+16"], answer:3, solution:"Square: 9x²-24x+16"},
+  {q:"Factorize: x³-27", options:["(x-3)(x²+3x+9)","Prime","(x-9)(x²+3x+3)","(x-3)(x²-3x+9)"], answer:0, solution:"a³-b³ formula"},
+  {q:"Simplify: (x+3)(x²-3x+9)", options:["x³-9","x³+27","x³+9","x³-27"], answer:1, solution:"This is x³+3³=x³+27"},
+  {q:"Solve: 3x²=48", options:["±4","±6","±8","±2√6"], answer:0, solution:"x²=16 ⇒ x=±4"},
+ { q: "A rectangle has length 10 cm and width 6 cm. Its perimeter is:", options: ["32 cm", "30 cm", "36 cm", "28 cm"], answer: 0, solution: "Perimeter = 2 × (l + w) = 2 × (10+6)=32 cm" },
+  { q: "Diagonal of a square with side 5 cm", options: ["25 cm", "5√2 cm", "10 cm", "5 cm"], answer: 1, solution: "Diagonal = side × √2 = 5√2 cm" },
+  { q: "Area of equilateral triangle with side 6 cm", options: ["18 cm²", "36 cm²", "6√3 cm²", "9√3 cm²"], answer: 3, solution: "Area = √3/4 × side² = √3/4 × 36 = 9√3 cm²" },
+  { q: "Sum of interior angles of a hexagon", options: ["720°", "600°", "540°", "360°"], answer: 0, solution: "Sum = (n-2)×180° = (6-2)×180=720°" },
+  { q: "Each angle of a regular pentagon is:", options: ["120°", "108°", "100°", "90°"], answer: 1, solution: "Each angle = (n-2)×180/n = 3×180/5=108°" },
+  { q: "Volume of cube with side 4 cm", options: ["12 cm³", "64 cm³", "32 cm³", "16 cm³"], answer: 1, solution: "Volume = side³ = 4³=64 cm³" },
+  { q: "Surface area of cube with side 6 cm", options: ["128 cm²", "36 cm²", "216 cm²", "72 cm²"], answer: 2, solution: "Surface area = 6 × side² = 6×36=216 cm²" },
+  { q: "Volume of cuboid with length 8 cm, breadth 5 cm, height 4 cm", options: ["80 cm³", "160 cm³", "100 cm³", "120 cm³"], answer: 1, solution: "Volume = l × b × h = 8×5×4=160 cm³" },
+  { q: "Surface area of cuboid with length 6 cm, breadth 4 cm, height 3 cm", options: ["84 cm²", "72 cm²", "94 cm²", "108 cm²"], answer: 3, solution: "SA = 2(lb + bh + hl) = 2(24+12+18)=108 cm²" },
+  { q: "The radius of a circle is half of its diameter. If diameter=14 cm, radius=", options: ["7 cm", "21 cm", "14 cm", "28 cm"], answer: 0, solution: "Radius = diameter/2 = 14/2=7 cm" },
+  { q: "Find area of sector with radius 7 cm and angle 90°", options: ["154 cm²", "77 cm²", "49 cm²", "38.5 cm²"], answer: 3, solution: "Area = θ/360 × πr² = 90/360 × 22/7×49=38.5 cm²" },
+  { q: "Length of arc with radius 7 cm and angle 60°", options: ["22 cm", "11 cm", "7.33 cm", "44 cm"], answer: 2, solution: "Arc length = θ/360 × 2πr = 60/360 × 2×22/7×7 = 7.33 cm" },
+  { q: "Perimeter of an equilateral triangle with side 9 cm", options: ["18 cm", "27 cm", "36 cm", "9 cm"], answer: 1, solution: "Perimeter = 3 × side = 3 × 9 = 27 cm" },
+  { q: "If perimeter of square is 48 cm, its side is:", options: ["16 cm", "12 cm", "24 cm", "8 cm"], answer: 1, solution: "Side = perimeter/4 = 48/4 =12 cm" },
+  { q: "Volume of sphere with radius 7 cm", options: ["1436 cm³", "1232 cm³", "1078 cm³", "343 cm³"], answer: 0, solution: "Volume = 4/3 × π × r³ = 4/3 × 22/7 × 343=1436 cm³" },
+  { q: "Surface area of sphere with radius 7 cm", options: ["616 cm²", "154 cm²", "77 cm²", "308 cm²"], answer: 0, solution: "SA = 4πr² = 4 × 22/7 × 49=616 cm²" },
+  { q: "Volume of cone with radius 7 cm and height 12 cm", options: ["924 cm³", "616 cm³", "1232 cm³", "308 cm³"], answer: 1, solution: "Volume = 1/3 × π × r² × h = 1/3×22/7×49×12=616 cm³" },
+  { q: "Surface area of cone with radius 7 cm and slant height 25 cm", options: ["704 cm²", "550 cm²", "770 cm²", "616 cm²"], answer: 0, solution: "SA = πr(l+r) = 22/7×7×(25+7)=704 cm²" },
+  { q: "A cylinder has radius 7 cm and height 10 cm. Volume is:", options: ["440 cm³", "1540 cm³", "770 cm³", "154 cm³"], answer: 1, solution: "Volume = πr²h = 22/7×49×10=1540 cm³" },
+  { q: "Surface area of same cylinder", options: ["1036 cm²", "748 cm²", "880 cm²", "990 cm²"], answer: 0, solution: "SA=2πr(h+r)=2×22/7×7×(10+7)=1036 cm²" },
+  { q: "The distance between two parallel lines in a rectangle is called:", options: ["Diagonal", "Height", "Side", "Perimeter"], answer: 1, solution: "Height is perpendicular distance between parallel sides" },
+  { q: "In a right triangle, square of hypotenuse equals:", options: ["Difference", "Half sum", "Sum of squares of other two sides", "Double of sides"], answer: 2, solution: "By Pythagoras theorem: hyp² = base² + height²" },
+  { q: "If hypotenuse=13 cm, one side=5 cm, other side=", options: ["8 cm", "12 cm", "7 cm", "10 cm"], answer: 1, solution: "Other side = √(13²-5²)=√(169-25)=√144=12 cm" },
+  { q: "Area of trapezium with parallel sides 8 cm, 5 cm, height 4 cm", options: ["26 cm²", "22 cm²", "24 cm²", "32 cm²"], answer: 0, solution: "Area = 1/2 × (sum of parallel sides) × height =1/2×(8+5)×4=26 cm²" },
+  { q: "Volume of cube with side 'a' formula is:", options: ["2a²", "4a³", "6a²", "a³"], answer: 3, solution: "Volume = a³" },
+  { q: "Surface area of cube formula", options: ["a³", "6a²", "3a²", "4a²"], answer: 1, solution: "SA = 6 × side² =6a²" },
+  { q: "Diagonal of cuboid with l=3,b=4,h=12 cm", options: ["14 cm", "16 cm", "13 cm", "15 cm"], answer: 2, solution: "Diagonal = √(l²+b²+h²)=√(9+16+144)=√169=13 cm" },
+  { q: "Each exterior angle of a regular polygon with 8 sides is:", options: ["60°", "120°", "45°", "90°"], answer: 2, solution: "Exterior angle = 360/n=360/8=45°" },
+  { q: "If radius of circle is doubled, circumference changes by:", options: ["Remains same", "Quadruples", "Doubles", "Triples"], answer: 2, solution: "Circumference =2πr → doubles if r doubles" },
+  { q: "Area of parallelogram = base × height. True or False?", options: ["True", "Depends", "None", "False"], answer: 0, solution:  "Area formula of parallelogram = base × height" },
+  {q:"If x=5, find (x²+10x+25)", options:["225","150","75","100"], answer:3, solution:"Perfect square (x+5)²=100"},
+  {q:"Solve for x: x²-5x+6=0", options:["3 & 4","2 & 3","-2 & -3","1 & 6"], answer:1, solution:"Factors (x-2)(x-3)=0"},
+  {q:"Simplify: x⁴ ÷ x²", options:["x³","x²","x","x⁶"], answer:1, solution:"Subtract powers ⇒ x²"},
+  {q:"If x=4, find (x³-64)/(x-4)", options:["20","16","12","24"], answer:1, solution:"x³-64 divisible by x-4 ⇒ use factor theorem = 16"},
+  {q:"Factorize: x²+2xy+y²", options:["Prime","(x-y)²","x(x+y)+y²","(x+y)²"], answer:3, solution:"Perfect square (x+y)²"},
+  {q:"Solve: 5x²=80", options:["±4","±6","±2√5","±8"], answer:0, solution:"x²=16 ⇒ x=±4"},
+  {q:"If a+b=7, ab=10, find a²+b²", options:["39","59","29","49"], answer:2, solution:"a²+b²=(a+b)²-2ab=49-20=29"},
+  {q:"Expand: (2x-3y)²", options:["4x²-12xy+9y²","4x²+6xy+9y²","4x²-6xy+9y²","2x²-3y²"], answer:0, solution:"Use (a-b)²"},
+  {q:"Solve: x²-12x+36=0", options:["0","6","-6","12"], answer:1, solution:"(x-6)²=0 ⇒ x=6"},
+  {q:"Factorize: x²+11x+24", options:["(x+3)(x+8)","(x+4)(x+6)","Prime","(x+12)(x-1)"], answer:1, solution:"Sum=11 product=24"},
+  {q:"If x=2, find x³+6x²+12x+8", options:["64","27","50","32"], answer:0, solution:"This is (x+2)³=64"},
+  {q:"Solve: (x+1)(x+2)=0", options:["x=-1, -2","x=-1,2","x=1,2","x=1,-2"], answer:0, solution:"Roots are -1 and -2"},
+  {q:"Simplify: (x²-9)/(x-3)", options:["x²+3","x²-3x","x-3","x+3"], answer:3, solution:"Use (x²-9)=(x-3)(x+3) ⇒ cancel x-3"},
+  {q:"Factorize: x³+8", options:["(x-2)(x²+2x+4)","Prime","(x+8)(x²+4)","(x+2)(x²-2x+4)"], answer:3, solution:"Use a³+b³ formula"},
+  {q:"If x=3, find (x+1)(x+2)", options:["20","12","16","14"], answer:0, solution:"4×5=20"},
+  {q:"Expand: (x+5)(x-5)", options:["x²+25","x²-10x+25","x²-25","x²+10x+25"], answer:2, solution:"Difference of squares"},
+  {q:"Solve: 7x-21=0", options:["x=3","x=1","x=21","x=0"], answer:0, solution:"x=21/7=3"},
+  {q:"Simplify: x⁵ ÷ x³", options:["x³","x","x²","x⁵"], answer:2, solution:"Subtract powers ⇒ x²"},
+  {q:"Solve: 4x²+12x=0", options:["x=-3,0","x=3","x=-3","x=0,3"], answer:0, solution:"x(4x+12)=0 ⇒ x=0,-3"},
+
+
+
+  ];
+
+  let quizData=[], currentQuestion=0, score=0, timerInterval, timeLeft=300, userAnswers=[];
+
+  function startTest(level){
+    let count = level==="easy"?5:level==="medium"?10:18;
+    quizData = shuffleArray([...allQuestions]).slice(0,count);
+    currentQuestion=0; score=0; timeLeft=300; userAnswers=[];
+    document.querySelector('.level-container').style.display="none";
+    document.getElementById('quiz').style.display="block";
+    startTimer();
+    showQuestion();
+  }
+
+  function startTimer(){
+    updateTimer();
+    timerInterval = setInterval(()=>{
+      timeLeft--; updateTimer();
+      if(timeLeft<=0) endQuiz();
+    },1000);
+  }
+
+  function updateTimer(){
+    let min=Math.floor(timeLeft/60), sec=timeLeft%60;
+    document.getElementById('timer').innerText=`Time Left: ${min}:${sec<10?'0'+sec:sec}`;
+  }
+
+  function showQuestion(){
+    if(currentQuestion>=quizData.length){endQuiz(); return;}
+    let q=quizData[currentQuestion];
+    document.getElementById('questionText').innerText=q.q;
+    let optionsDiv=document.getElementById('options');
+    optionsDiv.innerHTML='';
+    q.options.forEach((opt,i)=>{
+      let btn=document.createElement('button');
+      btn.innerText=opt;
+      btn.onclick=()=>checkAnswer(i);
+      optionsDiv.appendChild(btn);
+    });
+    document.getElementById('result').innerText='';
+  }
+
+  function checkAnswer(idx){
+    let q=quizData[currentQuestion];
+    userAnswers.push(idx);
+    if(idx===q.answer){score++; document.getElementById('result').innerText="✅ Correct!";}
+    else{document.getElementById('result').innerText=`❌ Wrong! Correct: ${q.options[q.answer]}`;}
+    currentQuestion++;
+    setTimeout(showQuestion,1000);
+  }
+
+  function endQuiz(){
+    clearInterval(timerInterval);
+    document.getElementById('quiz').innerHTML=`
+      <h2>Quiz Completed!</h2>
+      <p>Your score: ${score} / ${quizData.length}</p>
+      <button onclick="location.reload()">Try Again</button>
+      <button onclick="showReview()">🔎 Review Answers</button>
+    `;
+  }
+
+  function showReview(){
+    document.getElementById('reviewContainer').style.display='flex';
+    const container=document.getElementById('reviewContainer');
+    container.innerHTML='';
+    quizData.forEach((q,i)=>{
+      const box=document.createElement('div');
+      box.classList.add('review-box');
+      box.classList.add(userAnswers[i]===q.answer?'correct':'wrong');
+      box.innerHTML=`
+        <div class="review-question">${i+1}. ${q.q}</div>
+        <div>Your answer: ${q.options[userAnswers[i]]||'No Answer'}</div>
+        <div>Correct: ${q.options[q.answer]}</div>
+        <div>Solution: ${q.solution||''}</div>
+      `;
+      container.appendChild(box);
+    });
+  }
+
+  function shuffleArray(array){
+    for(let i=array.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [array[i],array[j]]=[array[j],array[i]];
+    }
+    return array;
+  }
+
+</script>
+
+</body>
+</html>

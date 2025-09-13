@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📘 Math Masters — Complete Formula Sheet</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4ff;
+      margin: 0;
+      padding: 30px 20px;
+      color: #1a1a1a;
+      transition: background 0.3s ease;
+    }
+    h1 {
+      text-align: center;
+      color: #0d47a1;
+      margin-bottom: 40px;
+      font-size: 2.5em;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 25px 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.5em;
+      border-bottom: 2px solid;
+      padding-bottom: 8px;
+    }
+    .algebra { border-color: #1e88e5; color: #1e88e5; }
+    .arithmetic { border-color: #43a047; color: #43a047; }
+    .geometry { border-color: #f4511e; color: #f4511e; }
+    .fractions { border-color: #8e24aa; color: #8e24aa; }
+    .bodmas { border-color: #fbc02d; color: #fbc02d; }
+    .percentage { border-color: #0288d1; color: #0288d1; }
+
+    ul { padding-left: 20px; margin-top: 12px; }
+    li { margin: 8px 0; line-height: 1.5; }
+
+    .btn-group {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 10px 10px;
+      padding: 15px 30px;
+      border-radius: 12px;
+      border: none;
+      background: #1976d2;
+      color: #fff;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      text-decoration: none;
+    }
+    .btn:hover { 
+      background: #0d47a1; 
+      transform: translateY(-3px);
+    }
+    .btn i {
+      margin-right: 8px;
+    }
+
+    /* 🎨 Color Picker ছোট বক্স */
+    .color-picker {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: white;
+      padding: 5px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+
+    /* 📱 Responsive adjustments */
+    @media (max-width: 1024px) {
+      body { padding: 25px 15px; }
+      h1 { font-size: 2.2em; margin-bottom: 30px; }
+      .card { padding: 20px 15px; }
+      .card h2 { font-size: 1.4em; }
+      ul { padding-left: 16px; }
+      li { font-size: 0.95em; }
+      .btn { padding: 12px 25px; font-size: 1em; }
+    }
+    @media (max-width: 768px) {
+      h1 { font-size: 2em; }
+      .card { padding: 18px 12px; }
+      .card h2 { font-size: 1.3em; }
+      li { font-size: 0.9em; }
+      .btn { width: 90%; margin: 10px auto; display: block; }
+    }
+    @media (max-width: 480px) {
+      h1 { font-size: 1.8em; margin-bottom: 25px; }
+      .card { padding: 15px 10px; }
+      .card h2 { font-size: 1.2em; }
+      ul { padding-left: 14px; }
+      li { font-size: 0.85em; }
+      .btn { font-size: 0.95em; padding: 10px 20px; }
+      .color-picker { top: 8px; left: 8px; padding: 4px; }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<!-- 🎨 Color Picker -->
+<div class="color-picker">
+  <input type="color" id="bgColor" value="#f0f4ff">
+</div>
+
+<h1>📘 Math Masters — Complete Formula Sheet</h1>
+
+<div class="grid">
+
+  <!-- Algebra -->
+  <div class="card algebra">
+    <h2>Algebra</h2>
+    <ul>
+      <li>(a + b)² = a² + 2ab + b²</li>
+      <li>(a - b)² = a² - 2ab + b²</li>
+      <li>(a + b)(a - b) = a² - b²</li>
+      <li>(x + y + z)² = x² + y² + z² + 2xy + 2yz + 2zx</li>
+      <li>a³ + b³ = (a + b)(a² - ab + b²)</li>
+      <li>a³ - b³ = (a - b)(a² + ab + b²)</li>
+      <li>(x + y + z)³ = x³ + y³ + z³ + 3(x + y)(y + z)(z + x)</li>
+      <li>(a + b)³ = a³ + b³ + 3ab(a + b)</li>
+      <li>(a - b)³ = a³ - b³ - 3ab(a - b)</li>
+      <li>Sum of cubes: a³ + b³ + c³ - 3abc = (a + b + c)(a² + b² + c² - ab - bc - ca)</li>
+      <li>Quadratic formula: x = [-b ± √(b² - 4ac)] / 2a</li>
+      <li>Sum of roots: α + β = -b/a</li>
+      <li>Product of roots: αβ = c/a</li>
+      <li>Difference of squares: a² - b² = (a - b)(a + b)</li>
+      <li>Sum & difference of squares: a² + b² = (a + b)² - 2ab</li>
+    </ul>
+  </div>
+
+  <!-- Arithmetic -->
+  <div class="card arithmetic">
+    <h2>Arithmetic</h2>
+    <ul>
+      <li>nth term of AP: aₙ = a + (n-1)d</li>
+      <li>Sum of n terms of AP: Sₙ = n/2 [2a + (n-1)d]</li>
+      <li>nth term of GP: aₙ = a·rⁿ⁻¹</li>
+      <li>Sum of n terms of GP: Sₙ = a(1 - rⁿ)/(1 - r), r ≠ 1</li>
+      <li>Sum of first n natural numbers: Sₙ = n(n+1)/2</li>
+      <li>Sum of squares of first n natural numbers: Sₙ = n(n+1)(2n+1)/6</li>
+      <li>Sum of cubes of first n natural numbers: Sₙ = [n(n+1)/2]²</li>
+      <li>HCF × LCM = Product of numbers</li>
+      <li>Arithmetic Mean: AM = (Sum of terms)/n</li>
+      <li>Geometric Mean: GM = √(Product of terms)</li>
+      <li>Harmonic Mean: HM = n / Σ(1/xi)</li>
+    </ul>
+  </div>
+
+  <!-- Geometry -->
+  <div class="card geometry">
+    <h2>Geometry</h2>
+    <ul>
+      <li>Area of Triangle = ½ × base × height</li>
+      <li>Area of Rectangle = length × breadth</li>
+      <li>Area of Square = side²</li>
+      <li>Area of Parallelogram = base × height</li>
+      <li>Area of Trapezium = ½ × (sum of parallel sides) × height</li>
+      <li>Area of Circle = π × r²</li>
+      <li>Circumference of Circle = 2 × π × r</li>
+      <li>Diagonal of Square = side × √2</li>
+      <li>Diagonal of Rectangle = √(l² + b²)</li>
+      <li>Volume of Cube = a³</li>
+      <li>Surface Area of Cube = 6 × a²</li>
+      <li>Volume of Cuboid = l × b × h</li>
+      <li>Surface Area of Cuboid = 2(lb + bh + hl)</li>
+      <li>Volume of Cylinder = π × r² × h</li>
+      <li>Surface Area of Cylinder = 2πr(h + r)</li>
+      <li>Volume of Cone = 1/3 × π × r² × h</li>
+      <li>Surface Area of Cone = π × r(l + r)</li>
+      <li>Volume of Sphere = 4/3 × π × r³</li>
+      <li>Surface Area of Sphere = 4 × π × r²</li>
+      <li>Hemisphere: V = 2/3 πr³, SA = 3πr²</li>
+    </ul>
+  </div>
+
+  <!-- Fractions -->
+  <div class="card fractions">
+    <h2>Fractions</h2>
+    <ul>
+      <li>a/b + c/d = (ad + bc) / bd</li>
+      <li>a/b - c/d = (ad - bc) / bd</li>
+      <li>a/b × c/d = (ac) / (bd)</li>
+      <li>(a/b) ÷ (c/d) = (ad) / (bc)</li>
+      <li>Simplifying fractions: Divide numerator & denominator by GCD</li>
+      <li>Mixed number ↔ Improper fraction conversion</li>
+      <li>Comparing fractions: Cross-multiply or convert to decimals</li>
+    </ul>
+  </div>
+
+  <!-- BODMAS -->
+  <div class="card bodmas">
+    <h2>BODMAS Rules</h2>
+    <ul>
+      <li>B → Brackets ()</li>
+      <li>O → Orders (powers, roots)</li>
+      <li>D → Division ÷</li>
+      <li>M → Multiplication ×</li>
+      <li>A → Addition +</li>
+      <li>S → Subtraction -</li>
+      <li>Always solve left to right within same precedence</li>
+      <li>Nested brackets: Solve innermost first</li>
+    </ul>
+  </div>
+
+  <!-- Percentage -->
+  <div class="card percentage">
+    <h2>Percentage</h2>
+    <ul>
+      <li>Percentage = (Value / Total) × 100</li>
+      <li>Profit % = (Profit / CP) × 100</li>
+      <li>Loss % = (Loss / CP) × 100</li>
+      <li>Simple Interest = (P × R × T) / 100</li>
+      <li>Compound Interest = P(1 + R/100)ⁿ - P</li>
+      <li>Percentage Increase = [(New - Old)/Old] × 100</li>
+      <li>Percentage Decrease = [(Old - New)/Old] × 100</li>
+      <li>Fraction ↔ Percentage ↔ Decimal</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="btn-group">
+  <a href="categories.html" class="btn"><i class="fas fa-arrow-left"></i> Back to Categories</a>
+  <a href="index.html" class="btn"><i class="fas fa-home"></i> Home</a>
+</div>
+
+<script>
+  // 🎨 Background color save + load
+  const colorInput = document.getElementById('bgColor');
+  const savedColor = localStorage.getItem('formulaBgColor');
+  if (savedColor) {
+    document.body.style.background = savedColor;
+    colorInput.value = savedColor;
+  }
+  colorInput.addEventListener('input', (e)=>{
+    document.body.style.background = e.target.value;
+    localStorage.setItem('formulaBgColor', e.target.value);
+  });
+</script>
+
+</body>
+</html>

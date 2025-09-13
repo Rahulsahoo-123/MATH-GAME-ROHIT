@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Math Masters — How to Play</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg,#e3f2fd,#f9f9ff);
+      color: #222;
+    }
+    header {
+      background: #2196f3;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    section {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform .2s;
+    }
+    section:hover { transform: translateY(-3px); }
+    section h2 {
+      margin-top: 0;
+      font-size: 22px;
+      color: #2196f3;
+      border-bottom: 2px solid #2196f3;
+      padding-bottom: 6px;
+    }
+    ul {
+      padding-left: 20px;
+      line-height: 1.6;
+    }
+    li { margin: 6px 0; }
+    .tip {
+      background: #e8f5e9;
+      border-left: 6px solid #4caf50;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    .back-btn {
+      display: block;
+      margin: 30px auto 20px;
+      padding: 12px 22px;
+      border-radius: 10px;
+      border: none;
+      background: #2196f3;
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background .2s;
+    }
+    .back-btn:hover {
+      background: #1976d2;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      main {
+        margin: 20px;
+        padding: 15px;
+      }
+      header h1 {
+        font-size: 24px;
+      }
+      section h2 {
+        font-size: 20px;
+      }
+      .back-btn {
+        width: 90%;
+        font-size: 15px;
+        padding: 10px 16px;
+      }
+    }
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 20px;
+      }
+      section {
+        padding: 15px;
+      }
+      section h2 {
+        font-size: 18px;
+      }
+      ul {
+        padding-left: 16px;
+      }
+      .tip {
+        padding: 10px;
+        font-size: 14px;
+      }
+      .back-btn {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎮 How to Play Math Masters</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>Game Objective</h2>
+      <p>
+        Math Masters is a fun quiz-based learning game where you solve questions from different categories like <strong>Algebra, Arithmetic, Fractions, Geometry, Percentage, BODMAS</strong> etc. 
+        Your goal is to answer as many questions correctly as possible and improve your math skills while playing.
+      </p>
+    </section>
+
+    <section>
+      <h2>Rules</h2>
+      <ul>
+        <li>You can select any category from the home page.</li>
+        <li>Each category has a set of questions (10–20 questions per set).</li>
+        <li>If you answer correctly, the question number turns <span style="color:green;font-weight:bold;">green ✅</span>.</li>
+        <li>If you answer incorrectly, the question number turns <span style="color:red;font-weight:bold;">red ❌</span>.</li>
+        <li>You can go back and re-attempt questions that you already answered.</li>
+        <li>There is <strong>no time limit</strong> in category mode. You can practice at your own pace.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Tips & Tricks</h2>
+      <div class="tip">💡 Use the <strong>Formula Sheet</strong> to review important math formulas before playing.</div>
+      <div class="tip">💡 Start with easier categories like Arithmetic & Percentage before moving to Algebra & Geometry.</div>
+      <div class="tip">💡 Don’t rush! Since there is no time limit, focus on understanding.</div>
+    </section>
+
+    <button class="back-btn" onclick="location.href='index.html'">⬅ Back to Home</button>
+  </main>
+</body>
+</html>
