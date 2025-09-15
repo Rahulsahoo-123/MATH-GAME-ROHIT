@@ -30,8 +30,20 @@
       background:white; border:2px solid #1e3a8a; border-radius:12px;
       padding:40px; width:200px; text-align:center; cursor:pointer;
       transition:0.3s; box-shadow:0 4px 8px rgba(0,0,0,0.1);
+      position:relative;
     }
     .level-box:hover {background:#e0ecff;}
+    /* 🔒 Lock Icon Style */
+    .lock-icon {
+      position:absolute;
+      top:10px;
+      right:10px;
+      font-size:22px;
+      color:#e11d48;
+      transition:color 0.3s ease;
+    }
+    .unlocked { color:#22c55e; } /* ✅ Green when unlocked */
+
     .quiz-container {display:none; max-width:500px; background:white; padding:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.15);}
     .question {font-size:18px; margin-bottom:10px;}
     .options button {
@@ -68,6 +80,35 @@
     .wrong {background:#f7c5c5;}
     .review-question {font-weight:bold;}
     #timer {font-weight:bold; margin-bottom:10px;}
+
+    /* 🔥 Modal Popup Style */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 400px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .modal-content button {
+      margin-top: 15px;
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -87,11 +128,13 @@
       <h2>Easy</h2>
       <p>5 Questions • 5 min</p>
     </div>
-    <div class="level-box" onclick="startTest('medium')">
+    <div class="level-box" onclick="checkLevel('medium')">
+      <span class="lock-icon" id="mediumLock">🔒</span>
       <h2>Medium</h2>
       <p>10 Questions • 5 min</p>
     </div>
-    <div class="level-box" onclick="startTest('hard')">
+    <div class="level-box" onclick="checkLevel('hard')">
+      <span class="lock-icon" id="hardLock">🔒</span>
       <h2>Hard</h2>
       <p>18 Questions • 5 min</p>
     </div>
@@ -114,16 +157,26 @@
 
   <div class="review-container" id="reviewContainer"></div>
 
+  <!-- 🔒 Modal Popup -->
+  <div class="modal" id="lockModal">
+    <div class="modal-content">
+      <h3>🔒 Locked</h3>
+      <p>You need to complete the previous level with all correct answers to unlock this one!</p>
+      <button onclick="closeModal()">OK</button>
+    </div>
+  </div>
+
 <script>
-  // Color picker save
   const colorInput = document.getElementById('bgColor');
   const savedColor = localStorage.getItem('testBgColor');
   if(savedColor){document.body.style.background=savedColor;colorInput.value=savedColor;}
-  colorInput.addEventListener('input', (e)=>{document.body.style.background=e.target.value; localStorage.setItem('testBgColor', e.target.value);});
+  colorInput.addEventListener('input', (e)=>{
+    document.body.style.background=e.target.value;
+    localStorage.setItem('testBgColor', e.target.value);
+  });
 
-  // Question bank
   const allQuestions = [
-    {q:"Solve: 4x²=64", options:["±6","±8","±4","8"], answer:2, solution:"x²=16 ⇒ x=±4"},
+   
   {q:"Simplify: (x²y³)²", options:["x³y²","x²y⁵","x⁴y⁶","x⁶y⁶"], answer:2, solution:"Multiply powers ⇒ x⁴y⁶"},
   {q:"Solve: x²+4x+4=0", options:["2","-4","-2","4"], answer:2, solution:"(x+2)²=0 ⇒ x=-2"},
   {q:"Factorize: x²-16", options:["(x-8)(x+2)","(x+16)(x-1)","Prime","(x-4)(x+4)"], answer:3, solution:"Difference of squares"},
@@ -291,11 +344,31 @@
   {q:"Simplify: x⁵ ÷ x³", options:["x³","x","x²","x⁵"], answer:2, solution:"Subtract powers ⇒ x²"},
   {q:"Solve: 4x²+12x=0", options:["x=-3,0","x=3","x=-3","x=0,3"], answer:0, solution:"x(4x+12)=0 ⇒ x=0,-3"},
 
-
-
   ];
 
   let quizData=[], currentQuestion=0, score=0, timerInterval, timeLeft=300, userAnswers=[];
+  
+  // ✅ Read unlock state from localStorage (persistent)
+  let mediumUnlocked = localStorage.getItem("mediumUnlocked")==="true";
+  let hardUnlocked   = localStorage.getItem("hardUnlocked")==="true";
+
+  // 🔓 Update lock icon state on page load
+  window.addEventListener("DOMContentLoaded", ()=>{
+    if(mediumUnlocked){
+      document.getElementById("mediumLock").classList.add("unlocked");
+      document.getElementById("mediumLock").innerText="✅";
+    }
+    if(hardUnlocked){
+      document.getElementById("hardLock").classList.add("unlocked");
+      document.getElementById("hardLock").innerText="✅";
+    }
+  });
+
+  function checkLevel(level){
+    if(level==="medium" && !mediumUnlocked){showModal(); return;}
+    if(level==="hard" && !hardUnlocked){showModal(); return;}
+    startTest(level);
+  }
 
   function startTest(level){
     let count = level==="easy"?5:level==="medium"?10:18;
@@ -346,6 +419,21 @@
 
   function endQuiz(){
     clearInterval(timerInterval);
+
+    // ✅ Unlock logic (persist state)
+    if(quizData.length===5 && score===quizData.length){
+      mediumUnlocked=true;
+      localStorage.setItem("mediumUnlocked","true");
+      document.getElementById("mediumLock").classList.add("unlocked");
+      document.getElementById("mediumLock").innerText="✅";
+    }
+    if(quizData.length===10 && score===quizData.length){
+      hardUnlocked=true;
+      localStorage.setItem("hardUnlocked","true");
+      document.getElementById("hardLock").classList.add("unlocked");
+      document.getElementById("hardLock").innerText="✅";
+    }
+
     document.getElementById('quiz').innerHTML=`
       <h2>Quiz Completed!</h2>
       <p>Your score: ${score} / ${quizData.length}</p>
@@ -380,7 +468,12 @@
     return array;
   }
 
+  function showModal(){
+    document.getElementById('lockModal').style.display='flex';
+  }
+
+  function closeModal(){
+    document.getElementById('lockModal').style.display='none';
+  }
 </script>
 
-</body>
-</html>
