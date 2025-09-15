@@ -33,19 +33,38 @@
       position:relative;
     }
     .level-box:hover {background:#e0ecff;}
-    /* 🔒 Lock Icon Style */
-    .lock-icon {
-      position:absolute;
-      top:10px;
-      right:10px;
-      font-size:22px;
-      color:#e11d48;
-      transition:color 0.3s ease;
-    }
-    .unlocked { color:#22c55e; } /* ✅ Green when unlocked */
+    .lock-icon {position:absolute; top:10px; right:10px; font-size:22px; color:#e11d48;}
+    .unlocked {color:#22c55e;}
 
-    .quiz-container {display:none; max-width:500px; background:white; padding:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.15);}
-    .question {font-size:18px; margin-bottom:10px;}
+    .quiz-container {
+      display:none;
+      max-width:500px;
+      background:white;
+      padding:20px;
+      border-radius:12px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    /* ✅ Progress bar style */
+    .progress-container {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      width: 80px;
+      height: 6px;
+      background: #ddd;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #4ade80;
+      transition: width 0.3s ease-in-out;
+    }
+
+    .question {font-size:18px; margin-top:20px; margin-bottom:10px;}
     .options button {
       display:block; width:100%; margin:6px 0; padding:12px;
       border-radius:8px; border:1px solid #ccc; background:#f0f4ff;
@@ -81,7 +100,6 @@
     .review-question {font-weight:bold;}
     #timer {font-weight:bold; margin-bottom:10px;}
 
-    /* 🔥 Modal Popup Style */
     .modal {
       display: none;
       position: fixed;
@@ -141,6 +159,11 @@
   </div>
 
   <div class="quiz-container" id="quiz">
+    <!-- ✅ Progress bar container -->
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
     <div class="timer" id="timer"></div>
     <div class="question" id="questionText"></div>
     <div class="options" id="options"></div>
@@ -157,7 +180,6 @@
 
   <div class="review-container" id="reviewContainer"></div>
 
-  <!-- 🔒 Modal Popup -->
   <div class="modal" id="lockModal">
     <div class="modal-content">
       <h3>🔒 Locked</h3>
@@ -176,7 +198,8 @@
   });
 
   const allQuestions = [
-   
+
+  
   {q:"Simplify: (x²y³)²", options:["x³y²","x²y⁵","x⁴y⁶","x⁶y⁶"], answer:2, solution:"Multiply powers ⇒ x⁴y⁶"},
   {q:"Solve: x²+4x+4=0", options:["2","-4","-2","4"], answer:2, solution:"(x+2)²=0 ⇒ x=-2"},
   {q:"Factorize: x²-16", options:["(x-8)(x+2)","(x+16)(x-1)","Prime","(x-4)(x+4)"], answer:3, solution:"Difference of squares"},
@@ -239,7 +262,7 @@
   {q:"Simplify: 100÷(4×5)", options:["4","5","6","8"], answer:1, solution:"100÷20=5"},
   {q:"Solve: (8÷4)+3²", options:["11","12","8","9"], answer:0, solution:"2+9=11"},
   {q:"Simplify: 20-(2×5)+6", options:["16","14","12","18"], answer:0, solution:"20-10+6=16"},
-  {q:"Solve: (50+30)÷(10-2)", options:["10","12","8","15"], answer:1, solution:"80÷8=10"},
+  {q:"Solve: (50+30)÷(10-2)", options:["10","12","8","15"], answer:0, solution:"80÷8=10"},
   {q:"Simplify: (3×3)+12÷6", options:["12","10","9","11"], answer:3, solution:"9+2=11"},
   {q:"Solve: (18÷3)+4²", options:["22","20","18","16"], answer:0, solution:"6+16=22"},
   {q:"Simplify: 7×7 + 2³", options:["49","57","56","54"], answer:1, solution:"49+8=57"},
@@ -344,15 +367,11 @@
   {q:"Simplify: x⁵ ÷ x³", options:["x³","x","x²","x⁵"], answer:2, solution:"Subtract powers ⇒ x²"},
   {q:"Solve: 4x²+12x=0", options:["x=-3,0","x=3","x=-3","x=0,3"], answer:0, solution:"x(4x+12)=0 ⇒ x=0,-3"},
 
-  ];
-
+  ]; // তোমার প্রশ্ন এখানে থাকবে
   let quizData=[], currentQuestion=0, score=0, timerInterval, timeLeft=300, userAnswers=[];
-  
-  // ✅ Read unlock state from localStorage (persistent)
   let mediumUnlocked = localStorage.getItem("mediumUnlocked")==="true";
   let hardUnlocked   = localStorage.getItem("hardUnlocked")==="true";
 
-  // 🔓 Update lock icon state on page load
   window.addEventListener("DOMContentLoaded", ()=>{
     if(mediumUnlocked){
       document.getElementById("mediumLock").classList.add("unlocked");
@@ -396,7 +415,11 @@
   function showQuestion(){
     if(currentQuestion>=quizData.length){endQuiz(); return;}
     let q=quizData[currentQuestion];
-    document.getElementById('questionText').innerText=q.q;
+    document.getElementById('questionText').innerText=`(${currentQuestion+1}/${quizData.length}) ${q.q}`;
+    // ✅ Progress bar update
+    let progressPercent = ((currentQuestion+1)/quizData.length)*100;
+    document.getElementById('progressBar').style.width = progressPercent + "%";
+
     let optionsDiv=document.getElementById('options');
     optionsDiv.innerHTML='';
     q.options.forEach((opt,i)=>{
@@ -419,8 +442,6 @@
 
   function endQuiz(){
     clearInterval(timerInterval);
-
-    // ✅ Unlock logic (persist state)
     if(quizData.length===5 && score===quizData.length){
       mediumUnlocked=true;
       localStorage.setItem("mediumUnlocked","true");
@@ -433,13 +454,21 @@
       document.getElementById("hardLock").classList.add("unlocked");
       document.getElementById("hardLock").innerText="✅";
     }
-
+    const stars = getStars(score,quizData.length);
     document.getElementById('quiz').innerHTML=`
       <h2>Quiz Completed!</h2>
       <p>Your score: ${score} / ${quizData.length}</p>
+      <div style="font-size:28px; color:#f59e0b;">${stars}</div>
       <button onclick="location.reload()">Try Again</button>
       <button onclick="showReview()">🔎 Review Answers</button>
     `;
+  }
+
+  function getStars(score,total){
+    let percent=(score/total)*100;
+    if(percent===100) return "⭐⭐⭐ Excellent!";
+    if(percent>=70) return "⭐⭐ Good!";
+    return "⭐ Keep Practicing!";
   }
 
   function showReview(){
@@ -471,9 +500,9 @@
   function showModal(){
     document.getElementById('lockModal').style.display='flex';
   }
-
   function closeModal(){
     document.getElementById('lockModal').style.display='none';
   }
 </script>
-
+</body>
+</html>
