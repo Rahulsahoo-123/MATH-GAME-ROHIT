@@ -25,7 +25,24 @@
       background:white; padding:5px; border-radius:8px;
       box-shadow:0 2px 5px rgba(0,0,0,0.2);
     }
-    .level-container {display:grid; gap:40px; margin:120px 0;}
+
+    /* ✅ New Badge CSS */
+    .badge-container {
+      display:flex;
+      gap:8px;
+      margin-top:50px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .badge-container img {
+      width:35px;
+      height:35px;
+      border-radius:50%;
+      object-fit:cover;
+      box-shadow:0 2px 6px rgba(0,0,0,0.25);
+    }
+
+    .level-container {display:grid; gap:40px; margin:30px 0;}
     .level-box {
       background:white; border:2px solid #1e3a8a; border-radius:12px;
       padding:40px; width:200px; text-align:center; cursor:pointer;
@@ -46,7 +63,6 @@
       position: relative;
     }
 
-    /* ✅ Progress bar style */
     .progress-container {
       position: absolute;
       top: 10px;
@@ -139,6 +155,32 @@
     <button onclick="location.href='categories.html'">⬅ Back</button>
   </div>
 
+<!-- ✅ Badge container (তোমার কোডের শেষে, </body> এর ঠিক আগে) -->
+<div class="badge-container" id="badgeContainer"></div>
+
+<style>
+  .badge-container {
+    position: fixed;
+    bottom: 500px;
+    right: 400px;
+    z-index: 999;
+  }
+  .badge-container img {
+    width: var(--badge-size, 45px);
+    height: var(--badge-size, 45px);
+    border-radius: 50%;
+    border: 2px solid #1e3a8a;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    transition: transform 0.3s ease;
+  }
+  .badge-container img:hover {
+    transform: scale(1.1);
+  }
+</style>
+
+
+
   <h1>TEST YOUR SKILL</h1>
 
   <div class="level-container">
@@ -159,7 +201,6 @@
   </div>
 
   <div class="quiz-container" id="quiz">
-    <!-- ✅ Progress bar container -->
     <div class="progress-container">
       <div class="progress-bar" id="progressBar"></div>
     </div>
@@ -197,9 +238,40 @@
     localStorage.setItem('testBgColor', e.target.value);
   });
 
-  const allQuestions = [
+   function updateBadges() {
+    const container = document.getElementById("badgeContainer");
+    container.innerHTML = "";
 
-  
+    let heroicUnlocked = localStorage.getItem("hardUnlocked")==="true";
+    let diamondUnlocked = localStorage.getItem("mediumUnlocked")==="true";
+
+    let img = document.createElement("img");
+
+    if(heroicUnlocked){
+      img.src = "heroic.png"; // 🔥 Hard badge
+    } 
+    else if(diamondUnlocked){
+      img.src = "diamond.png"; // 💎 Medium badge
+    }
+    else if(localStorage.getItem("mediumUnlocked")==="true" || localStorage.getItem("mediumUnlocked")===null){
+      img.src = "gold.png"; // 🥇 Easy badge
+    }
+
+    container.appendChild(img);
+  }
+
+  function setBadgeSize(size){
+    document.documentElement.style.setProperty("--badge-size", size + "px");
+  }
+
+  window.addEventListener("DOMContentLoaded", updateBadges);
+
+  setBadgeSize(10); // badge বড়ো হবে
+setBadgeSize(60); // ছোট হবে
+
+
+  const allQuestions = [
+    
   {q:"Simplify: (x²y³)²", options:["x³y²","x²y⁵","x⁴y⁶","x⁶y⁶"], answer:2, solution:"Multiply powers ⇒ x⁴y⁶"},
   {q:"Solve: x²+4x+4=0", options:["2","-4","-2","4"], answer:2, solution:"(x+2)²=0 ⇒ x=-2"},
   {q:"Factorize: x²-16", options:["(x-8)(x+2)","(x+16)(x-1)","Prime","(x-4)(x+4)"], answer:3, solution:"Difference of squares"},
@@ -367,7 +439,8 @@
   {q:"Simplify: x⁵ ÷ x³", options:["x³","x","x²","x⁵"], answer:2, solution:"Subtract powers ⇒ x²"},
   {q:"Solve: 4x²+12x=0", options:["x=-3,0","x=3","x=-3","x=0,3"], answer:0, solution:"x(4x+12)=0 ⇒ x=0,-3"},
 
-  ]; // তোমার প্রশ্ন এখানে থাকবে
+  ];
+
   let quizData=[], currentQuestion=0, score=0, timerInterval, timeLeft=300, userAnswers=[];
   let mediumUnlocked = localStorage.getItem("mediumUnlocked")==="true";
   let hardUnlocked   = localStorage.getItem("hardUnlocked")==="true";
@@ -381,6 +454,7 @@
       document.getElementById("hardLock").classList.add("unlocked");
       document.getElementById("hardLock").innerText="✅";
     }
+    updateBadges();
   });
 
   function checkLevel(level){
@@ -416,7 +490,6 @@
     if(currentQuestion>=quizData.length){endQuiz(); return;}
     let q=quizData[currentQuestion];
     document.getElementById('questionText').innerText=`(${currentQuestion+1}/${quizData.length}) ${q.q}`;
-    // ✅ Progress bar update
     let progressPercent = ((currentQuestion+1)/quizData.length)*100;
     document.getElementById('progressBar').style.width = progressPercent + "%";
 
@@ -445,23 +518,33 @@
     if(quizData.length===5 && score===quizData.length){
       mediumUnlocked=true;
       localStorage.setItem("mediumUnlocked","true");
-      document.getElementById("mediumLock").classList.add("unlocked");
-      document.getElementById("mediumLock").innerText="✅";
+      localStorage.setItem("badgeEasy","true");
     }
     if(quizData.length===10 && score===quizData.length){
       hardUnlocked=true;
       localStorage.setItem("hardUnlocked","true");
-      document.getElementById("hardLock").classList.add("unlocked");
-      document.getElementById("hardLock").innerText="✅";
+      localStorage.setItem("badgeMedium","true");
     }
+    if(quizData.length===18 && score===quizData.length){
+      localStorage.setItem("badgeHard","true");
+    }
+    updateBadges();
     const stars = getStars(score,quizData.length);
     document.getElementById('quiz').innerHTML=`
       <h2>Quiz Completed!</h2>
       <p>Your score: ${score} / ${quizData.length}</p>
-      <div style="font-size:28px; color:#f59e0b;">${stars}</div>
+      <div style="font-size:30px; color:#f59e0b;">${stars}</div>
       <button onclick="location.reload()">Try Again</button>
       <button onclick="showReview()">🔎 Review Answers</button>
     `;
+  }
+
+  function updateBadges(){
+    const container=document.getElementById("badgeContainer");
+    container.innerHTML="";
+    if(localStorage.getItem("badgeEasy"))   container.innerHTML+=`<img src="gold.png" alt="Gold Badge">`;
+    if(localStorage.getItem("badgeMedium")) container.innerHTML+=`<img src="diamond.png" alt="Diamond Badge">`;
+    if(localStorage.getItem("badgeHard"))   container.innerHTML+=`<img src="herioc.jpg" alt="Heroic Badge">`;
   }
 
   function getStars(score,total){
@@ -497,12 +580,8 @@
     return array;
   }
 
-  function showModal(){
-    document.getElementById('lockModal').style.display='flex';
-  }
-  function closeModal(){
-    document.getElementById('lockModal').style.display='none';
-  }
+  function showModal(){document.getElementById('lockModal').style.display='flex';}
+  function closeModal(){document.getElementById('lockModal').style.display='none';}
 </script>
 </body>
 </html>
