@@ -12,6 +12,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      transition: background 0.3s ease-in-out;
     }
 
     .game-container {
@@ -31,9 +32,8 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    h1 { color: #012948; margin-bottom: 10px; }
+    h1 { color: #012948; margin-bottom: 10px; font-size: 26px; }
 
-    /* ✅ Top message bar */
     #resultMessage {
       display: none;
       font-weight: bold;
@@ -88,7 +88,6 @@
       display: none;
     }
 
-    /* Right-top Back button */
     #backBtn {
       position: absolute;
       top: 15px;
@@ -103,12 +102,60 @@
       transition: background 0.3s;
     }
     #backBtn:hover { background: #b71c1c; }
+
+    /* 🎨 Background Picker Style */
+    .color-picker {
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .color-btn {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    /* 📱 RESPONSIVE MEDIA QUERIES */
+    @media (max-width: 600px) {
+      .game-container { width: 95%; padding: 20px; }
+      h1 { font-size: 22px; }
+      #question { font-size: 18px; }
+      .opt-btn { font-size: 16px; padding: 10px; }
+    }
+
+    @media (max-width: 400px) {
+      .game-container { border-radius: 15px; padding: 15px; }
+      h1 { font-size: 20px; }
+      #question { font-size: 16px; }
+      .opt-btn { font-size: 14px; }
+      #resultMessage { font-size: 16px; }
+    }
+
+    @media (min-width: 900px) {
+      .game-container { max-width: 600px; }
+      h1 { font-size: 28px; }
+      #question { font-size: 24px; }
+      .opt-btn { font-size: 20px; }
+    }
   </style>
 </head>
 <body>
   <div class="game-container">
     <button id="backBtn">⬅ Back</button>
     <h1>🤖 Play with AI</h1>
+
+    <!-- 🎨 Background Picker -->
+    <div class="color-picker">
+      <div class="color-btn" style="background:#e3f2fd" onclick="changeBg('#e3f2fd','#bbdefb')"></div>
+      <div class="color-btn" style="background:#fce4ec" onclick="changeBg('#fce4ec','#f8bbd0')"></div>
+      <div class="color-btn" style="background:#e8f5e9" onclick="changeBg('#e8f5e9','#a5d6a7')"></div>
+      <div class="color-btn" style="background:#fff3e0" onclick="changeBg('#fff3e0','#ffe0b2')"></div>
+    </div>
 
     <div id="resultMessage"></div>
 
@@ -121,11 +168,17 @@
   <audio id="clickSound" src="click.mp3" preload="auto"></audio>
 
   <script>
-    const clickSound = document.getElementById('clickSound');
-    function safePlay(audio){ try{ if(audio){ audio.currentTime=0; audio.play().catch(()=>{}); } }catch(e){} }
+    const clickSound=document.getElementById('clickSound');
+    function safePlay(audio){try{if(audio){audio.currentTime=0;audio.play().catch(()=>{});}}catch(e){}}
 
-    const ALL_QUESTIONS = [
-     
+    // 🎨 Function to change background
+    function changeBg(color1,color2){
+      document.body.style.background=`linear-gradient(135deg,${color1},${color2})`;
+    }
+
+    const ALL_QUESTIONS=[
+
+    
   {q:"Simplify: (x²y³)²", options:["x³y²","x²y⁵","x⁴y⁶","x⁶y⁶"], answer:2, solution:"Multiply powers ⇒ x⁴y⁶"},
   {q:"Solve: x²+4x+4=0", options:["2","-4","-2","4"], answer:2, solution:"(x+2)²=0 ⇒ x=-2"},
   {q:"Factorize: x²-16", options:["(x-8)(x+2)","(x+16)(x-1)","Prime","(x-4)(x+4)"], answer:3, solution:"Difference of squares"},
@@ -292,11 +345,10 @@
   {q:"Solve: 7x-21=0", options:["x=3","x=1","x=21","x=0"], answer:0, solution:"x=21/7=3"},
   {q:"Simplify: x⁵ ÷ x³", options:["x³","x","x²","x⁵"], answer:2, solution:"Subtract powers ⇒ x²"},
 
-    ];
+    ]; // You can add questions here
+    const QUESTIONS=ALL_QUESTIONS.sort(()=>Math.random()-0.5).slice(0,10);
 
-    const QUESTIONS = ALL_QUESTIONS.sort(()=>Math.random()-0.5).slice(0,10);
-
-    let currentIndex=0, playerScore=0, aiScore=0;
+    let currentIndex=0,playerScore=0,aiScore=0;
     const questionDiv=document.getElementById('question');
     const optionsDiv=document.getElementById('options');
     const aiAnswerDiv=document.getElementById('aiAnswer');
@@ -321,15 +373,11 @@
     function checkAnswer(selectedIndex,correctIndex){
       safePlay(clickSound);
       Array.from(optionsDiv.children).forEach(b=>b.disabled=true);
-
       let isCorrect=selectedIndex===correctIndex;
       if(isCorrect) playerScore++;
-
-      // Show message
       resultMessage.textContent=isCorrect?"✅ Correct!":"❌ Wrong!";
       resultMessage.className=isCorrect?"correct":"wrong";
       resultMessage.style.display="block";
-
       aiAnswerDiv.innerHTML="🤖 AI is thinking...";
       setTimeout(()=>{
         let aiChoice;
@@ -340,7 +388,7 @@
         }
         if(aiChoice===correctIndex) aiScore++;
         aiAnswerDiv.innerHTML=`🤖 AI chose: <b>${QUESTIONS[currentIndex].options[aiChoice]}</b>`;
-        setTimeout(nextQuestion,1200); // Auto next after short delay
+        setTimeout(nextQuestion,1200);
       },1000);
     }
 
@@ -364,7 +412,7 @@
     homeBtn.addEventListener('click',()=>location.href="index.html");
     document.getElementById('backBtn').addEventListener('click',()=>location.href="index.html");
 
-    loadQuestion();
+    if(QUESTIONS.length>0) loadQuestion();
   </script>
 </body>
 </html>
