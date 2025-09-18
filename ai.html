@@ -127,6 +127,24 @@
       #question { font-size: 18px; }
       .opt-btn { font-size: 16px; padding: 10px; }
     }
+     @media (max-width: 768px) {
+    .container { padding: 40px; }
+    .grid { grid-template-columns: 1fr; gap: 12px; }
+    .logo { font-size: 24px; text-align: center; }
+    .btn.secondary { font-size: 13px; padding: 6px 12px; width: 100%; }
+    .header { 
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
+    }
+  }
+ @media (max-width: 1200px) {
+    .container { padding: 80px; }
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .logo { font-size: 28px; }
+    .btn.secondary { font-size: 15px; padding: 8px 18px; }
+    .header { margin-top: 80px; }
+  }
 
     @media (max-width: 400px) {
       .game-container { border-radius: 15px; padding: 15px; }
@@ -135,7 +153,12 @@
       .opt-btn { font-size: 14px; }
       #resultMessage { font-size: 16px; }
     }
-
+ @media (max-width: 480px) {
+    .container { padding: 30px; }
+    .logo { font-size: 20px; }
+    .btn.secondary { font-size: 12px; padding: 5px 10px; }
+    .header { margin-top: 30px; }
+  }
     @media (min-width: 900px) {
       .game-container { max-width: 600px; }
       h1 { font-size: 28px; }
