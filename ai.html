@@ -5,6 +5,7 @@
   <title>Play with AI - Math Masters</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       background: linear-gradient(135deg, #e3f2fd, #bbdefb);
       font-family: "Segoe UI", Arial, sans-serif;
@@ -13,12 +14,13 @@
       align-items: center;
       height: 100vh;
       transition: background 0.3s ease-in-out;
+      padding: 10px;
     }
 
     .game-container {
       background: white;
-      width: 95%;
-      max-width: 1000px;
+      width: 100%;
+      max-width: 700px;
       border-radius: 20px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.2);
       padding: 25px;
@@ -32,12 +34,12 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    h1 { color: #012948; margin-bottom: 10px; font-size: 26px; }
+    h1 { color: #012948; margin-bottom: 10px; font-size: 2rem; }
 
     #resultMessage {
       display: none;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 1.1rem;
       margin-bottom: 10px;
       padding: 6px;
       border-radius: 8px;
@@ -46,7 +48,7 @@
     #resultMessage.wrong { background: #f7c5c5; color: #b71c1c; }
 
     #question {
-      font-size: 22px;
+      font-size: 1.4rem;
       margin: 10px 0;
       font-weight: bold;
       color: #0b4f52;
@@ -57,7 +59,7 @@
       width: 100%;
       margin: 8px 0;
       padding: 12px;
-      font-size: 18px;
+      font-size: 1.1rem;
       font-weight: 500;
       border: none;
       border-radius: 12px;
@@ -72,14 +74,14 @@
       margin-top: 10px; 
       font-weight: bold; 
       color: #d32f2f; 
-      font-size: 16px; 
+      font-size: 1rem; 
       min-height: 24px; 
     }
 
     #homeBtn {
       margin-top: 20px;
       padding: 10px 18px;
-      font-size: 16px;
+      font-size: 1rem;
       background: #012948;
       color: white;
       border: none;
@@ -121,58 +123,26 @@
     }
 
     /* 📱 RESPONSIVE MEDIA QUERIES */
-    @media (max-width: 600px) {
-      .game-container { width: 95%; padding: 20px; }
-      h1 { font-size: 22px; }
-      #question { font-size: 18px; }
-      .opt-btn { font-size: 16px; padding: 10px; }
+    @media (max-width: 768px) {
+      .game-container { padding: 20px; border-radius: 16px; }
+      h1 { font-size: 1.6rem; }
+      #question { font-size: 1.2rem; }
+      .opt-btn { font-size: 1rem; padding: 10px; }
     }
 
-     @media (max-width: 992px) {
-    .container { padding: 60px; }
-    .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-    .logo { font-size: 26px; }
-    .btn.secondary { font-size: 14px; padding: 7px 15px; }
-    .header { margin-top: 60px; }
-  }
-
-     @media (max-width: 768px) {
-    .container { padding: 40px; }
-    .grid { grid-template-columns: 1fr; gap: 12px; }
-    .logo { font-size: 24px; text-align: center; }
-    .btn.secondary { font-size: 13px; padding: 6px 12px; width: 100%; }
-    .header { 
-      flex-direction: column;
-      align-items: center;
-      margin-top: 40px;
+    @media (max-width: 480px) {
+      .game-container { padding: 15px; border-radius: 12px; }
+      h1 { font-size: 1.4rem; }
+      #question { font-size: 1rem; }
+      .opt-btn { font-size: 0.9rem; }
+      #resultMessage { font-size: 0.9rem; }
     }
-  }
- @media (max-width: 1200px) {
-    .container { padding: 80px; }
-    .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-    .logo { font-size: 28px; }
-    .btn.secondary { font-size: 15px; padding: 8px 18px; }
-    .header { margin-top: 80px; }
-  }
 
-    @media (max-width: 400px) {
-      .game-container { border-radius: 15px; padding: 15px; }
-      h1 { font-size: 20px; }
-      #question { font-size: 16px; }
-      .opt-btn { font-size: 14px; }
-      #resultMessage { font-size: 16px; }
-    }
- @media (max-width: 480px) {
-    .container { padding: 30px; }
-    .logo { font-size: 20px; }
-    .btn.secondary { font-size: 12px; padding: 5px 10px; }
-    .header { margin-top: 30px; }
-  }
-    @media (min-width: 900px) {
-      .game-container { max-width: 600px; }
-      h1 { font-size: 28px; }
-      #question { font-size: 24px; }
-      .opt-btn { font-size: 20px; }
+    @media (min-width: 1200px) {
+      .game-container { max-width: 800px; }
+      h1 { font-size: 2.2rem; }
+      #question { font-size: 1.6rem; }
+      .opt-btn { font-size: 1.2rem; }
     }
   </style>
 </head>
@@ -210,7 +180,6 @@
 
     const ALL_QUESTIONS=[
 
-    
   {q:"Simplify: (x²y³)²", options:["x³y²","x²y⁵","x⁴y⁶","x⁶y⁶"], answer:2, solution:"Multiply powers ⇒ x⁴y⁶"},
   {q:"Solve: x²+4x+4=0", options:["2","-4","-2","4"], answer:2, solution:"(x+2)²=0 ⇒ x=-2"},
   {q:"Factorize: x²-16", options:["(x-8)(x+2)","(x+16)(x-1)","Prime","(x-4)(x+4)"], answer:3, solution:"Difference of squares"},
@@ -377,6 +346,7 @@
   {q:"Solve: 7x-21=0", options:["x=3","x=1","x=21","x=0"], answer:0, solution:"x=21/7=3"},
   {q:"Simplify: x⁵ ÷ x³", options:["x³","x","x²","x⁵"], answer:2, solution:"Subtract powers ⇒ x²"},
 
+
     ]; // You can add questions here
     const QUESTIONS=ALL_QUESTIONS.sort(()=>Math.random()-0.5).slice(0,10);
 
@@ -448,4 +418,3 @@
   </script>
 </body>
 </html>
-
