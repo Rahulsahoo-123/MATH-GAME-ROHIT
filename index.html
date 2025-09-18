@@ -25,15 +25,22 @@
     .logo {
       font-size: 50px;
       font-weight: bold;
-      padding-top: 100px;
+      padding-top: 70px;
       text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
     }
 
-    /* Start Button */
-    #start-btn {
-      margin-top: 150px;
-      padding: 18px 80px;
-      font-size: 24px;
+    /* Start + Extra Buttons */
+    .btn-container {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .game-btn {
+      padding: 16px 60px;
+      font-size: 22px;
       font-weight: bold;
       color: #fff;
       background: linear-gradient(90deg, #0b4f52, #012948);
@@ -42,7 +49,9 @@
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       animation: glow 1.5s infinite alternate;
+      transition: transform 0.2s;
     }
+    .game-btn:hover { transform: scale(1.05); }
 
     @keyframes glow {
       from { box-shadow: 0 0 10px #9ca0ec, 0 0 20px #066476; }
@@ -69,48 +78,97 @@
       cursor: pointer;
       transition: 0.3s;
     }
+    .nav-btn:hover { color: #ffeb3b; }
 
-    .nav-btn:hover {
-      color: #ffeb3b;
+    /* Profile Button (top-right corner) */
+    .profile-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      font-size: 18px;
+      padding: 8px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
     }
+    .profile-btn:hover { background: rgba(255,255,255,0.3); }
 
     /* ----------------- Responsive ----------------- */
-    @media (max-width: 1200px) {
-      .logo { font-size: 45px; padding-top: 80px; }
-      #start-btn { padding: 16px 70px; font-size: 22px; margin-top: 120px; }
-      .nav-btn { font-size: 16px; }
-    }
-
-    @media (max-width: 992px) {
-      .logo { font-size: 40px; padding-top: 70px; }
-      #start-btn { padding: 14px 60px; font-size: 20px; margin-top: 100px; }
-      .nav-btn { font-size: 15px; }
-    }
-
     @media (max-width: 768px) {
-      .logo { font-size: 35px; padding-top: 60px; }
-      #start-btn { padding: 12px 50px; font-size: 18px; margin-top: 80px; }
-      .nav-btn { font-size: 14px; }
+      .logo { font-size: 35px; padding-top: 50px; }
+      .game-btn { padding: 14px 50px; font-size: 20px; }
     }
 
     @media (max-width: 480px) {
-      .logo { font-size: 28px; padding-top: 50px; }
-      #start-btn { padding: 10px 40px; font-size: 16px; margin-top: 60px; }
+      .logo { font-size: 28px; padding-top: 40px; }
+      .game-btn { padding: 12px 40px; font-size: 18px; }
       .nav-btn { font-size: 12px; }
     }
-
   </style>
 </head>
 <body>
   <div id="home-screen">
+    <!-- ✅ Profile Button -->
+
+
     <div class="logo">✨ Math Masters ✨</div>
-    <button id="start-btn" onclick="location.href='categories.html'">Start Game</button> 
+
+    <div class="btn-container">
+      <button id="start-btn" class="game-btn">Start Game</button>
+      
+      <button id="ai-btn" class="game-btn">Play with AI</button>
+    </div>
 
     <div class="bottom-nav">
-      <button class="nav-btn" onclick="location.href='index.html'">🏠 Home</button>
-      <button class="nav-btn" onclick="location.href='formulas.html'">📘 Formulas</button>
-      <button class="nav-btn" onclick="location.href='howto.html'">🎮 How to Play</button>
+      <button class="nav-btn" data-link="index.html">🏠 Home</button>
+      <button class="nav-btn" data-link="formulas.html">📘 Formulas</button>
+      <button class="nav-btn" data-link="howto.html">🎮 How to Play</button>
     </div>
   </div>
+
+  <!-- ✅ Sound Effects -->
+  <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+
+  <script>
+    const clickSound = document.getElementById('clickSound');
+    function safePlay(audio){
+      try{
+        if(!audio) return;
+        audio.currentTime = 0;
+        audio.play().catch(()=>{});
+      }catch(e){}
+    }
+
+    // ✅ Profile Button now opens profile.html
+  
+
+    // Start button
+    document.getElementById('start-btn').addEventListener('click', ()=>{
+      safePlay(clickSound);
+      setTimeout(()=> location.href='categories.html', 200); 
+    });
+
+    // Friend Button
+    
+
+    // AI Button
+   // AI Button
+document.getElementById('ai-btn').addEventListener('click', ()=>{
+  safePlay(clickSound);
+  setTimeout(()=> location.href='ai.html', 200); 
+});
+
+
+    // Bottom nav
+    document.querySelectorAll('.nav-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        safePlay(clickSound);
+        setTimeout(()=> location.href = btn.dataset.link, 200);
+      });
+    });
+  </script>
 </body>
 </html>
