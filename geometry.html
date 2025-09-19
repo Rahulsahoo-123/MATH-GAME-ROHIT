@@ -147,6 +147,8 @@
 
 <audio id="correctSound" src="correct.mp3"></audio>
 <audio id="wrongSound" src="wrong.mp3"></audio>
+  <audio id="bgMusic" src="bg.mp3" preload="auto" loop></audio>
+
 
 <div id="quiz-box">
   <div id="progress"></div>
@@ -287,6 +289,11 @@
   function goBack() { window.location.href = "categories.html"; }
 
   loadQuestion();
+   // ✅ Music auto play if already ON
+    if (localStorage.getItem("musicPlaying") === "true") {
+      bgMusic.volume = 0.4;
+      bgMusic.play().catch(()=>{});
+    }
 </script>
 
 </body>
