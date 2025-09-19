@@ -121,29 +121,6 @@
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
-
-    /* 📱 RESPONSIVE MEDIA QUERIES */
-    @media (max-width: 768px) {
-      .game-container { padding: 20px; border-radius: 16px; }
-      h1 { font-size: 1.6rem; }
-      #question { font-size: 1.2rem; }
-      .opt-btn { font-size: 1rem; padding: 10px; }
-    }
-
-    @media (max-width: 480px) {
-      .game-container { padding: 15px; border-radius: 12px; }
-      h1 { font-size: 1.4rem; }
-      #question { font-size: 1rem; }
-      .opt-btn { font-size: 0.9rem; }
-      #resultMessage { font-size: 0.9rem; }
-    }
-
-    @media (min-width: 1200px) {
-      .game-container { max-width: 800px; }
-      h1 { font-size: 2.2rem; }
-      #question { font-size: 1.6rem; }
-      .opt-btn { font-size: 1.2rem; }
-    }
   </style>
 </head>
 <body>
@@ -167,19 +144,52 @@
     <button id="homeBtn">🏠 Go Home</button>
   </div>
 
+  <!-- Click Sound -->
   <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+  <!-- Background Music -->
+  <audio id="bgMusic" src="bg.mp3" preload="auto" loop></audio>
+  <!-- Result Sounds -->
+  <audio id="winSound" src="win.mp3" preload="auto"></audio>
+  <audio id="loseSound" src="lose.mp3" preload="auto"></audio>
+  <audio id="drawSound" src="draw.mp3" preload="auto"></audio>
+
+ 
+
 
   <script>
-    const clickSound=document.getElementById('clickSound');
-    function safePlay(audio){try{if(audio){audio.currentTime=0;audio.play().catch(()=>{});}}catch(e){}}
+    const clickSound = document.getElementById('clickSound');
+    const bgMusic = document.getElementById('bgMusic');
+    const winSound = document.getElementById('winSound');
+    const loseSound = document.getElementById('loseSound');
+    const drawSound = document.getElementById('drawSound');
 
-    // 🎨 Function to change background
-    function changeBg(color1,color2){
-      document.body.style.background=`linear-gradient(135deg,${color1},${color2})`;
+    function safePlay(audio) {
+      try {
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+      } catch (e) {}
     }
 
-    const ALL_QUESTIONS=[
+    function changeBg(color1, color2) {
+      document.body.style.background = `linear-gradient(135deg,${color1},${color2})`;
+      safePlay(clickSound);
+    }
 
+    let soundEnabled = false;
+    function enableSoundOnce() {
+      if (!soundEnabled) {
+        soundEnabled = true;
+        bgMusic.volume = 0.4;
+        bgMusic.play().catch(()=>{});
+      }
+      safePlay(clickSound);
+    }
+
+    document.body.addEventListener('click', enableSoundOnce, { once: true });
+
+    const ALL_QUESTIONS = [
+
+    
   {q:"Simplify: (x²y³)²", options:["x³y²","x²y⁵","x⁴y⁶","x⁶y⁶"], answer:2, solution:"Multiply powers ⇒ x⁴y⁶"},
   {q:"Solve: x²+4x+4=0", options:["2","-4","-2","4"], answer:2, solution:"(x+2)²=0 ⇒ x=-2"},
   {q:"Factorize: x²-16", options:["(x-8)(x+2)","(x+16)(x-1)","Prime","(x-4)(x+4)"], answer:3, solution:"Difference of squares"},
@@ -345,76 +355,95 @@
   {q:"Expand: (x+5)(x-5)", options:["x²+25","x²-10x+25","x²-25","x²+10x+25"], answer:2, solution:"Difference of squares"},
   {q:"Solve: 7x-21=0", options:["x=3","x=1","x=21","x=0"], answer:0, solution:"x=21/7=3"},
   {q:"Simplify: x⁵ ÷ x³", options:["x³","x","x²","x⁵"], answer:2, solution:"Subtract powers ⇒ x²"},
+    ]; // Your questions here
+    const QUESTIONS = ALL_QUESTIONS.sort(() => Math.random() - 0.5).slice(0, 10);
 
+    let currentIndex = 0, playerScore = 0, aiScore = 0;
+    const questionDiv = document.getElementById('question');
+    const optionsDiv = document.getElementById('options');
+    const aiAnswerDiv = document.getElementById('aiAnswer');
+    const resultMessage = document.getElementById('resultMessage');
+    const homeBtn = document.getElementById('homeBtn');
+    const backBtn = document.getElementById('backBtn');
 
-    ]; // You can add questions here
-    const QUESTIONS=ALL_QUESTIONS.sort(()=>Math.random()-0.5).slice(0,10);
-
-    let currentIndex=0,playerScore=0,aiScore=0;
-    const questionDiv=document.getElementById('question');
-    const optionsDiv=document.getElementById('options');
-    const aiAnswerDiv=document.getElementById('aiAnswer');
-    const resultMessage=document.getElementById('resultMessage');
-    const homeBtn=document.getElementById('homeBtn');
-
-    function loadQuestion(){
-      resultMessage.style.display="none";
-      aiAnswerDiv.innerHTML="";
-      const q=QUESTIONS[currentIndex];
-      questionDiv.innerText=`Q${currentIndex+1}: ${q.q}`;
-      optionsDiv.innerHTML="";
-      q.options.forEach((option,idx)=>{
-        const btn=document.createElement('button');
-        btn.className='opt-btn';
-        btn.innerText=option;
-        btn.onclick=()=>checkAnswer(idx,q.answer);
+    function loadQuestion() {
+      resultMessage.style.display = "none";
+      aiAnswerDiv.innerHTML = "";
+      const q = QUESTIONS[currentIndex];
+      questionDiv.innerText = `Q${currentIndex + 1}: ${q.q}`;
+      optionsDiv.innerHTML = "";
+      q.options.forEach((option, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.innerText = option;
+        btn.onclick = () => {
+          enableSoundOnce();
+          checkAnswer(idx, q.answer);
+        };
         optionsDiv.appendChild(btn);
       });
     }
 
-    function checkAnswer(selectedIndex,correctIndex){
-      safePlay(clickSound);
-      Array.from(optionsDiv.children).forEach(b=>b.disabled=true);
-      let isCorrect=selectedIndex===correctIndex;
-      if(isCorrect) playerScore++;
-      resultMessage.textContent=isCorrect?"✅ Correct!":"❌ Wrong!";
-      resultMessage.className=isCorrect?"correct":"wrong";
-      resultMessage.style.display="block";
-      aiAnswerDiv.innerHTML="🤖 AI is thinking...";
-      setTimeout(()=>{
+    function checkAnswer(selectedIndex, correctIndex) {
+      Array.from(optionsDiv.children).forEach(b => b.disabled = true);
+      let isCorrect = selectedIndex === correctIndex;
+      if (isCorrect) playerScore++;
+      resultMessage.textContent = isCorrect ? "✅ Correct!" : "❌ Wrong!";
+      resultMessage.className = isCorrect ? "correct" : "wrong";
+      resultMessage.style.display = "block";
+      aiAnswerDiv.innerHTML = "🤖 AI is thinking...";
+      setTimeout(() => {
         let aiChoice;
-        if(Math.random()<(0.7+Math.random()*0.15)) aiChoice=correctIndex;
-        else{
-          let wrongs=QUESTIONS[currentIndex].options.map((_,i)=>i).filter(i=>i!==correctIndex);
-          aiChoice=wrongs[Math.floor(Math.random()*wrongs.length)];
+        if (Math.random() < (0.7 + Math.random() * 0.15)) aiChoice = correctIndex;
+        else {
+          let wrongs = QUESTIONS[currentIndex].options.map((_, i) => i).filter(i => i !== correctIndex);
+          aiChoice = wrongs[Math.floor(Math.random() * wrongs.length)];
         }
-        if(aiChoice===correctIndex) aiScore++;
-        aiAnswerDiv.innerHTML=`🤖 AI chose: <b>${QUESTIONS[currentIndex].options[aiChoice]}</b>`;
-        setTimeout(nextQuestion,1200);
-      },1000);
+        if (aiChoice === correctIndex) aiScore++;
+        aiAnswerDiv.innerHTML = `🤖 AI chose: <b>${QUESTIONS[currentIndex].options[aiChoice]}</b>`;
+        setTimeout(nextQuestion, 1200);
+      }, 1000);
     }
 
-    function nextQuestion(){
+    function nextQuestion() {
       currentIndex++;
-      if(currentIndex<QUESTIONS.length) loadQuestion();
+      if (currentIndex < QUESTIONS.length) loadQuestion();
       else showResults();
     }
 
-    function showResults(){
-      questionDiv.innerText="🏆 Final Results";
-      optionsDiv.innerHTML=`
+    function showResults() {
+      questionDiv.innerText = "🏆 Final Results";
+      optionsDiv.innerHTML = `
         <p><b>You:</b> ${playerScore} correct</p>
         <p><b>AI:</b> ${aiScore} correct</p>
-        <h2>${playerScore>aiScore?"🎉 You Win!":playerScore<aiScore?"🤖 AI Wins!":"🤝 It's a Tie!"}</h2>
+        <h2>${playerScore > aiScore ? "🎉 You Win!" : playerScore < aiScore ? "🤖 AI Wins!" : "🤝 It's a Tie!"}</h2>
       `;
-      aiAnswerDiv.innerHTML="";
-      homeBtn.style.display="inline-block";
+      aiAnswerDiv.innerHTML = "";
+      homeBtn.style.display = "inline-block";
+
+      if (playerScore > aiScore) safePlay(winSound);
+      else if (playerScore < aiScore) safePlay(loseSound);
+      else safePlay(drawSound);
     }
 
-    homeBtn.addEventListener('click',()=>location.href="index.html");
-    document.getElementById('backBtn').addEventListener('click',()=>location.href="index.html");
+    homeBtn.addEventListener('click', () => {
+      safePlay(clickSound);
+      location.href = "index.html";
+    });
 
-    if(QUESTIONS.length>0) loadQuestion();
+    backBtn.addEventListener('click', () => {
+      safePlay(clickSound);
+      location.href = "index.html";
+    });
+
+    if (QUESTIONS.length > 0) loadQuestion();
+
+     // ✅ Music auto play if already ON
+    if (localStorage.getItem("musicPlaying") === "true") {
+      bgMusic.volume = 0.4;
+      bgMusic.play().catch(()=>{});
+    }
   </script>
 </body>
 </html>
+
