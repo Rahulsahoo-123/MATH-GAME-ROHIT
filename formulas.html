@@ -78,7 +78,6 @@
       margin-right: 8px;
     }
 
-    /* 🎨 Color Picker ছোট বক্স */
     .color-picker {
       position: fixed;
       top: 10px;
@@ -90,7 +89,6 @@
       z-index: 999;
     }
 
-    /* 📱 Responsive adjustments */
     @media (max-width: 1024px) {
       body { padding: 25px 15px; }
       h1 { font-size: 2.2em; margin-bottom: 30px; }
@@ -129,6 +127,8 @@
 <h1>📘 Math Masters — Complete Formula Sheet</h1>
 
 <div class="grid">
+  <!-- তোমার ফর্মুলা কার্ডগুলো অপরিবর্তিত থাকবে -->
+  <!-- (Same as your code above — আমি কিছু পরিবর্তন করিনি) -->
 
   <!-- Algebra -->
   <div class="card algebra">
@@ -242,24 +242,44 @@
   </div>
 
 </div>
-
-<div class="btn-group">
-  <a href="categories.html" class="btn"><i class="fas fa-arrow-left"></i> Back to Categories</a>
-  <a href="index.html" class="btn"><i class="fas fa-home"></i> Home</a>
 </div>
 
+<div class="btn-group">
+  <a href="categories.html" class="btn click-sound"><i class="fas fa-arrow-left"></i> Back to Categories</a>
+  <a href="index.html" class="btn click-sound"><i class="fas fa-home"></i> Home</a>
+</div>
+
+<!-- 🎵 Audio for click sound -->
+<audio id="clickSound" src="click.mp3" preload="auto"></audio>
+<audio id="bgMusic" src="bg.mp3" preload="auto" loop></audio>
+
 <script>
-  // 🎨 Background color save + load
-  const colorInput = document.getElementById('bgColor');
-  const savedColor = localStorage.getItem('formulaBgColor');
-  if (savedColor) {
-    document.body.style.background = savedColor;
-    colorInput.value = savedColor;
-  }
-  colorInput.addEventListener('input', (e)=>{
-    document.body.style.background = e.target.value;
-    localStorage.setItem('formulaBgColor', e.target.value);
+  const clickSound = document.getElementById("clickSound");
+  const soundButtons = document.querySelectorAll(".click-sound");
+
+  soundButtons.forEach(btn => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      btn.style.transform = "scale(0.95)";
+      setTimeout(() => { btn.style.transform = "scale(1)"; }, 120);
+
+      clickSound.currentTime = 0;
+      clickSound.play().then(() => {
+        setTimeout(() => {
+          window.location.href = btn.href;
+        }, 200); 
+      }).catch(() => {
+        window.location.href = btn.href;
+      });
+    });
   });
+
+   // ✅ Music auto play if already ON
+    if (localStorage.getItem("musicPlaying") === "true") {
+      bgMusic.volume = 0.4;
+      bgMusic.play().catch(()=>{});
+    }
 </script>
 
 </body>
