@@ -1,174 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Math Masters</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body, html {
-      height: 100%;
-      font-family: "Segoe UI", Arial, sans-serif;
-      overflow: hidden;
-    }
+<meta charset="UTF-8">
+<title>Math Masters</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;font-family:"Comic Sans MS",Arial,sans-serif;overflow:hidden;background:linear-gradient(135deg,#fdfd96,#ffb347);cursor:none;}
 
-    /* Background Image */
-    #home-screen {
-      background: url('r.webp') no-repeat center center/cover;
-      width: 100%;
-      height: 100%;
-      position: relative;
-      text-align: center;
-      color: white;
-    }
+#home-screen{width:100%;height:100%;position:relative;text-align:center;color:white;}
 
-    /* Logo */
-    .logo {
-      font-size: 50px;
-      font-weight: bold;
-      padding-top: 70px;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-    }
+/* Logo */
+.logo{
+  font-size:60px;font-weight:bold;padding-top:80px;color:#fff;
+  text-shadow:0 0 10px #ffeb3b,0 0 20px #ffd700;
+  animation:logoBounce 2s ease-in-out infinite alternate;
+  position:relative;
+}
+@keyframes logoBounce{0%{transform:translateY(0);}100%{transform:translateY(-15px);}}
 
-    /* Start + Extra Buttons */
-    .btn-container {
-      margin-top: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
+/* Cartoon Buttons */
+.btn-container{margin-top:50px;display:flex;flex-direction:column;align-items:center;gap:25px;}
+.game-btn{
+  padding:18px 70px;font-size:24px;font-weight:bold;color:#fff;border:none;border-radius:20px;cursor:pointer;
+  background:linear-gradient(135deg,#ff6f61,#ffcc5c);
+  box-shadow:0 6px 0 #d94f3d,0 10px 20px rgba(0,0,0,0.3);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.5s;
+}
+.game-btn:hover{
+  transform:translateY(-7px) scale(1.1);
+  box-shadow:0 10px 0 #d94f3d,0 14px 25px rgba(0,0,0,0.4);
+  background:linear-gradient(135deg,#ffcc5c,#ff6f61);
+}
+.game-btn:active{
+  transform:translateY(3px);
+  box-shadow:0 3px 0 #d94f3d,0 6px 12px rgba(0,0,0,0.2);
+}
 
-    .game-btn {
-      padding: 16px 60px;
-      font-size: 22px;
-      font-weight: bold;
-      color: #fff;
-      background: linear-gradient(90deg, #0b4f52, #012948);
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      animation: glow 1.5s infinite alternate;
-      transition: transform 0.2s;
-    }
-    .game-btn:hover { transform: scale(1.05); }
+/* Bottom Nav */
+.bottom-nav{position:absolute;bottom:0;width:100%;display:flex;justify-content:space-around;background: rgba(0,0,0,0.3);padding:15px 0;border-top:2px solid rgba(255,255,255,0.3);}
+.nav-btn{flex:1;border:none;background:transparent;color:white;font-size:18px;cursor:pointer;transition:0.3s;}
+.nav-btn:hover{color:#ffeb3b;}
 
-    @keyframes glow {
-      from { box-shadow: 0 0 10px #9ca0ec, 0 0 20px #066476; }
-      to   { box-shadow: 0 0 25px #cfd6ec, 0 0 40px #3c0ce7; }
-    }
+/* Floating Shapes */
+.shape{position:absolute;border-radius:50%;opacity:0.6;animation:floatShape linear infinite;}
+@keyframes floatShape{0%{transform:translateY(100vh) scale(0.5);opacity:0;}50%{opacity:0.7;}100%{transform:translateY(-10vh) scale(1);opacity:0;}}
 
-    /* Bottom Navigation */
-    .bottom-nav {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-around;
-      background: rgba(0,0,0,0.6);
-      padding: 15px 0;
-    }
+/* Floating Math Symbols */
+.math-symbol{position:absolute;font-size:32px;color:rgba(255,255,255,0.7);animation:floatSymbol 12s linear infinite;}
+@keyframes floatSymbol{0%{transform:translateY(100vh) rotate(0deg);opacity:0;}50%{opacity:1;}100%{transform:translateY(-50vh) rotate(360deg);opacity:0;}}
 
-    .nav-btn {
-      flex: 1;
-      border: none;
-      background: transparent;
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .nav-btn:hover { color: #ffeb3b; }
+/* Sparkles */
+.sparkle{position:absolute;width:4px;height:4px;background:#fff;border-radius:50%;opacity:0.8;animation:sparkleMove linear infinite;}
+@keyframes sparkleMove{0%{transform:translateY(100vh);opacity:0;}50%{opacity:1;}100%{transform:translateY(-10vh);opacity:0;}}
 
-    /* Profile Button (top-right corner) */
-    .profile-btn {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: rgba(0,0,0,0.5);
-      color: white;
-      border: none;
-      font-size: 18px;
-      padding: 8px 15px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .profile-btn:hover { background: rgba(255,255,255,0.3); }
+/* Welcome Popup */
+#welcomePopup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;justify-content:center;align-items:center;z-index:1000;}
+.popup-box{background:#fffbcc;color:#333;text-align:center;padding:30px;border-radius:20px;box-shadow:0 5px 20px rgba(0,0,0,0.3);max-width:400px;width:90%;animation:fadeIn 0.3s ease-in-out;}
+.popup-btn{background:#ff6f61;color:white;border:none;padding:12px 25px;margin-top:20px;font-size:18px;border-radius:12px;cursor:pointer;}
+@keyframes fadeIn{from{opacity:0;transform:scale(0.9);}to{opacity:1;transform:scale(1);}}
 
-    /* ----------------- Responsive ----------------- */
-    @media (max-width: 768px) {
-      .logo { font-size: 35px; padding-top: 50px; }
-      .game-btn { padding: 14px 50px; font-size: 20px; }
-    }
-
-    @media (max-width: 480px) {
-      .logo { font-size: 28px; padding-top: 40px; }
-      .game-btn { padding: 12px 40px; font-size: 18px; }
-      .nav-btn { font-size: 12px; }
-    }
-  </style>
+/* Cursor Sparkles */
+.cursor-sparkle{position:absolute;width:6px;height:6px;background:yellow;border-radius:50%;pointer-events:none;opacity:0.9;animation:fade 0.5s forwards;}
+@keyframes fade{0%{opacity:1;}100%{opacity:0;transform:scale(2);}}
+</style>
 </head>
 <body>
-  <div id="home-screen">
-    <!-- ✅ Profile Button -->
+<div id="home-screen">
+  <div class="logo">✨ Math Masters ✨</div>
 
-
-    <div class="logo">✨ Math Masters ✨</div>
-
-    <div class="btn-container">
-      <button id="start-btn" class="game-btn">Start Game</button>
-      
-      <button id="ai-btn" class="game-btn">Play with AI</button>
-    </div>
-
-    <div class="bottom-nav">
-      <button class="nav-btn" data-link="index.html">🏠 Home</button>
-      <button class="nav-btn" data-link="formulas.html">📘 Formulas</button>
-      <button class="nav-btn" data-link="howto.html">🎮 How to Play</button>
-    </div>
+  <div class="btn-container">
+    <button id="start-btn" class="game-btn">Start Game</button>
+    <button id="ai-btn" class="game-btn">Play with AI</button>
   </div>
 
-  <!-- ✅ Sound Effects -->
-  <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+  <div class="bottom-nav">
+    <button class="nav-btn" data-link="index.html">🏠 Home</button>
+    <button class="nav-btn" data-link="formulas.html">📘 Formulas</button>
+    <button class="nav-btn" data-link="howto.html">🎮 How to Play</button>
+  </div>
 
-  <script>
-    const clickSound = document.getElementById('clickSound');
-    function safePlay(audio){
-      try{
-        if(!audio) return;
-        audio.currentTime = 0;
-        audio.play().catch(()=>{});
-      }catch(e){}
-    }
+  <!-- Floating Shapes -->
+  <div class="shape" style="width:60px;height:60px;left:10%;background:#ff6f61;animation-duration:16s;"></div>
+  <div class="shape" style="width:40px;height:40px;left:35%;background:#ffcc5c;animation-duration:12s;"></div>
+  <div class="shape" style="width:50px;height:50px;left:60%;background:#ff6f61;animation-duration:18s;"></div>
+  <div class="shape" style="width:35px;height:35px;left:80%;background:#ffcc5c;animation-duration:14s;"></div>
 
-    // ✅ Profile Button now opens profile.html
-  
+  <!-- Floating Math Symbols -->
+  <div class="math-symbol" style="left:15%;">+</div>
+  <div class="math-symbol" style="left:30%;">-</div>
+  <div class="math-symbol" style="left:50%;">×</div>
+  <div class="math-symbol" style="left:70%;">÷</div>
+  <div class="math-symbol" style="left:85%;">+</div>
 
-    // Start button
-    document.getElementById('start-btn').addEventListener('click', ()=>{
-      safePlay(clickSound);
-      setTimeout(()=> location.href='categories.html', 200); 
-    });
+  <!-- Sparkles -->
+  <div class="sparkle" style="left:20%;animation-duration:10s;"></div>
+  <div class="sparkle" style="left:45%;animation-duration:14s;"></div>
+  <div class="sparkle" style="left:65%;animation-duration:12s;"></div>
+  <div class="sparkle" style="left:90%;animation-duration:16s;"></div>
+</div>
 
-    // Friend Button
-    
+<!-- Welcome Popup -->
+<div id="welcomePopup">
+  <div class="popup-box">
+    <h2>🎮 Welcome to Math Masters</h2>
+    <p>Sharpen your mind & have fun solving math quizzes!</p>
+    <button class="popup-btn" id="popupOk">OK, Let's Go!</button>
+  </div>
+</div>
 
-    // AI Button
-   // AI Button
-document.getElementById('ai-btn').addEventListener('click', ()=>{
-  safePlay(clickSound);
-  setTimeout(()=> location.href='ai.html', 200); 
+<!-- Audio -->
+<audio id="bgMusic" src="bg.mp3" preload="auto" loop></audio>
+<audio id="clickSound" src="click.mp3" preload="auto"></audio>
+
+<script>
+const popup=document.getElementById('welcomePopup');
+const okBtn=document.getElementById('popupOk');
+const bgMusic=document.getElementById('bgMusic');
+const clickSound=document.getElementById('clickSound');
+
+function safePlay(audio){try{audio.currentTime=0;audio.play().catch(()=>{});}catch(e){}}
+
+if(localStorage.getItem("welcomeShown")==="true"){popup.style.display="none";}
+if(localStorage.getItem("musicPlaying")==="true"){bgMusic.volume=0.4;bgMusic.play().catch(()=>{});}
+
+okBtn.addEventListener("click",()=>{
+  popup.style.display="none";
+  localStorage.setItem("welcomeShown","true");
+  bgMusic.volume=0.4;bgMusic.play().catch(()=>{});
+  localStorage.setItem("musicPlaying","true");
 });
 
+document.getElementById('start-btn').addEventListener('click',()=>{
+  safePlay(clickSound);
+  setTimeout(()=>location.href='categories.html',200);
+});
+document.getElementById('ai-btn').addEventListener('click',()=>{
+  safePlay(clickSound);
+  setTimeout(()=>location.href='ai.html',200);
+});
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    safePlay(clickSound);
+    setTimeout(()=>location.href=btn.dataset.link,200);
+  });
+});
 
-    // Bottom nav
-    document.querySelectorAll('.nav-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        safePlay(clickSound);
-        setTimeout(()=> location.href = btn.dataset.link, 200);
-      });
-    });
-  </script>
+// Cursor Sparkles
+document.addEventListener('mousemove', e=>{
+  const sparkle=document.createElement('div');
+  sparkle.className='cursor-sparkle';
+  sparkle.style.left=e.pageX+'px';
+  sparkle.style.top=e.pageY+'px';
+  document.body.appendChild(sparkle);
+  setTimeout(()=>sparkle.remove(),500);
+});
+</script>
 </body>
 </html>
+
