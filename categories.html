@@ -1,13 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Math Masters — Categories</title>
-<link rel="stylesheet" href="style.css" />
 <style>
-  /* 🔥 Background */
+  /* 🔥 Body Background & Layout */
   body {
     background: #f13fc7;
     margin: 0;
@@ -15,11 +13,12 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    cursor:none; /* for cursor sparkles */
-    overflow: hidden;
+    cursor: none;
+    overflow-x: hidden;
+    font-family: "Comic Sans MS", cursive, sans-serif;
   }
 
-  /* 🎨 Color Picker box */
+  /* 🎨 Color Picker */
   .color-picker {
     position: fixed;
     top: 10px;
@@ -31,117 +30,184 @@
     z-index: 999;
   }
 
-  /* Container */
-  .container {
-    background: rgba(217, 254, 12, 0.85);
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
-    margin-top: 30px;
-    max-width: 1700px;
-    width: 95%;
-    box-sizing: border-box;
-    position: relative;
-    z-index: 2;
-  }
-
   /* Header */
-  .header { 
-    width: 100%;
-    max-width: 1450px;
-    display:flex;
+  .header {
+    max-width: 1200px;
+    width: 90%;
+    margin: 80px auto 20px auto;
+    background: rgba(104, 244, 69, 0.9);
+    border-radius: 16px;
+    padding: 15px 20px;
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    margin-top: 100px;
-    background: rgba(104, 244, 69, 0.9);
-    border-radius: 12px;
-    padding: 10px 40px;
     flex-wrap: wrap;
+    z-index: 2;
+    position: relative;
   }
 
   .logo {
-    font-size: 32px;
+    font-size: 34px;
     font-weight: bold;
-    margin-bottom: 10px;
-    animation:logoBounce 2s ease-in-out infinite alternate;
+    animation: logoBounce 2s ease-in-out infinite alternate;
+  }
+  @keyframes logoBounce {
+    0% {transform: translateY(0);}
+    100% {transform: translateY(-10px);}
   }
 
-  @keyframes logoBounce{0%{transform:translateY(0);}100%{transform:translateY(-10px);}}
-
   .btn.secondary {
-    margin: 2px;
-    padding: 2px 5px;
+    margin: 5px;
+    padding: 8px 16px;
     border: none;
     border-radius: 20px;
     background: #4b4802;
-    color: rgb(74, 245, 52);
+    color: #4af534;
     cursor: pointer;
     font-size: 16px;
     transition: transform 0.2s, background 0.3s;
   }
-  .btn.secondary:hover{transform:scale(1.1);background:#6b5c0f;}
+  .btn.secondary:hover {
+    transform: scale(1.1);
+    background: #6b5c0f;
+  }
 
+  /* Main Category Box */
+  .container {
+    max-width: 1200px;
+    width: 90%;
+    margin: 10px auto 40px auto;
+    background: rgba(217, 254, 12, 0.85);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    z-index: 2;
+    position: relative;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Category Grid */
   .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
-    margin-top: 30px;
   }
 
   .card {
     background: rgba(149, 15, 15, 0.9);
     border-radius: 12px;
     padding: 20px;
+    text-align: center;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     transition: transform 0.2s, box-shadow 0.2s;
-    text-align: center;
-    position: relative;
   }
-  .card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  }
+  .card h3 {
+    margin: 10px 0;
+    font-size: 20px;
+  }
+  .card .small {
+    font-size: 14px;
+    color: #f0f0f0;
+  }
 
-  .card h3 { margin-bottom: 10px; }
-  .card .small { font-size: 14px; color: #333; }
+  /* Floating Shapes & Math Symbols */
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: floatShape linear infinite;
+    z-index: 1;
+  }
+  @keyframes floatShape {
+    0% {transform: translateY(100vh) scale(0.5);opacity:0;}
+    50% {opacity:0.7;}
+    100% {transform: translateY(-10vh) scale(1);opacity:0;}
+  }
 
-  /* Floating Shapes */
-  .shape{position:absolute;border-radius:50%;opacity:0.6;animation:floatShape linear infinite; z-index:1;}
-  @keyframes floatShape{0%{transform:translateY(100vh) scale(0.5);opacity:0;}50%{opacity:0.7;}100%{transform:translateY(-10vh) scale(1);opacity:0;}}
-
-  /* Floating Math Symbols */
-  .math-symbol{position:absolute;font-size:32px;color:rgba(255,255,255,0.7);animation:floatSymbol 12s linear infinite; z-index:1;}
-  @keyframes floatSymbol{0%{transform:translateY(100vh) rotate(0deg);opacity:0;}50%{opacity:1;}100%{transform:translateY(-50vh) rotate(360deg);opacity:0;}}
+  .math-symbol {
+    position: absolute;
+    font-size: 32px;
+    color: rgba(255,255,255,0.7);
+    animation: floatSymbol 12s linear infinite;
+    z-index: 1;
+  }
+  @keyframes floatSymbol {
+    0% {transform:translateY(100vh) rotate(0deg);opacity:0;}
+    50% {opacity:1;}
+    100% {transform:translateY(-50vh) rotate(360deg);opacity:0;}
+  }
 
   /* Sparkles */
-  .sparkle{position:absolute;width:4px;height:4px;background:#fff;border-radius:50%;opacity:0.8;animation:sparkleMove linear infinite; z-index:1;}
-  @keyframes sparkleMove{0%{transform:translateY(100vh);opacity:0;}50%{opacity:1;}100%{transform:translateY(-10vh);opacity:0;}}
+  .sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: sparkleMove linear infinite;
+    z-index: 1;
+  }
+  @keyframes sparkleMove {
+    0% {transform: translateY(100vh);opacity:0;}
+    50% {opacity:1;}
+    100% {transform: translateY(-10vh);opacity:0;}
+  }
 
   /* Cursor Sparkles */
-  .cursor-sparkle{position:absolute;width:6px;height:6px;background:yellow;border-radius:50%;pointer-events:none;opacity:0.9;animation:fade 0.5s forwards;}
-  @keyframes fade{0%{opacity:1;}100%{opacity:0;transform:scale(2);}}
+  .cursor-sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: yellow;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.9;
+    animation: fade 0.5s forwards;
+  }
+  @keyframes fade {
+    0% {opacity:1;}
+    100% {opacity:0; transform:scale(2);}
+  }
 
-  /* ----------------- Responsive ----------------- */
-  @media (max-width: 1200px){.grid {grid-template-columns: repeat(2, 1fr);}}
-  @media (max-width: 768px){.grid {grid-template-columns: 1fr;}}
+  /* Responsive Tweaks */
+  @media (max-width: 600px) {
+    .logo { font-size: 26px; text-align: center; width: 100%; }
+    .header { flex-direction: column; align-items: center; text-align: center; }
+    .btn.secondary { font-size: 14px; padding: 6px 12px; }
+    .container { padding: 20px; }
+  }
 </style>
 </head>
 <body>
+
   <!-- 🎨 Color Picker -->
   <div class="color-picker">
-    <input type="color" id="bgColor" value="#f8fbff">
+    <input type="color" id="bgColor" value="#f13fc7">
   </div>
 
-  <div class="container header">
+  <!-- Header -->
+  <div class="header">
     <div class="logo">Math Masters</div>
     <div>
       <button class="btn secondary" data-link="formulas.html">FORMULAS</button>
       <button class="btn secondary" data-link="index.html">Home</button>
       <button class="btn secondary" data-link="test.html">Test</button>
     </div>
-  </div> 
+  </div>
 
+  <!-- Main Content -->
   <div class="container">
-    <h2 style="text-align:center;">Choose a Category</h2>
+    <h2>Choose a Category</h2>
     <div class="grid">
       <div class="card" data-link="algebra.html"><h3>Algebra</h3><div class="small">Equations, expansion, factoring</div></div>
       <div class="card" data-link="fractions.html"><h3>Fractions</h3><div class="small">Add/Sub/Mul/Div fractions</div></div>
@@ -156,18 +222,19 @@
   <audio id="clickSound" src="click.mp3" preload="auto"></audio>
   <audio id="bgMusic" src="bg.mp3" preload="auto" loop></audio>
 
-  <!-- Floating Shapes & Symbols -->
+  <!-- Floating Shapes -->
   <div class="shape" style="width:50px;height:50px;left:10%;background:#ff6f61;animation-duration:16s;"></div>
   <div class="shape" style="width:40px;height:40px;left:35%;background:#ffcc5c;animation-duration:12s;"></div>
   <div class="shape" style="width:50px;height:50px;left:60%;background:#ff6f61;animation-duration:18s;"></div>
   <div class="shape" style="width:35px;height:35px;left:80%;background:#ffcc5c;animation-duration:14s;"></div>
 
+  <!-- Floating Symbols -->
   <div class="math-symbol" style="left:15%;">+</div>
   <div class="math-symbol" style="left:30%;">-</div>
   <div class="math-symbol" style="left:50%;">×</div>
   <div class="math-symbol" style="left:70%;">÷</div>
-  <div class="math-symbol" style="left:85%;">+</div>
 
+  <!-- Sparkles -->
   <div class="sparkle" style="left:20%;animation-duration:10s;"></div>
   <div class="sparkle" style="left:45%;animation-duration:14s;"></div>
   <div class="sparkle" style="left:65%;animation-duration:12s;"></div>
@@ -178,16 +245,27 @@
   const colorInput = document.getElementById('bgColor');
   const savedColor = localStorage.getItem('siteBgColor');
   if (savedColor) { document.body.style.background = savedColor; colorInput.value = savedColor; }
-  colorInput.addEventListener('input', (e)=>{ document.body.style.background = e.target.value; localStorage.setItem('siteBgColor', e.target.value); });
+  colorInput.addEventListener('input', e => {
+    document.body.style.background = e.target.value;
+    localStorage.setItem('siteBgColor', e.target.value);
+  });
 
-  // 🔊 Button Click Sound
+  // Button Click Sound + Redirect
   const clickSound = document.getElementById('clickSound');
-  function safePlay(audio){try{if(!audio) return; audio.currentTime=0; audio.play().catch(()=>{});}catch(e){}}
-  document.querySelectorAll('[data-link]').forEach(el=>{el.addEventListener('click', ()=>{safePlay(clickSound); setTimeout(()=> location.href = el.dataset.link, 200); });});
+  function safePlay(audio){try{audio.currentTime=0;audio.play().catch(()=>{});}catch(e){}}
+  document.querySelectorAll('[data-link]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      safePlay(clickSound);
+      setTimeout(()=> location.href = el.dataset.link, 200);
+    });
+  });
 
-  // 🎵 Background Music Auto Play
+  // Background Music
   const bgMusic = document.getElementById("bgMusic");
-  if(localStorage.getItem("musicPlaying")==="true"){bgMusic.volume=0.4; bgMusic.play().catch(()=>{});}
+  if(localStorage.getItem("musicPlaying")==="true"){
+    bgMusic.volume=0.4; 
+    bgMusic.play().catch(()=>{});
+  }
 
   // Cursor Sparkles
   document.addEventListener('mousemove', e=>{
