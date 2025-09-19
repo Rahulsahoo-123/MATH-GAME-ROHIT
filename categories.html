@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,13 +9,14 @@
 <style>
   /* 🔥 Background */
   body {
-    background: #f8fbff; /* default color */
+    background: #f13fc7;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* ❌ vertical center সরানো হলো */
+    cursor:none; /* for cursor sparkles */
+    overflow: hidden;
   }
 
   /* 🎨 Color Picker box */
@@ -39,17 +41,19 @@
     max-width: 1700px;
     width: 95%;
     box-sizing: border-box;
+    position: relative;
+    z-index: 2;
   }
 
   /* Header */
   .header { 
-    width: 95%;
-    max-width: 1150px;
+    width: 100%;
+    max-width: 1450px;
     display:flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    margin-top: 100px; /* Default large gap */
+    margin-top: 100px;
     background: rgba(104, 244, 69, 0.9);
     border-radius: 12px;
     padding: 10px 40px;
@@ -60,7 +64,10 @@
     font-size: 32px;
     font-weight: bold;
     margin-bottom: 10px;
+    animation:logoBounce 2s ease-in-out infinite alternate;
   }
+
+  @keyframes logoBounce{0%{transform:translateY(0);}100%{transform:translateY(-10px);}}
 
   .btn.secondary {
     margin: 2px;
@@ -71,7 +78,9 @@
     color: rgb(74, 245, 52);
     cursor: pointer;
     font-size: 16px;
+    transition: transform 0.2s, background 0.3s;
   }
+  .btn.secondary:hover{transform:scale(1.1);background:#6b5c0f;}
 
   .grid {
     display: grid;
@@ -88,61 +97,35 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     transition: transform 0.2s, box-shadow 0.2s;
     text-align: center;
+    position: relative;
   }
+  .card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
 
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-  }
+  .card h3 { margin-bottom: 10px; }
+  .card .small { font-size: 14px; color: #333; }
 
-  .card h3 {
-    margin-bottom: 10px;
-  }
+  /* Floating Shapes */
+  .shape{position:absolute;border-radius:50%;opacity:0.6;animation:floatShape linear infinite; z-index:1;}
+  @keyframes floatShape{0%{transform:translateY(100vh) scale(0.5);opacity:0;}50%{opacity:0.7;}100%{transform:translateY(-10vh) scale(1);opacity:0;}}
 
-  .card .small {
-    font-size: 14px;
-    color: #333;
-  }
+  /* Floating Math Symbols */
+  .math-symbol{position:absolute;font-size:32px;color:rgba(255,255,255,0.7);animation:floatSymbol 12s linear infinite; z-index:1;}
+  @keyframes floatSymbol{0%{transform:translateY(100vh) rotate(0deg);opacity:0;}50%{opacity:1;}100%{transform:translateY(-50vh) rotate(360deg);opacity:0;}}
+
+  /* Sparkles */
+  .sparkle{position:absolute;width:4px;height:4px;background:#fff;border-radius:50%;opacity:0.8;animation:sparkleMove linear infinite; z-index:1;}
+  @keyframes sparkleMove{0%{transform:translateY(100vh);opacity:0;}50%{opacity:1;}100%{transform:translateY(-10vh);opacity:0;}}
+
+  /* Cursor Sparkles */
+  .cursor-sparkle{position:absolute;width:6px;height:6px;background:yellow;border-radius:50%;pointer-events:none;opacity:0.9;animation:fade 0.5s forwards;}
+  @keyframes fade{0%{opacity:1;}100%{opacity:0;transform:scale(2);}}
 
   /* ----------------- Responsive ----------------- */
-  @media (max-width: 1200px) {
-    .container { padding: 80px; }
-    .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-    .logo { font-size: 28px; }
-    .btn.secondary { font-size: 15px; padding: 8px 18px; }
-    .header { margin-top: 80px; }
-  }
-
-  @media (max-width: 992px) {
-    .container { padding: 60px; }
-    .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-    .logo { font-size: 26px; }
-    .btn.secondary { font-size: 14px; padding: 7px 15px; }
-    .header { margin-top: 60px; }
-  }
-
-  @media (max-width: 768px) {
-    .container { padding: 40px; }
-    .grid { grid-template-columns: 1fr; gap: 12px; }
-    .logo { font-size: 24px; text-align: center; }
-    .btn.secondary { font-size: 13px; padding: 6px 12px; width: 100%; }
-    .header { 
-      flex-direction: column;
-      align-items: center;
-      margin-top: 40px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .container { padding: 30px; }
-    .logo { font-size: 20px; }
-    .btn.secondary { font-size: 12px; padding: 5px 10px; }
-    .header { margin-top: 30px; }
-  }
+  @media (max-width: 1200px){.grid {grid-template-columns: repeat(2, 1fr);}}
+  @media (max-width: 768px){.grid {grid-template-columns: 1fr;}}
 </style>
 </head>
 <body>
-
   <!-- 🎨 Color Picker -->
   <div class="color-picker">
     <input type="color" id="bgColor" value="#f8fbff">
@@ -151,41 +134,70 @@
   <div class="container header">
     <div class="logo">Math Masters</div>
     <div>
-      <button class="btn secondary" onclick="location.href='formulas.html'">FORMULAS</button>
-      <button class="btn secondary" onclick="location.href='index.html'">HOME</button>
-      <button class="btn secondary" onclick="location.href='test.html'">TEST</button>
+      <button class="btn secondary" data-link="formulas.html">FORMULAS</button>
+      <button class="btn secondary" data-link="index.html">Home</button>
+      <button class="btn secondary" data-link="test.html">Test</button>
     </div>
   </div> 
 
   <div class="container">
     <h2 style="text-align:center;">Choose a Category</h2>
     <div class="grid">
-      <div class="card" onclick="location.href='algebra.html'"><h3>Algebra</h3><div class="small">Equations, expansion, factoring</div></div>
-      <div class="card" onclick="location.href='fractions.html'"><h3>Fractions</h3><div class="small">Add/Sub/Mul/Div fractions</div></div>
-      <div class="card" onclick="location.href='percentage.html'"><h3>Percentage</h3><div class="small">Percent problems</div></div>
-      <div class="card" onclick="location.href='bodmas.html'"><h3>BODMAS</h3><div class="small">Order of operations</div></div>
-      <div class="card" onclick="location.href='arithmetic.html'"><h3>Arithmetic</h3><div class="small">Basics & mental math</div></div>
-      <div class="card" onclick="location.href='geometry.html'"><h3>Geometry</h3><div class="small">Area, perimeter, volume</div></div>
+      <div class="card" data-link="algebra.html"><h3>Algebra</h3><div class="small">Equations, expansion, factoring</div></div>
+      <div class="card" data-link="fractions.html"><h3>Fractions</h3><div class="small">Add/Sub/Mul/Div fractions</div></div>
+      <div class="card" data-link="percentage.html"><h3>Percentage</h3><div class="small">Percent problems</div></div>
+      <div class="card" data-link="bodmas.html"><h3>BODMAS</h3><div class="small">Order of operations</div></div>
+      <div class="card" data-link="arithmetic.html"><h3>Arithmetic</h3><div class="small">Basics & mental math</div></div>
+      <div class="card" data-link="geometry.html"><h3>Geometry</h3><div class="small">Area, perimeter, volume</div></div>
     </div>
   </div>
 
+  <!-- ✅ Click Sound + Background Music -->
+  <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+  <audio id="bgMusic" src="bg.mp3" preload="auto" loop></audio>
+
+  <!-- Floating Shapes & Symbols -->
+  <div class="shape" style="width:50px;height:50px;left:10%;background:#ff6f61;animation-duration:16s;"></div>
+  <div class="shape" style="width:40px;height:40px;left:35%;background:#ffcc5c;animation-duration:12s;"></div>
+  <div class="shape" style="width:50px;height:50px;left:60%;background:#ff6f61;animation-duration:18s;"></div>
+  <div class="shape" style="width:35px;height:35px;left:80%;background:#ffcc5c;animation-duration:14s;"></div>
+
+  <div class="math-symbol" style="left:15%;">+</div>
+  <div class="math-symbol" style="left:30%;">-</div>
+  <div class="math-symbol" style="left:50%;">×</div>
+  <div class="math-symbol" style="left:70%;">÷</div>
+  <div class="math-symbol" style="left:85%;">+</div>
+
+  <div class="sparkle" style="left:20%;animation-duration:10s;"></div>
+  <div class="sparkle" style="left:45%;animation-duration:14s;"></div>
+  <div class="sparkle" style="left:65%;animation-duration:12s;"></div>
+  <div class="sparkle" style="left:90%;animation-duration:16s;"></div>
+
 <script>
-  // 🎨 Color Picker with LocalStorage support
+  // 🎨 Color Picker with LocalStorage
   const colorInput = document.getElementById('bgColor');
   const savedColor = localStorage.getItem('siteBgColor');
-  if (savedColor) {
-    document.body.style.background = savedColor;
-    colorInput.value = savedColor;
-  }
-  colorInput.addEventListener('input', (e)=>{
-    document.body.style.background = e.target.value;
-    localStorage.setItem('siteBgColor', e.target.value);
+  if (savedColor) { document.body.style.background = savedColor; colorInput.value = savedColor; }
+  colorInput.addEventListener('input', (e)=>{ document.body.style.background = e.target.value; localStorage.setItem('siteBgColor', e.target.value); });
+
+  // 🔊 Button Click Sound
+  const clickSound = document.getElementById('clickSound');
+  function safePlay(audio){try{if(!audio) return; audio.currentTime=0; audio.play().catch(()=>{});}catch(e){}}
+  document.querySelectorAll('[data-link]').forEach(el=>{el.addEventListener('click', ()=>{safePlay(clickSound); setTimeout(()=> location.href = el.dataset.link, 200); });});
+
+  // 🎵 Background Music Auto Play
+  const bgMusic = document.getElementById("bgMusic");
+  if(localStorage.getItem("musicPlaying")==="true"){bgMusic.volume=0.4; bgMusic.play().catch(()=>{});}
+
+  // Cursor Sparkles
+  document.addEventListener('mousemove', e=>{
+    const sparkle=document.createElement('div');
+    sparkle.className='cursor-sparkle';
+    sparkle.style.left=e.pageX+'px';
+    sparkle.style.top=e.pageY+'px';
+    document.body.appendChild(sparkle);
+    setTimeout(()=>sparkle.remove(),500);
   });
 </script>
-
 </body>
 </html>
-
-
-
-
