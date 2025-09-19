@@ -147,6 +147,8 @@
 
 <audio id="correctSound" src="correct.mp3" preload="auto"></audio>
 <audio id="wrongSound" src="wrong.mp3" preload="auto"></audio>
+  <audio id="bgMusic" src="bg.mp3" preload="auto" loop></audio>
+
 
 <script>
 const quizData = [ /* Paste your Fractions questions array here */
@@ -291,6 +293,11 @@ function goBack() {
 }
 
 loadQuestion();
+ // ✅ Music auto play if already ON
+    if (localStorage.getItem("musicPlaying") === "true") {
+      bgMusic.volume = 0.4;
+      bgMusic.play().catch(()=>{});
+    }
 </script>
 
 </body>
