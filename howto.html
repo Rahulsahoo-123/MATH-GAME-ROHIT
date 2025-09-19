@@ -67,7 +67,7 @@
       color: #fff;
       cursor: pointer;
       font-size: 16px;
-      transition: background .2s;
+      transition: background .2s, transform .1s;
     }
     .back-btn:hover {
       background: #1976d2;
@@ -148,7 +148,39 @@
       <div class="tip">💡 Don’t rush! Since there is no time limit, focus on understanding.</div>
     </section>
 
-    <button class="back-btn" onclick="location.href='index.html'">⬅ Back to Home</button>
+    <!-- 🔊 Button with sound -->
+    <button class="back-btn" id="backBtn">⬅ Back to Home</button>
   </main>
+
+  <!-- 🎵 Click sound -->
+  <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+  <audio id="bgMusic" src="bg.mp3" preload="auto" loop></audio>
+
+  <script>
+    const backBtn = document.getElementById("backBtn");
+    const clickSound = document.getElementById("clickSound");
+
+    backBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      backBtn.style.transform = "scale(0.95)";
+      setTimeout(() => backBtn.style.transform = "scale(1)", 120);
+
+      clickSound.currentTime = 0;
+      clickSound.play().then(() => {
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 200);
+      }).catch(() => {
+        window.location.href = "index.html";
+      });
+    });
+
+     // ✅ Music auto play if already ON
+    if (localStorage.getItem("musicPlaying") === "true") {
+      bgMusic.volume = 0.4;
+      bgMusic.play().catch(()=>{});
+    }
+  </script>
 </body>
 </html>
+
