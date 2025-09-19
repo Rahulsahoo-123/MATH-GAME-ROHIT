@@ -6,6 +6,9 @@
   const correctSound = document.getElementById('correctSound');
   const wrongSound = document.getElementById('wrongSound');
 
+  // ✅ New: Add general click sound
+  const clickSound = document.getElementById('correctSound'); // <audio id="clickSound">
+
   let currentIndex = 0;
   let answered = false;
 
@@ -24,8 +27,17 @@
     }
     if(qTitle) qTitle.innerText = PAGE_TITLE || "Quiz";
     renderQuestion();
-    nextBtn && nextBtn.addEventListener('click', nextQuestion);
-    backBtn && backBtn.addEventListener('click', ()=> location.href = 'categories.html');
+
+    // ✅ Button click sound for navigation buttons
+    nextBtn && nextBtn.addEventListener('click', ()=>{
+      safePlay(clickSound);
+      nextQuestion();
+    });
+
+    backBtn && backBtn.addEventListener('click', ()=>{
+      safePlay(clickSound);
+      location.href = 'categories.html';
+    });
   }
 
   function renderQuestion(){
@@ -40,7 +52,10 @@
       const b = document.createElement('button');
       b.className = 'opt-btn';
       b.innerText = opt;
-      b.addEventListener('click', ()=> selectAnswer(b, opt, q.a));
+      b.addEventListener('click', ()=>{
+        safePlay(clickSound);  // ✅ Every option click sound
+        selectAnswer(b, opt, q.a);
+      });
       optionsDiv.appendChild(b);
     });
   }
@@ -100,3 +115,4 @@
   // Expose init
   window.MM_QuizInit = init;
 })();
+
