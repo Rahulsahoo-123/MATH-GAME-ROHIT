@@ -11,15 +11,26 @@ html,body{height:100%;font-family:"Comic Sans MS",Arial,sans-serif;overflow:hidd
 
 /* Logo */
 .logo{
-  font-size:60px;font-weight:bold;padding-top:80px;color:#fff;
+  font-size:60px;font-weight:bold;padding-top:60px;color:#fff;
   text-shadow:0 0 10px #ffeb3b,0 0 20px #ffd700;
   animation:logoBounce 2s ease-in-out infinite alternate;
   position:relative;
 }
 @keyframes logoBounce{0%{transform:translateY(0);}100%{transform:translateY(-15px);}}
 
+/* Rank Display */
+#rankDisplay{
+  margin-top:20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  min-height:100px;
+}
+
 /* Cartoon Buttons */
-.btn-container{margin-top:50px;display:flex;flex-direction:column;align-items:center;gap:25px;}
+.btn-container{margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:25px;}
 .game-btn{
   padding:18px 70px;font-size:24px;font-weight:bold;color:#fff;border:none;border-radius:20px;cursor:pointer;
   background:linear-gradient(135deg,#ff6f61,#ffcc5c);
@@ -62,11 +73,22 @@ html,body{height:100%;font-family:"Comic Sans MS",Arial,sans-serif;overflow:hidd
 /* Cursor Sparkles */
 .cursor-sparkle{position:absolute;width:6px;height:6px;background:yellow;border-radius:50%;pointer-events:none;opacity:0.9;animation:fade 0.5s forwards;}
 @keyframes fade{0%{opacity:1;}100%{opacity:0;transform:scale(2);}}
+
+/* Responsive Tweaks */
+  @media (max-width: 600px) {
+    .logo { font-size: 26px; text-align: center; width: 100%; }
+    .header { flex-direction: column; align-items: center; text-align: center; }
+    .btn.secondary { font-size: 14px; padding: 6px 12px; }
+    .container { padding: 20px; }
+  }
 </style>
 </head>
 <body>
 <div id="home-screen">
   <div class="logo">✨ Math Masters ✨</div>
+
+  <!-- Rank Display -->
+  <div id="rankDisplay"></div>
 
   <div class="btn-container">
     <button id="start-btn" class="game-btn">Start Game</button>
@@ -144,6 +166,30 @@ document.querySelectorAll('.nav-btn').forEach(btn=>{
     setTimeout(()=>location.href=btn.dataset.link,200);
   });
 });
+
+// ✅ Show Rank on Home Page
+const rank = localStorage.getItem("playerRank");
+const rankDisplay = document.getElementById("rankDisplay");
+
+if(rank){
+  const imgPath={
+    bronze:"bronze.png",
+    silver:"silver.png",
+    gold:"gold.png",
+    platinum:"platinum.png",
+    diamond:"diamond.png",
+    heroic:"heroic.png",
+    grandmaster:"grandmaster.png"
+  };
+  rankDisplay.innerHTML=`
+    <img src="${imgPath[rank]}" alt="${rank}" style="width:80px;border-radius:50%;box-shadow:0 0 10px white;">
+    <p style="color:white;font-size:20px;font-weight:bold;text-shadow:1px 1px 3px black;">${rank.toUpperCase()}</p>
+  `;
+}else{
+  rankDisplay.innerHTML=`
+    <p style="color:white;font-size:18px;font-style:italic;opacity:0.8;">No Rank Yet – Play a quiz to unlock!</p>
+  `;
+}
 
 // Cursor Sparkles
 document.addEventListener('mousemove', e=>{
