@@ -69,49 +69,22 @@
       font-size: 16px;
       transition: background .2s, transform .1s;
     }
-    .back-btn:hover {
-      background: #1976d2;
-    }
+    .back-btn:hover { background: #1976d2; }
 
     /* Responsive styles */
     @media (max-width: 768px) {
-      main {
-        margin: 20px;
-        padding: 15px;
-      }
-      header h1 {
-        font-size: 24px;
-      }
-      section h2 {
-        font-size: 20px;
-      }
-      .back-btn {
-        width: 90%;
-        font-size: 15px;
-        padding: 10px 16px;
-      }
+      main { margin: 20px; padding: 15px; }
+      header h1 { font-size: 24px; }
+      section h2 { font-size: 20px; }
+      .back-btn { width: 90%; font-size: 15px; padding: 10px 16px; }
     }
     @media (max-width: 480px) {
-      header h1 {
-        font-size: 20px;
-      }
-      section {
-        padding: 15px;
-      }
-      section h2 {
-        font-size: 18px;
-      }
-      ul {
-        padding-left: 16px;
-      }
-      .tip {
-        padding: 10px;
-        font-size: 14px;
-      }
-      .back-btn {
-        font-size: 14px;
-        padding: 10px;
-      }
+      header h1 { font-size: 20px; }
+      section { padding: 15px; }
+      section h2 { font-size: 18px; }
+      ul { padding-left: 16px; }
+      .tip { padding: 10px; font-size: 14px; }
+      .back-btn { font-size: 14px; padding: 10px; }
     }
   </style>
 </head>
@@ -124,28 +97,30 @@
     <section>
       <h2>Game Objective</h2>
       <p>
-        Math Masters is a fun quiz-based learning game where you solve questions from different categories like <strong>Algebra, Arithmetic, Fractions, Geometry, Percentage, BODMAS</strong> etc. 
-        Your goal is to answer as many questions correctly as possible and improve your math skills while playing.
+        Math Masters is a fun quiz-based learning game. You can attempt <strong>50 questions per category</strong> like <strong>Algebra, Arithmetic, Fractions, Geometry, Percentage, BODMAS</strong>. 
+        Your goal is to answer correctly and improve your skills. Levels start from <strong>Bronze</strong> and go up to <strong>Grandmaster</strong>. Clear levels to unlock higher ranks, which will be shown on the homepage and test page.
       </p>
     </section>
 
     <section>
       <h2>Rules</h2>
       <ul>
-        <li>You can select any category from the home page.</li>
-        <li>Each category has a set of questions (10–20 questions per set).</li>
-        <li>If you answer correctly, the question number turns <span style="color:green;font-weight:bold;">green ✅</span>.</li>
-        <li>If you answer incorrectly, the question number turns <span style="color:red;font-weight:bold;">red ❌</span>.</li>
-        <li>You can go back and re-attempt questions that you already answered.</li>
-        <li>There is <strong>no time limit</strong> in category mode. You can practice at your own pace.</li>
+        <li>Select any category from the home page.</li>
+        <li>Each category has 50 questions.</li>
+        <li>Answer correctly → question marked <span style="color:green;font-weight:bold;">green ✅</span>, wrong → <span style="color:red;font-weight:bold;">red ❌</span>.</li>
+        <li>Levels: Bronze → Silver → Gold → Grandmaster. Rank updates based on your performance.</li>
+        <li>You can attempt AI mode: 10 random questions against AI. Your result shows <strong>Win / Draw / Lose</strong>.</li>
+        <li>You can revisit and re-attempt questions.</li>
+        <li>No time limit in category mode, practice at your own pace.</li>
       </ul>
     </section>
 
     <section>
       <h2>Tips & Tricks</h2>
-      <div class="tip">💡 Use the <strong>Formula Sheet</strong> to review important math formulas before playing.</div>
+      <div class="tip">💡 Use the <strong>Formula Sheet</strong> to review important formulas before playing.</div>
       <div class="tip">💡 Start with easier categories like Arithmetic & Percentage before moving to Algebra & Geometry.</div>
-      <div class="tip">💡 Don’t rush! Since there is no time limit, focus on understanding.</div>
+      <div class="tip">💡 Focus on understanding rather than rushing. AI mode helps practice random questions.</div>
+      <div class="tip">💡 Clearing levels consistently increases your rank and unlocks higher difficulty tests.</div>
     </section>
 
     <!-- 🔊 Button with sound -->
@@ -159,6 +134,7 @@
   <script>
     const backBtn = document.getElementById("backBtn");
     const clickSound = document.getElementById("clickSound");
+    const bgMusic = document.getElementById("bgMusic");
 
     backBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -167,20 +143,32 @@
 
       clickSound.currentTime = 0;
       clickSound.play().then(() => {
-        setTimeout(() => {
-          window.location.href = "index.html";
-        }, 200);
-      }).catch(() => {
-        window.location.href = "index.html";
-      });
+        setTimeout(() => { window.location.href = "index.html"; }, 200);
+      }).catch(() => { window.location.href = "index.html"; });
     });
 
-     // ✅ Music auto play if already ON
+    // ✅ Music auto play if already ON
     if (localStorage.getItem("musicPlaying") === "true") {
       bgMusic.volume = 0.4;
       bgMusic.play().catch(()=>{});
     }
+
+    // 🔹 AI vs Player simulation
+    function simulateAIMatch(playerScore, aiScore) {
+      if(playerScore > aiScore) return "Win";
+      else if(playerScore < aiScore) return "Lose";
+      else return "Draw";
+    }
+
+    // 🔹 Level calculation
+    function calculateLevel(scorePercent) {
+      if(scorePercent >= 90) return "Grandmaster";
+      else if(scorePercent >= 75) return "Gold";
+      else if(scorePercent >= 50) return "Silver";
+      else return "Bronze";
+    }
+
+
   </script>
 </body>
 </html>
-
