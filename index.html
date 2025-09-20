@@ -5,18 +5,7 @@
 <title>Math Masters</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{
-  min-height:100vh;
-  height:100%;
-  font-family:"Comic Sans MS",Arial,sans-serif;
-  overflow-x:hidden;
-  overflow-y:auto;
-  background:linear-gradient(135deg,#fdfd96,#ffb347);
-  cursor:none;
-}
-@media (min-height: 700px) {
-  body { overflow-y:hidden; } /* ✅ Desktop e scroll hide */
-}
+html,body{height:100%;font-family:"Comic Sans MS",Arial,sans-serif;overflow:hidden;background:linear-gradient(135deg,#fdfd96,#ffb347);cursor:none;}
 
 #home-screen{width:100%;height:100%;position:relative;text-align:center;color:white;}
 
@@ -84,14 +73,6 @@ html,body{
 /* Cursor Sparkles */
 .cursor-sparkle{position:absolute;width:6px;height:6px;background:yellow;border-radius:50%;pointer-events:none;opacity:0.9;animation:fade 0.5s forwards;}
 @keyframes fade{0%{opacity:1;}100%{opacity:0;transform:scale(2);}}
-
-/* Responsive Tweaks */
-@media (max-width: 600px) {
-  .logo { font-size: 26px; text-align: center; width: 100%; }
-  .header { flex-direction: column; align-items: center; text-align: center; }
-  .btn.secondary { font-size: 14px; padding: 6px 12px; }
-  .container { padding: 20px; }
-}
 </style>
 </head>
 <body>
@@ -214,4 +195,3 @@ document.addEventListener('mousemove', e=>{
 </script>
 </body>
 </html>
-
