@@ -165,7 +165,8 @@
 
 <script>
   const quizData = [
-     { q: "Find the area of a triangle with base 10 cm and height 5 cm", options: ["50 cm²", "30 cm²", "20 cm²", "25 cm²"], answer: 3, solution: "Area = 1/2 × base × height = 1/2 × 10 × 5 = 25 cm²" },
+  
+  { q: "Find the area of a triangle with base 10 cm and height 5 cm", options: ["50 cm²", "30 cm²", "20 cm²", "25 cm²"], answer: 3, solution: "Area = 1/2 × base × height = 1/2 × 10 × 5 = 25 cm²" },
   { q: "Find the perimeter of a square with side 8 cm", options: ["16 cm", "24 cm", "32 cm", "64 cm"], answer: 2, solution: "Perimeter = 4 × side = 4 × 8 = 32 cm" },
   { q: "Find the area of a rectangle with length 12 cm and breadth 5 cm", options: ["17 cm²", "60 cm²", "50 cm²", "35 cm²"], answer: 1, solution: "Area = length × breadth = 12 × 5 = 60 cm²" },
   { q: "The sum of angles in a triangle is:", options: ["360°", "180°", "90°", "270°"], answer: 1, solution: "Sum of angles in triangle = 180°" },
@@ -197,6 +198,12 @@
   { q: "Area of trapezium with parallel sides 8 cm, 5 cm, height 4 cm", options: ["26 cm²", "22 cm²", "24 cm²", "32 cm²"], answer: 0, solution: "Area = 1/2 × (sum of parallel sides) × height =1/2×(8+5)×4=26 cm²" },
   { q: "Volume of cube with side 'a' formula is:", options: ["2a²", "4a³", "6a²", "a³"], answer: 3, solution: "Volume = a³" },
   { q: "Surface area of cube formula", options: ["a³", "6a²", "3a²", "4a²"], answer: 1, solution: "SA = 6 × side² =6a²" },
+  { q: "A cone has height 24 cm and base radius 7 cm. Find its slant height.", options: ["26 cm","25 cm","24 cm","23 cm"], answer: 1, solution: "Slant height l = √(r²+h²) = √(7²+24²) = √(49+576) = √625 = 25 cm" },
+  { q: "A sphere is inscribed in a cube of side 10 cm. Find the radius of the sphere.", options: ["7 cm","10 cm","2.5 cm","5 cm"], answer: 3, solution: "Radius of inscribed sphere = half of cube's side = 10/2 = 5 cm" },
+  { q: "The diagonals of a rhombus are 16 cm and 12 cm. Find its area.", options: ["96 cm²","128 cm²","72 cm²","192 cm²"], answer: 0, solution: "Area = 1/2 × d1 × d2 = 1/2 × 16 × 12 = 96 cm²" },
+  { q: "A right circular cone has volume 308 cm³ and height 14 cm. Find the radius of its base. (Use π = 3.14)", options: ["7 cm","6 cm","8 cm","5 cm"], answer: 1, solution: "Volume = 1/3 π r² h ⇒ 308 = 1/3 × 3.14 × r² ×14 ⇒ r²≈21 ⇒ r≈4.58≈5 cm" },
+  { q: "In a triangle, the medians are 9 cm, 12 cm, and 15 cm. Find the area of the triangle.", options: ["72 cm²","54 cm²","60 cm²","66 cm²"], answer: 2, solution: "Use formula: Area = 4/3 √[s_m(s_m-a_m)(s_m-b_m)(s_m-c_m)], s_m = (9+12+15)/2=18, Area=72 cm²" },
+  { q: "The sides of a triangle are in the ratio 3:4:5. If its perimeter is 36 cm, find its area.", options: ["54 cm²","48 cm²","60 cm²","72 cm²"], answer: 0, solution: "Sides = 9,12,15 → right triangle → Area = 1/2 × 9 × 12 = 54 cm²" },
   { q: "Diagonal of cuboid with l=3,b=4,h=12 cm", options: ["14 cm", "16 cm", "13 cm", "15 cm"], answer: 2, solution: "Diagonal = √(l²+b²+h²)=√(9+16+144)=√169=13 cm" },
   { q: "Each exterior angle of a regular polygon with 8 sides is:", options: ["60°", "120°", "45°", "90°"], answer: 2, solution: "Exterior angle = 360/n=360/8=45°" },
   { q: "If radius of circle is doubled, circumference changes by:", options: ["Remains same", "Quadruples", "Doubles", "Triples"], answer: 2, solution: "Circumference =2πr → doubles if r doubles" },
@@ -209,7 +216,8 @@
   { q: "Volume of cylinder = πr²h. True or False?", options: ["Depends", "True", "None", "False"], answer: 1, solution: "Volume of cylinder formula = πr²h" },
   { q: "Area of triangle with sides 3,4,5 cm using Heron formula", options: ["12 cm²", "7 cm²", "5 cm²", "6 cm²"], answer: 3, solution: "s=(3+4+5)/2=6 → Area=√[s(s-a)(s-b)(s-c)]=√36=6 cm²" },
   { q: "The sum of exterior angles of any polygon is:", options: ["540°", "360°", "depends on n", "180°"], answer: 1, solution: "Sum of exterior angles = 360° always" }
-  
+
+
   ];
 
   let current = 0;
@@ -298,3 +306,4 @@
 
 </body>
 </html>
+
