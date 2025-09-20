@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -160,64 +159,309 @@
 
 <script>
   const quizData = [ /* your quizData array here */
-     {q:"Find 20% of 450", options:["110","100","90","80"], answer:2, solution:"20% of 450 = 0.2×450 = 90"},
-  {q:"A price is increased by 25%. By what percent must it be reduced to bring back original price?", options:["19%","16%","20%","18%"], answer:2, solution:"Reduction%= (1 - 1/1.25)=0.2 = 20%"},
-  {q:"If 30% of x = 75, find x", options:["250","150","200","225"], answer:0, solution:"x=75/0.3=250"},
-  {q:"A salary increased from 24000 to 30000. Percentage increase is:", options:["20%","18%","30%","25%"], answer:3, solution:"Increase=6000; % =6000/24000×100=25%"},
-  {q:"If price falls by 10% and then by another 10%, overall decrease ≈", options:["19%","18%","21%","20%"], answer:0, solution:"Net factor=0.9×0.9=0.81 → decrease=19%"},
-  {q:"What is 12.5% of 640?", options:["90","85","80","75"], answer:2, solution:"12.5%=1/8 → 640/8=80"},
-  {q:"A commodity is marked 40% above CP and sold at 10% discount. Profit% = ?", options:["30%","28%","26%","24%"], answer:2, solution:"MP=1.4CP, SP=1.26CP → profit=26%"},
-  {q:"If 150 is 60% of a number, that number is:", options:["300","180","200","250"], answer:3, solution:"x=150/0.6=250"},
-  {q:"Increase 480 by 15%", options:["520","552","560","540"], answer:1, solution:"480×1.15=552"},
-  {q:"Decrease 250 by 12%", options:["220","220.0","220.0","220"], answer:0, solution:"250×0.88=220"},
-  {q:"If A gets 30% of total and B gets 45%, remaining share is:", options:["25%","10%","15%","20%"], answer:0, solution:"100-30-45=25%"},
-  {q:"A price after 20% discount is 360. Original price was:", options:["450","420","480","500"], answer:0, solution:"MP=360/0.8=450"},
-  {q:"A quantity increased by 50% becomes 150. Original quantity:", options:["90","80","75","100"], answer:3, solution:"x×1.5=150 → x=100"},
-  {q:"A number is decreased by 25% then increased by 25%. Net change is", options:["-6.25%","+6.25%","+1%","0%"], answer:0, solution:"0.75×1.25=0.9375 → decrease 6.25%"},
-  {q:"What percent is 3/8 as a percent?", options:["32.5%","35%","40%","37.5%"], answer:3, solution:"3/8=0.375=37.5%"},
-  {q:"If 5% of a number is 7.5, the number is:", options:["120","160","150","100"], answer:2, solution:"x=7.5/0.05=150"},
-  {q:"A reduces price by 30% making SP=350. Original price was:", options:["400","450","500","350"], answer:2, solution:"MP=350/0.7=500"},
-  {q:"Find 7.5% of 1600", options:["150","120","80","100"], answer:1, solution:"0.075×1600=120"},
-  {q:"If tax is 8% on ₹1250, tax amount is:", options:["100","120","96","110"], answer:0, solution:"1250×0.08=100"},
-  {q:"Successive increase 10% and 20% on 100 gives final value:", options:["130","132","110","120"], answer:1, solution:"100×1.1×1.2=132"},
-  {q:"If price increases by 12.5% then decreases by 12.5%, net change is:", options:["0%","+1.56%","-3%","-1.56%"], answer:3, solution:"1.125×0.875=0.984 → decrease 1.56%"},
-  {q:"A shop gives 25% off and then 10% off. Net discount ≈", options:["35%","32.5%","30%","25%"], answer:1, solution:"Net factor=0.75×0.9=0.675 → 32.5%"},
-  {q:"If 120 is 40% of a, then a is:", options:["200","250","300","320"], answer:2, solution:"a=120/0.4=300"},
-  {q:"A is 20% more than B. If B=150, A=", options:["190","170","160","180"], answer:3, solution:"A=150×1.2=180"},
-  {q:"If salary decreased by 8% to 23000, original salary was:", options:["25000","24891","24000","24900"], answer:0, solution:"x=23000/0.92=25000"},
-  {q:"A product marked at ₹800 with 15% discount sold at:", options:["680","720","700","660"], answer:0, solution:"SP=800×0.85=680"},
-  {q:"If 60 is 20% more than x, x is:", options:["50","40","48","45"], answer:0, solution:"x=60/1.2=50"},
-  {q:"Find 125% of 240", options:["260","320","280","300"], answer:3, solution:"1.25×240=300"},
-  {q:"A reduces by 40% then increases by 40%. Net change?", options:["-4%","+16%","0%","-16%"], answer:3, solution:"0.6×1.4=0.84 → decrease 16%"},
-  {q:"If GST 18% applied on 2500, total becomes:", options:["2900","3000","2955","2950"], answer:3, solution:"2500×1.18=2950"},
-  {q:"If 15% of x = 48, find x", options:["320","310","280","300"], answer:0, solution:"x=48/0.15=320"},
-  {q:"If 20% of a = 30% of b and a=50, find b", options:["30","33.33","34","35"], answer:1, solution:"b=(2/3)×50=33.33"},
-  {q:"Price is x. After 10% increase it becomes 352. x = ?", options:["340","320","300","330"], answer:1, solution:"x=352/1.1=320"},
-  {q:"Compound interest yearly 10% on 1000 for 2 years is:", options:["1210","1100","1200","2100"], answer:0, solution:"A=1000×1.1²=1210"},
-  {q:"If increase from 80 to 92, percent increase is:", options:["15%","14%","13%","12%"], answer:0, solution:"%=(12/80)×100=15%"},
-  {q:"A shopkeeper offers 2 successive discounts 20% and 10% on 1000; final price:", options:["720","760","740","780"], answer:0, solution:"1000×0.8×0.9=720"},
-  {q:"If x is decreased by 40% becomes 90. Original x:", options:["120","150","140","130"], answer:1, solution:"x=90/0.6=150"},
-  {q:"An item is 30% off then 20% off on the reduced price. Net price of 200 is:", options:["140","120","128","112"], answer:3, solution:"200×0.7×0.8=112"},
-  {q:"A population increases by 10% yearly. After 2 years factor is:", options:["1.1","1.2","1.21","1.3"], answer:2, solution:"1.1²=1.21"},
-  {q:"Find x: x + 25% of x = 250", options:["260","240","220","200"], answer:3, solution:"x×1.25=250 → x=200"},
-  {q:"If A gets 30% of profit and profit=₹1000, A gets:", options:["₹250","₹350","₹300","₹400"], answer:2, solution:"30% of 1000=300"},
-  {q:"A decreases price by 10% and sells 10% more units; revenue change approximately:", options:["-1%","0%","+1%","+2%"], answer:0, solution:"Revenue=0.9×1.1=0.99 → -1%"},
-  {q:"If 5% VAT on 200 is added then 10% discount on total, final price:", options:["189","190","198","180"], answer:0, solution:"200×1.05=210 → 10% off=189"},
-  {q:"Find % change: from 250 to 200", options:["-20%","-15%","-25%","-30%"], answer:0, solution:"Change=-50 → -50/250=-20%"},
-  {q:"If 18% of x = 54, x =", options:["280","300","250","200"], answer:1, solution:"x=54/0.18=300"},
-  {q:"A bank gives 5% annual interest. Effective % for 2 years (compound) ≈", options:["9.75%","11%","10.25%","10%"], answer:2, solution:"(1.05)²=1.1025 → 10.25%"},
-  {q:"If a is 40% of b and b is 50% of c, a is what % of c?", options:["15%","20%","25%","30%"], answer:1, solution:"a=0.4×0.5c=0.2c → 20%"},
-  {q:"If discount 30% makes price 280, original was:", options:["400","420","360","380"], answer:0, solution:"MP=280/0.7=400"},
-  {q:"Find 66⅔% of 90", options:["50","60","80","70"], answer:1, solution:"2/3×90=60"},
-  {q:"If 25% of students are absent and 150 present, total students:", options:["160","200","180","240"], answer:1, solution:"T=150/0.75=200"},
-  {q:"A and B share profit in ratio 3:2. If total profit 500 and A gets 60% of his share as tax, A receives:", options:["180","120","200","150"], answer:1, solution:"A share=300 → after tax=0.4×300=120"},
-  {q:"A price is reduced by x% then increased by x% → net effect zero? Which x?", options:["0 only","50","x=100","any x"], answer:0, solution:"Only x=0 gives no change"},
-  {q:"Find 30% of 2/3 of 900", options:["200","120","150","180"], answer:3, solution:"2/3×900=600 → 30% of 600=180"},
-  {q:"If 120 is increased by x% to 150, x%=", options:["25%","15%","20%","30%"], answer:0, solution:"30/120=25%"},
-  {q:"A shop markup 50% on CP then sells at 10% discount. Net% over CP:", options:["45%","30%","40%","35%"], answer:3, solution:"SP=1.35CP → 35% profit"},
-  {q:"If 40% of x is 24 and 60% of y is 54, x+y = ?", options:["150","90","100","110"], answer:0, solution:"x=60, y=90 → x+y=150"},
-  {q:"If 1/5 of number = 20% of another number; if first is 50, second is:", options:["150","125","200","100"], answer:3, solution:"10=0.2y → y=50"},
-  {q:"If A gets 10% more than B and B is 200, A is:", options:["210","220","240","230"], answer:1, solution:"A=1.1×200=220"}
+  
+  {
+    q: "A price is increased by 25%. By what percent must it be reduced to bring back original price?", 
+    options: ["19%","16%","20%","18%"], 
+    answer: 2, 
+    solution: "Let original price = 100. Increased price = 100 + 25 = 125. To return to 100, reduction = 25. % reduction = 25/125 × 100 = 20%"
+  },
+  {
+    q: "If 30% of x = 75, find x", 
+    options: ["250","150","200","225"], 
+    answer: 0, 
+    solution: "0.3 × x = 75 ⇒ x = 75 / 0.3 = 250"
+  },
+  {
+    q: "A salary increased from 24000 to 30000. Percentage increase is:", 
+    options: ["20%","18%","30%","25%"], 
+    answer: 3, 
+    solution: "Increase = 30000 - 24000 = 6000. % Increase = (6000 / 24000) × 100 = 25%"
+  },
+  {
+    q: "If price falls by 10% and then by another 10%, overall decrease ≈", 
+    options: ["19%","18%","21%","20%"], 
+    answer: 0, 
+    solution: "First factor = 0.9, second factor = 0.9. Net factor = 0.9 × 0.9 = 0.81. Overall decrease = 100 - 81 = 19%"
+  },
+  {
+    q: "What is 12.5% of 640?", 
+    options: ["90","85","80","75"], 
+    answer: 2, 
+    solution: "12.5% = 1/8, so 640 × 1/8 = 80"
+  },
+  {
+    q: "A commodity is marked 40% above CP and sold at 10% discount. Profit% = ?", 
+    options: ["30%","28%","26%","24%"], 
+    answer: 2, 
+    solution: "CP = 100. Marked Price = 140. Selling Price = 140 - 10% of 140 = 126. Profit% = (126-100)/100 × 100 = 26%"
+  },
+  {
+    q: "If 150 is 60% of a number, that number is:", 
+    options: ["300","180","200","250"], 
+    answer: 3, 
+    solution: "0.6 × x = 150 ⇒ x = 150 / 0.6 = 250"
+  },
+  {
+    q: "Decrease 250 by 12%", 
+    options: ["220","220.0","220.0","220"], 
+    answer: 0, 
+    solution: "12% of 250 = 30. So decreased value = 250 - 30 = 220"
+  },
+  {
+    q: "If A gets 30% of total and B gets 45%, remaining share is:", 
+    options: ["25%","10%","15%","20%"], 
+    answer: 0, 
+    solution: "Total share = 100%. Remaining = 100 - (30 + 45) = 25%"
+  },
+  {
+    q: "A price after 20% discount is 360. Original price was:", 
+    options: ["450","420","480","500"], 
+    answer: 0, 
+    solution: "SP = 360, Discount = 20%. Original Price = SP / (1 - 0.2) = 360 / 0.8 = 450"
+  },
+  {
+    q: "A quantity increased by 50% becomes 150. Original quantity:", 
+    options: ["90","80","75","100"], 
+    answer: 3, 
+    solution: "Let original = x. x × 1.5 = 150 ⇒ x = 150 / 1.5 = 100"
+  },
+  {
+    q: "A number is decreased by 25% then increased by 25%. Net change is", 
+    options: ["-6.25%","+6.25%","+1%","0%"], 
+    answer: 0, 
+    solution: "Decrease factor = 0.75, Increase factor = 1.25. Net factor = 0.75 × 1.25 = 0.9375 ⇒ net decrease = 1 - 0.9375 = 0.0625 = 6.25%"
+  },
+  {
+    q: "What percent is 3/8 as a percent?", 
+    options: ["32.5%","35%","40%","37.5%"], 
+    answer: 3, 
+    solution: "3 ÷ 8 = 0.375 ⇒ 0.375 × 100 = 37.5%"
+  },
+  {
+    q: "If 5% of a number is 7.5, the number is:", 
+    options: ["120","160","150","100"], 
+    answer: 2, 
+    solution: "0.05 × x = 7.5 ⇒ x = 7.5 / 0.05 = 150"
+  },
+  {
+    q: "A reduces price by 30% making SP=350. Original price was:", 
+    options: ["400","450","500","350"], 
+    answer: 2, 
+    solution: "SP = 350, Reduction = 30% ⇒ MP = 350 / 0.7 = 500"
+  },
+  {
+    q: "Successive increase 10% and 20% on 100 gives final value:", 
+    options: ["130","132","110","120"], 
+    answer: 1, 
+    solution: "100 × 1.1 × 1.2 = 132"
+  },
+  {
+    q: "If price increases by 12.5% then decreases by 12.5%, net change is:", 
+    options: ["0%","+1.56%","-3%","-1.56%"], 
+    answer: 3, 
+    solution: "Factor = 1.125 × 0.875 = 0.984375 ⇒ decrease ≈ 1.56%"
+  },
+  {
+    q: "A shop gives 25% off and then 10% off. Net discount ≈", 
+    options: ["35%","32.5%","30%","25%"], 
+    answer: 1, 
+    solution: "Net factor = 0.75 × 0.9 = 0.675 ⇒ Net discount = 100 - 67.5 = 32.5%"
+  },
+  {
+    q: "If 120 is 40% of a, then a is:", 
+    options: ["200","250","300","320"], 
+    answer: 2, 
+    solution: "120 = 0.4 × a ⇒ a = 120 / 0.4 = 300"
+  },
+  {
+    q: "A is 20% more than B. If B=150, A=", 
+    options: ["190","170","160","180"], 
+    answer: 3, 
+    solution: "A = B × 1.2 = 150 × 1.2 = 180"
+  },
+  {
+    q: "If salary decreased by 8% to 23000, original salary was:", 
+    options: ["25000","24891","24000","24900"], 
+    answer: 0, 
+    solution: "23000 = 0.92 × original ⇒ original = 23000 / 0.92 = 25000"
+  },
+  {
+    q: "A product marked at ₹800 with 15% discount sold at:", 
+    options: ["680","720","700","660"], 
+    answer: 0, 
+    solution: "SP = 800 × 0.85 = 680"
+  },
+  {
+    q: "If 60 is 20% more than x, x is:", 
+    options: ["50","40","48","45"], 
+    answer: 0, 
+    solution: "60 = 1.2 × x ⇒ x = 60 / 1.2 = 50"
+  },
+  {
+    q: "Find 125% of 240", 
+    options: ["260","320","280","300"], 
+    answer: 3, 
+    solution: "1.25 × 240 = 300"
+  },
+  {
+    q: "A reduces by 40% then increases by 40%. Net change?", 
+    options: ["-4%","+16%","0%","-16%"], 
+    answer: 3, 
+    solution: "Net factor = 0.6 × 1.4 = 0.84 ⇒ decrease = 16%"
+  },
+  {
+    q: "If GST 18% applied on 2500, total becomes:", 
+    options: ["2900","3000","2955","2950"], 
+    answer: 3, 
+    solution: "Total = 2500 × 1.18 = 2950"
+  },
+  {
+    q: "If 15% of x = 48, find x", 
+    options: ["320","310","280","300"], 
+    answer: 0, 
+    solution: "0.15 × x = 48 ⇒ x = 48 / 0.15 = 320"
+  },
+  {
+    q: "If 20% of a = 30% of b and a=50, find b", 
+    options: ["30","33.33","34","35"], 
+    answer: 1, 
+    solution: "0.2 × 50 = 0.3 × b ⇒ b = 10 / 0.3 = 33.33"
+  },
+  {
+    q: "Price is x. After 10% increase it becomes 352. x = ?", 
+    options: ["340","320","300","330"], 
+    answer: 1, 
+    solution: "x × 1.1 = 352 ⇒ x = 352 / 1.1 = 320"
+  },
+  {
+    q: "Compound interest yearly 10% on 1000 for 2 years is:", 
+    options: ["1210","1100","1200","2100"], 
+    answer: 0, 
+    solution: "A = 1000 × (1 + 0.10)^2 = 1000 × 1.21 = 1210"
+  },
+  {
+    q: "If increase from 80 to 92, percent increase is:", 
+    options: ["15%","14%","13%","12%"], 
+    answer: 0, 
+    solution: "Increase = 92-80=12. % Increase = 12/80 × 100 = 15%"
+  },
+  {
+    q: "A shopkeeper offers 2 successive discounts 20% and 10% on 1000; final price:", 
+    options: ["720","760","740","780"], 
+    answer: 0, 
+    solution: "Final = 1000 × 0.8 × 0.9 = 720"
+  },
+  {
+    q: "If x is decreased by 40% becomes 90. Original x:", 
+    options: ["120","150","140","130"], 
+    answer: 1, 
+    solution: "x × 0.6 = 90 ⇒ x = 90 / 0.6 = 150"
+  },
+  {
+    q: "An item is 30% off then 20% off on the reduced price. Net price of 200 is:", 
+    options: ["140","120","128","112"], 
+    answer: 3, 
+    solution: "200 × 0.7 × 0.8 = 112"
+  },
+  {
+    q: "A population increases by 10% yearly. After 2 years factor is:", 
+    options: ["1.1","1.2","1.21","1.3"], 
+    answer: 2, 
+    solution: "Factor after 2 years = 1.1 × 1.1 = 1.21"
+  },
+  {
+    q: "If A gets 30% of profit and profit=₹1000, A gets:", 
+    options: ["₹250","₹350","₹300","₹400"], 
+    answer: 2, 
+    solution: "A's share = 30% of 1000 = 0.3 × 1000 = 300"
+  },
+  {
+    q: "A decreases price by 10% and sells 10% more units; revenue change approximately:", 
+    options: ["-1%","0%","+1%","+2%"], 
+    answer: 0, 
+    solution: "Revenue factor = 0.9 × 1.1 = 0.99 ⇒ decrease ≈1%"
+  },
+  {
+    q: "If 5% VAT on 200 is added then 10% discount on total, final price:", 
+    options: ["189","190","198","180"], 
+    answer: 0, 
+    solution: "200 × 1.05 = 210 → 10% off → 210 × 0.9 = 189"
+  },
+  {
+    q: "Find % change: from 250 to 200", 
+    options: ["-20%","-15%","-25%","-30%"], 
+    answer: 0, 
+    solution: "Change = 200-250=-50 ⇒ % change = -50/250 × 100 = -20%"
+  },
+  {
+    q: "A bank gives 5% annual interest. Effective % for 2 years (compound) ≈", 
+    options: ["9.75%","11%","10.25%","10%"], 
+    answer: 2, 
+    solution: "Effective factor = (1+0.05)^2 = 1.1025 ⇒ 10.25%"
+  },
+  {
+    q: "If a is 40% of b and b is 50% of c, a is what % of c?", 
+    options: ["15%","20%","25%","30%"], 
+    answer: 1, 
+    solution: "a = 0.4 × b = 0.4 × 0.5c = 0.2c ⇒ 20%"
+  },
+  {
+    q: "If discount 30% makes price 280, original was:", 
+    options: ["400","420","360","380"], 
+    answer: 0, 
+    solution: "SP = 280, discount = 30% ⇒ Original Price = 280 / 0.7 = 400"
+  },
+  {
+    q: "If 25% of students are absent and 150 present, total students:", 
+    options: ["160","200","180","240"], 
+    answer: 1, 
+    solution: "150 = 75% of total ⇒ Total = 150 / 0.75 = 200"
+  },
+  {
+    q: "A and B share profit in ratio 3:2. If total profit 500 and A gets 60% of his share as tax, A receives:", 
+    options: ["180","120","200","150"], 
+    answer: 1, 
+    solution: "A's share = 3/5 × 500 = 300 → after tax = 300 × 0.4 = 120"
+  },
+  {
+    q: "A price is reduced by x% then increased by x% → net effect zero? Which x?", 
+    options: ["0 only","50","x=100","any x"], 
+    answer: 0, 
+    solution: "Only x=0 gives no change, otherwise net effect ≠0"
+  },
+  {
+    q: "Find 30% of 2/3 of 900", 
+    options: ["200","120","150","180"], 
+    answer: 3, 
+    solution: "2/3 × 900 = 600, 30% of 600 = 180"
+  },
+  {
+    q: "If 120 is increased by x% to 150, x%=", 
+    options: ["25%","15%","20%","30%"], 
+    answer: 0, 
+    solution: "(150-120)/120 ×100 = 30/120×100 = 25%"
+  },
+  {
+    q: "A shop markup 50% on CP then sells at 10% discount. Net% over CP:", 
+    options: ["45%","30%","40%","35%"], 
+    answer: 3, 
+    solution: "SP = 1.5 × CP × 0.9 = 1.35 CP ⇒ 35% profit"
+  },
+  {
+    q: "If 1/5 of number = 20% of another number; if first is 50, second is:", 
+    options: ["150","125","200","100"], 
+    answer: 3, 
+    solution: "50 ÷5 = 10 = 0.2 × y ⇒ y = 10 /0.2 = 50"
+  },
+  {
+    q: "If A gets 10% more than B and B is 200, A is:", 
+    options: ["210","220","240","230"], 
+    answer: 1, 
+    solution: "A = B × 1.1 = 200 × 1.1 = 220"
+  }
+
+
    ];
   let current = 0;
   let setStart = 0;
@@ -320,3 +564,4 @@
 
 </body>
 </html>
+
