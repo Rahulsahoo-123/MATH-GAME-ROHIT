@@ -127,8 +127,7 @@
 <h1>📘 Math Masters — Complete Formula Sheet</h1>
 
 <div class="grid">
-  <!-- তোমার ফর্মুলা কার্ডগুলো অপরিবর্তিত থাকবে -->
-  <!-- (Same as your code above — আমি কিছু পরিবর্তন করিনি) -->
+ <div class="formula-page">
 
   <!-- Algebra -->
   <div class="card algebra">
@@ -138,17 +137,19 @@
       <li>(a - b)² = a² - 2ab + b²</li>
       <li>(a + b)(a - b) = a² - b²</li>
       <li>(x + y + z)² = x² + y² + z² + 2xy + 2yz + 2zx</li>
+      <li>(a + b)³ = a³ + b³ + 3ab(a + b)</li>
+      <li>(a - b)³ = a³ - b³ - 3ab(a - b)</li>
       <li>a³ + b³ = (a + b)(a² - ab + b²)</li>
       <li>a³ - b³ = (a - b)(a² + ab + b²)</li>
       <li>(x + y + z)³ = x³ + y³ + z³ + 3(x + y)(y + z)(z + x)</li>
-      <li>(a + b)³ = a³ + b³ + 3ab(a + b)</li>
-      <li>(a - b)³ = a³ - b³ - 3ab(a - b)</li>
       <li>Sum of cubes: a³ + b³ + c³ - 3abc = (a + b + c)(a² + b² + c² - ab - bc - ca)</li>
       <li>Quadratic formula: x = [-b ± √(b² - 4ac)] / 2a</li>
       <li>Sum of roots: α + β = -b/a</li>
       <li>Product of roots: αβ = c/a</li>
       <li>Difference of squares: a² - b² = (a - b)(a + b)</li>
       <li>Sum & difference of squares: a² + b² = (a + b)² - 2ab</li>
+      <li>Factorization shortcuts: a² + 2ab + b² = (a+b)²</li>
+      <li>Sum of n terms of arithmetic series: Sₙ = n/2 [2a + (n-1)d]</li>
     </ul>
   </div>
 
@@ -164,9 +165,14 @@
       <li>Sum of squares of first n natural numbers: Sₙ = n(n+1)(2n+1)/6</li>
       <li>Sum of cubes of first n natural numbers: Sₙ = [n(n+1)/2]²</li>
       <li>HCF × LCM = Product of numbers</li>
-      <li>Arithmetic Mean: AM = (Sum of terms)/n</li>
-      <li>Geometric Mean: GM = √(Product of terms)</li>
-      <li>Harmonic Mean: HM = n / Σ(1/xi)</li>
+      <li>Arithmetic Mean (AM) = (Sum of terms)/n</li>
+      <li>Geometric Mean (GM) = √(Product of terms)</li>
+      <li>Harmonic Mean (HM) = n / Σ(1/xi)</li>
+      <li>Percentage change = [(New - Old)/Old] × 100</li>
+      <li>Ratio & Proportion: a:b = x:y → ax = by</li>
+      <li>Profit & Loss: Profit% = (Profit/CP)×100, Loss% = (Loss/CP)×100</li>
+      <li>Simple Interest = (P × R × T)/100</li>
+      <li>Compound Interest = P(1 + R/100)ⁿ - P</li>
     </ul>
   </div>
 
@@ -193,7 +199,9 @@
       <li>Surface Area of Cone = π × r(l + r)</li>
       <li>Volume of Sphere = 4/3 × π × r³</li>
       <li>Surface Area of Sphere = 4 × π × r²</li>
-      <li>Hemisphere: V = 2/3 πr³, SA = 3πr²</li>
+      <li>Hemisphere: V = 2/3 × π × r³, SA = 3 × π × r²</li>
+      <li>Pythagoras Theorem: a² + b² = c²</li>
+      <li>Perimeter formulas: Rectangle = 2(l+b), Square = 4a, Circle = 2πr</li>
     </ul>
   </div>
 
@@ -201,13 +209,15 @@
   <div class="card fractions">
     <h2>Fractions</h2>
     <ul>
-      <li>a/b + c/d = (ad + bc) / bd</li>
-      <li>a/b - c/d = (ad - bc) / bd</li>
-      <li>a/b × c/d = (ac) / (bd)</li>
-      <li>(a/b) ÷ (c/d) = (ad) / (bc)</li>
+      <li>a/b + c/d = (ad + bc)/bd</li>
+      <li>a/b - c/d = (ad - bc)/bd</li>
+      <li>a/b × c/d = (ac)/(bd)</li>
+      <li>(a/b) ÷ (c/d) = (ad)/(bc)</li>
       <li>Simplifying fractions: Divide numerator & denominator by GCD</li>
       <li>Mixed number ↔ Improper fraction conversion</li>
       <li>Comparing fractions: Cross-multiply or convert to decimals</li>
+      <li>Converting fraction to percentage: (a/b) × 100%</li>
+      <li>Converting percentage to fraction: (p/100) in simplest form</li>
     </ul>
   </div>
 
@@ -223,6 +233,7 @@
       <li>S → Subtraction -</li>
       <li>Always solve left to right within same precedence</li>
       <li>Nested brackets: Solve innermost first</li>
+      <li>Example: 5 + 3 × (2²) = 5 + 3 × 4 = 17</li>
     </ul>
   </div>
 
@@ -233,15 +244,20 @@
       <li>Percentage = (Value / Total) × 100</li>
       <li>Profit % = (Profit / CP) × 100</li>
       <li>Loss % = (Loss / CP) × 100</li>
-      <li>Simple Interest = (P × R × T) / 100</li>
+      <li>Simple Interest = (P × R × T)/100</li>
       <li>Compound Interest = P(1 + R/100)ⁿ - P</li>
       <li>Percentage Increase = [(New - Old)/Old] × 100</li>
       <li>Percentage Decrease = [(Old - New)/Old] × 100</li>
       <li>Fraction ↔ Percentage ↔ Decimal</li>
+      <li>GST / Tax: Final Price = Cost × (1 + Rate/100)</li>
+      <li>Discount % = (Discount / Marked Price) × 100</li>
+      <li>Successive discounts: Net factor = (1 - d₁/100) × (1 - d₂/100)</li>
+      <li>Successive increases: Net factor = (1 + r₁/100) × (1 + r₂/100)</li>
     </ul>
   </div>
 
 </div>
+
 </div>
 
 <div class="btn-group">
