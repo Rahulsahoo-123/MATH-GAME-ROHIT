@@ -128,7 +128,7 @@ function updateBadges(){
   const container=document.getElementById("badgeContainer");
   container.innerHTML="";
   let badgeOrder=["bronze","silver","gold","platinum","diamond","heroic","grandmaster"];
-  let badgeImages={bronze:"bronze.jpg",silver:"silver.png",gold:"gold.png",platinum:"platinum.png",diamond:"diamond.png",heroic:"heroic.png",grandmaster:"grandmaster.png"};
+  let badgeImages={bronze:"bronze.png",silver:"silver.png",gold:"gold.png",platinum:"platinum.png",diamond:"diamond.png",heroic:"heroic.png",grandmaster:"grandmaster.png"};
   for(let i=badgeOrder.length-1;i>=0;i--){
     if(localStorage.getItem("badge_"+badgeOrder[i])){
       container.innerHTML=`<img src="${badgeImages[badgeOrder[i]]}" alt="${badgeOrder[i]} badge">`;
@@ -608,3 +608,4 @@ function generateSparkles(){
 </script>
 </body>
 </html>
+
