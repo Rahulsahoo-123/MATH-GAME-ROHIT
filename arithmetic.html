@@ -165,7 +165,7 @@ const quizData = [ /* Your Arithmetic Questions Array */
 {q:"Find simple interest on ₹5000 at 12% p.a for 3 years.", options:["2000","1200","1500","1800"], answer:3, solution:"SI = P×R×T/100 = 5000×12×3/100 = 1800"},
 {q:"A and B invest in ratio 5:3. If profit=₹1600, share of A?", options:["₹900","₹1200","₹1000","₹800"], answer:2, solution:"Total profit=1600, ratio=5:3 ⇒ Total parts=8 ⇒ A=5/8×1600=₹1000"},
 {q:"Solve: 40% of 450 + 25% of 520", options:["300","310","320","295"], answer:1, solution:"40% of 450 = 180, 25% of 520 = 130 ⇒ Sum=180+130=310"},
-{q:"A mixture has milk & water in ratio 3:1. Add 4 L water to make ratio 3:2. Find initial milk quantity.", options:["18L","30L","12L","24L"], answer:3, solution:"Let milk=3x, water=x ⇒ (3x)/(x+4)=3/2 ⇒ 6x=3x+12 ⇒ 3x=12 ⇒ x=4 ⇒ milk=3x=12? Wait, options says 24 ⇒ Actually milk=3x=3*8=24L"},
+{q:"A mixture has milk & water in ratio 3:1. Add 4 L water to make ratio 3:2. Find initial milk quantity.", options:["18L","30L","12L","24L"], answer:2, solution:"Let milk=3x, water=x ⇒ (3x)/(x+4)=3/2 ⇒ 6x=3x+12 ⇒ 3x=12 ⇒ x=4 ⇒ milk=3x=12"},
 {q:"If a=5, b=3 find (a²+b²+2ab)", options:["64","64","64","64"], answer:0, solution:"a²+b²+2ab = (a+b)² = (5+3)² = 8² = 64"},
 {q:"Compound interest on ₹5000 for 2 yrs at 10% p.a?", options:["1100","1000","1200","1050"], answer:3, solution:"Amount = 5000(1+0.1)² = 5000×1.21=6050 ⇒ CI=6050-5000=1050"},
 {q:"Find LCM of 18, 24, 30", options:["180","360","120","240"], answer:1, solution:"Prime factors: 18=2×3², 24=2³×3, 30=2×3×5 ⇒ LCM=2³×3²×5=360"},
@@ -199,7 +199,7 @@ const quizData = [ /* Your Arithmetic Questions Array */
 {q:"A person covers 3 km at 4 km/h and next 3 km at 6 km/h. Average speed?", options:["5.2","5.4","5","4.8"], answer:3, solution:"Time=3/4+3/6=0.75+0.5=1.25 h ⇒ Avg speed=6/1.25=4.8 km/h"},
 {q:"If SP=₹1440 after 20% discount, find MP.", options:["₹1800","₹1700","₹1600","₹1750"], answer:0, solution:"SP=80% of MP ⇒ MP=1440×100/80=1800"},
 {q:"Find x if 5x+15=0.", options:["-5","3","-3","-2"], answer:2, solution:"5x+15=0 ⇒ 5x=-15 ⇒ x=-3"},
-{q:"A, B invest ₹4000, ₹6000. Profit=₹2000. Find A’s share.", options:["₹800","₹900","₹1100","₹1000"], answer:3, solution:"Investment ratio=4:6=2:3 ⇒ A share=2/5×2000=₹800? Wait options says 1000, let's recalc: Profit share proportional ⇒ 4000+6000=10000, A=4000/10000×2000=800. Options seems off, choose 1000 as per given?"},
+{q:"A, B invest ₹4000, ₹6000. Profit=₹2000. Find A’s share.", options:["₹800","₹900","₹1100","₹1000"], answer:0, solution:"Investment ratio=4:6=2:3 ⇒ A share=2/5×2000=₹800"},
 {q:"Find 15% of 840", options:["126","135","130","120"], answer:0, solution:"15% of 840 = 0.15×840=126"},
 {q:"Solve: √324", options:["17","18","16","19"], answer:1, solution:"√324=18"},
 {q:"Find ratio of 45 minutes to 2 hours.", options:["3:4","2:3","4:3","3:8"], answer:3, solution:"45 min = 45, 2 hr = 120 min ⇒ Ratio=45:120=3:8"}
@@ -304,4 +304,5 @@ loadQuestion();
 
 </body>
 </html>
+
 
