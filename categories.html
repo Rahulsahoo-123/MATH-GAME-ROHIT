@@ -6,30 +6,25 @@
 <title>Math Masters — Categories</title>
 <style>
   /* 🔥 Body Background & Layout */
-  body {
-    background: #f13fc7;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    cursor: none;
-    overflow-x: hidden;
-    font-family: "Comic Sans MS", cursive, sans-serif;
-  }
+ body {
+margin: 0;
+padding: 0;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+background: linear-gradient(-45deg, #ff6f61, #ffcc5c, #88d8b0, #6c5ce7);
+background-size: 400% 400%;
+animation: gradientShift 12s ease infinite;
+font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+overflow-x: hidden;
+}
+@keyframes gradientShift {
+0% {background-position: 0% 50%;}
+50% {background-position: 100% 50%;}
+100% {background-position: 0% 50%;}
+}
 
-  /* 🎨 Color Picker */
-  .color-picker {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    background: white;
-    padding: 5px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    z-index: 999;
-  }
-
+ 
   /* Header */
   .header {
     max-width: 1200px;
@@ -190,18 +185,14 @@
 </head>
 <body>
 
-  <!-- 🎨 Color Picker -->
-  <div class="color-picker">
-    <input type="color" id="bgColor" value="#f13fc7">
-  </div>
 
   <!-- Header -->
   <div class="header">
     <div class="logo">Math Masters</div>
     <div>
       <button class="btn secondary" data-link="formulas.html">FORMULAS</button>
-      <button class="btn secondary" data-link="index.html">Home</button>
-      <button class="btn secondary" data-link="test.html">Test</button>
+      <button class="btn secondary" data-link="index.html">HOME</button>
+      <button class="btn secondary" data-link="test.html">TEST</button>
     </div>
   </div>
 
@@ -241,14 +232,6 @@
   <div class="sparkle" style="left:90%;animation-duration:16s;"></div>
 
 <script>
-  // 🎨 Color Picker with LocalStorage
-  const colorInput = document.getElementById('bgColor');
-  const savedColor = localStorage.getItem('siteBgColor');
-  if (savedColor) { document.body.style.background = savedColor; colorInput.value = savedColor; }
-  colorInput.addEventListener('input', e => {
-    document.body.style.background = e.target.value;
-    localStorage.setItem('siteBgColor', e.target.value);
-  });
 
   // Button Click Sound + Redirect
   const clickSound = document.getElementById('clickSound');
