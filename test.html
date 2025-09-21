@@ -175,15 +175,15 @@ const allQuestions=[
   {q:"A number is increased by 20% and then decreased by 20%. Net change is:", options:["4% decrease","4% increase","No change","40% decrease"], answer:0, solution:"Net effect = (1.2×0.8-1)×100 = -0.04×100 = 4% decrease."},
   {q:"If 40% of a number is 120, the number is:", options:["200","250","300","280"], answer:2, solution:"40% = 120 ⇒ Number = 120×100/40 = 300."},
   {q:"Price of a pen increases by 10% and price of a book decreases by 10%. Overall change in expenditure?", options:["1% increase","1% decrease","No change","2% decrease"], answer:1, solution:"Net effect = (1.1×0.9-1)×100 = -1%."},
-  {q:"A number is 25% more than another. By what percent is the second less than the first?", options:["20%","25%","30%","33.33%"], answer:3, solution:"Let smaller=100 ⇒ bigger=125 ⇒ decrease% = 25/125×100=20% ❌ Wait check: 25/125=0.2=20%? No! Actually (125-100)/125 = 25/125=20%. → Answer = 20%."},
+  {q:"A number is 25% more than another. By what percent is the second less than the first?", options:["20%","25%","30%","33.33%"], answer:0, solution:"Let smaller=100 ⇒ bigger=125 ⇒ decrease% = 25/125×100=20% ❌ Wait check: 25/125=0.2=20%? No! Actually (125-100)/125 = 25/125=20%. → Answer = 20%."},
   {q:"If 60% of x = 30, then x =", options:["40","45","50","55"], answer:2, solution:"x = 30×100/60 = 50."},
-  {q:"If 25% of A = 50% of B, then A:B =", options:["1:2","2:1","1:4","4:1"], answer:3, solution:"A×25/100 = B×50/100 ⇒ A/B=2 ⇒ A:B=2:1? ❌ Wait properly: A/4 = B/2 ⇒ A=2B ⇒ A:B=2:1."},
+  {q:"If 25% of A = 50% of B, then A:B =", options:["1:2","2:1","1:4","4:1"], answer:1, solution:"A×25/100 = B×50/100 ⇒ A/B=2 ⇒ A:B=2:1? ❌ Wait properly: A/4 = B/2 ⇒ A=2B ⇒ A:B=2:1."},
   {q:"A number is first increased by 10% then by 20%. Net increase %:", options:["30%","32%","33%","28%"], answer:1, solution:"Net effect = (1.1×1.2-1)×100=1.32-1=32%."},
   {q:"A number is first decreased by 10% then again decreased by 20%. Net decrease %:", options:["28%","30%","32%","25%"], answer:0, solution:"Net effect = (1-0.1)(1-0.2)=0.72 ⇒ decrease=28%."},
   {q:"If 45 is 15% of x, find x:", options:["200","250","300","400"], answer:2, solution:"x=45×100/15=300."},
   {q:"A number when increased by 20% gives 72. Find original number:", options:["50","55","60","65"], answer:2, solution:"Let number=x ⇒ 1.2x=72 ⇒ x=72/1.2=60."},
   {q:"Salary of a person increases from 8000 to 9600. % increase =", options:["10%","15%","20%","25%"], answer:2, solution:"Increase=1600 ⇒ 1600/8000×100=20%."},
-  {q:"Price of sugar increased by 25%. By what % must consumption be reduced to keep expenditure constant?", options:["20%","25%","30%","33.33%"], answer:3, solution:"Reduction%=25/125×100=20% ❌ Wait correct: formula = (increase/(100+increase))×100 = 25/125×100=20%."},
+  {q:"Price of sugar increased by 25%. By what % must consumption be reduced to keep expenditure constant?", options:["20%","25%","30%","33.33%"], answer:0, solution:"Reduction%=25/125×100=20% ❌ Wait correct: formula = (increase/(100+increase))×100 = 25/125×100=20%."},
   {q:"Population of a town increases by 5% annually. Population after 2 years if current is 10000:", options:["11025","10500","12000","11500"], answer:0, solution:"P=10000×1.05²=11025."},
   {q:"Population decreases by 10% yearly. Population after 2 years if current is 1000:", options:["800","810","900","850"], answer:1, solution:"1000×0.9²=810."},
   {q:"If 20% of x = 80, then 40% of x =", options:["160","100","200","80"], answer:0, solution:"x=400 ⇒ 40%=160."},
@@ -201,7 +201,7 @@ const allQuestions=[
   {q:"If 30% of x = 60% of y and y=50, find x:", options:["50","80","100","120"], answer:2, solution:"0.3x=0.6×50 ⇒ x=100."},
   {q:"Number is 150% of 80. Find number:", options:["100","110","120","120"], answer:3, solution:"150%=120."},
   {q:"If 25% of x = 15, find x:", options:["45","50","55","60"], answer:3, solution:"x=15×100/25=60."},
-  {q:"If x is 20% more than y and y=200, find x:", options:["220","230","240","250"], answer:0, solution:"x=200×1.2=240? ❌ Wait 200×1.2=240 ⇒ option=240."},
+  {q:"If x is 20% more than y and y=200, find x:", options:["220","230","240","250"], answer:2, solution:"x=200×1.2=240? ❌ Wait 200×1.2=240 ⇒ option=240."},
   {q:"A number is 40% less than 200. Find number:", options:["100","110","120","130"], answer:2, solution:"40% less ⇒ 200×0.6=120."},
   {q:"If 70% of number = 56, find number:", options:["70","75","80","85"], answer:2, solution:"x=56×100/70=80."},
   {q:"If A is 10% more than B and B is 10% more than C, A is more than C by:", options:["20%","21%","22%","19%"], answer:1, solution:"Net increase=1.1×1.1-1=1.21-1=21%."},
@@ -608,4 +608,5 @@ function generateSparkles(){
 </script>
 </body>
 </html>
+
 
