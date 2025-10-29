@@ -117,15 +117,4 @@
 })();
 
 
-// ✅ PWA SERVICE WORKER REGISTRATION (added safely at the end)
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(function(reg) {
-        console.log('✅ Service Worker registered:', reg.scope);
-      })
-      .catch(function(err) {
-        console.warn('❌ Service Worker registration failed:', err);
-      });
-  });
-}
+
