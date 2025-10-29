@@ -1,8 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Math Masters</title>
+
+<!-- ✅ PWA manifest & theme meta tags -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ffb347">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="apple-touch-icon" href="math.png">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;font-family:"Comic Sans MS",Arial,sans-serif;overflow:hidden;background:linear-gradient(135deg,#fdfd96,#ffb347);cursor:none;}
@@ -87,11 +95,11 @@ html,body{height:100%;font-family:"Comic Sans MS",Arial,sans-serif;overflow:hidd
     <button id="ai-btn" class="game-btn">Play with AI</button>
   </div>
 
-  <div class="bottom-nav">
+  <!-- <div class="bottom-nav">
     <button class="nav-btn" data-link="index.html">🏠 Home</button>
     <button class="nav-btn" data-link="formulas.html">📘 Formulas</button>
     <button class="nav-btn" data-link="howto.html">🎮 How to Play</button>
-  </div>
+  </div> -->
 
   <!-- Floating Shapes -->
   <div class="shape" style="width:60px;height:60px;left:10%;background:#ff6f61;animation-duration:16s;"></div>
@@ -192,6 +200,15 @@ document.addEventListener('mousemove', e=>{
   document.body.appendChild(sparkle);
   setTimeout(()=>sparkle.remove(),500);
 });
+
+// ✅ Register Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log('✅ Service Worker registered:', reg.scope))
+      .catch(err => console.warn('❌ SW failed:', err));
+  });
+}
 </script>
 </body>
 </html>
