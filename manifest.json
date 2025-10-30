@@ -1,22 +1,22 @@
 {
   "name": "Math Masters",
-  "short_name": "MathMasters",
-  "description": "Sharpen your mind & have fun solving math quizzes!",
+  "short_name": "Math",
+  "description": "Fun math game to test your skills!",
   "start_url": "index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#ffcc5c",
-  "theme_color": "#ff6f61",
-  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#ffb347",
   "icons": [
     {
-      "src": "math.png",
+      "src": "math2.jpg",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/jpeg"
     },
     {
       "src": "math2.jpg",
       "sizes": "512x512",
-      "type": "image/jpg"
+      "type": "image/jpeg"
     }
   ]
 }
