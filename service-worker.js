@@ -4,7 +4,8 @@ const FILES_TO_CACHE = [
   "styles.css",
   "script.js",
   "manifest.json",
-  "math2.jpg"
+  "math2.jpg",
+   "math.png"
 ];
 
 // Install event — cache files
@@ -46,4 +47,3 @@ self.addEventListener("fetch", (event) => {
     })
   );
 });
-
