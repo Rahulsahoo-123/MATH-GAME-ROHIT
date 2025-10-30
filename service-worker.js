@@ -1,69 +1,49 @@
-const CACHE_NAME = "math-masters-v1";
-const ASSETS = [
+const CACHE_NAME = "math-master-v1";
+const FILES_TO_CACHE = [
   "index.html",
-  "categories.html",
-  "algebra.html",
-  "fractions.html",
-  "geometry.html",
-  "bodmas.html",
-  "arithmetic.html",
-  "percentage.html",
-  "ai.html",
-  "formulas.html",
-  "howto.html",
-  "test.html",
+  "styles.css",
+  "script.js",
   "manifest.json",
-  "math.png",
-  "math2.jpg",
-  "bg.mp3",
-  "click.mp3",
-  "bronze.png",
-  "silver.png",
-  "gold.png",
-  "platinum.png",
-  "diamond.png",
-  "heroic.png",
-  "grandmaster.png"
+  "math2.jpg"
 ];
 
-// Install Service Worker and cache files
+// Install event — cache files
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(FILES_TO_CACHE);
+    })
   );
   self.skipWaiting();
 });
 
-// Activate Service Worker and remove old caches
+// Activate event — clean old caches
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.map((key) => {
-        if (key !== CACHE_NAME) return caches.delete(key);
-      }))
-    )
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.filter(key => key !== CACHE_NAME)
+            .map(key => caches.delete(key))
+      );
+    })
   );
   self.clients.claim();
 });
 
-// Fetch from cache, else from network
+// Fetch event — serve from cache first
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
-      return (
-        response ||
-        fetch(event.request).then((res) => {
-          // Dynamic caching
-          return caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, res.clone());
-            return res;
-          });
-        })
-      );
+      return response || fetch(event.request).then((fetchRes) => {
+        return caches.open(CACHE_NAME).then((cache) => {
+          // optional: cache new files dynamically
+          cache.put(event.request, fetchRes.clone());
+          return fetchRes;
+        });
+      });
     }).catch(() => {
-      if (event.request.destination === "document") {
-        return caches.match("index.html");
-      }
+      // optional: offline fallback
     })
   );
 });
+
