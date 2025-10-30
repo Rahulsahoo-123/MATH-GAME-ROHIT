@@ -5,7 +5,7 @@ const FILES_TO_CACHE = [
   "script.js",
   "manifest.json",
   "math2.jpg",
-   "math.png"
+   "math1.png"
 ];
 
 // Install event — cache files
@@ -47,3 +47,4 @@ self.addEventListener("fetch", (event) => {
     })
   );
 });
+
