@@ -8,7 +8,8 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ffb347">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="apple-touch-icon" href="math.png">
+<link rel="apple-touch-icon" href="math2.jpg">
+<meta name="apple-mobile-web-app-capable" content="yes">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -94,12 +95,6 @@ html,body{height:100%;font-family:"Comic Sans MS",Arial,sans-serif;overflow:hidd
     <button id="ai-btn" class="game-btn">Play with AI</button>
   </div>
 
-  <!-- <div class="bottom-nav">
-    <button class="nav-btn" data-link="index.html">🏠 Home</button>
-    <button class="nav-btn" data-link="formulas.html">📘 Formulas</button>
-    <button class="nav-btn" data-link="howto.html">🎮 How to Play</button>
-  </div> -->
-
   <!-- Floating Shapes -->
   <div class="shape" style="width:60px;height:60px;left:10%;background:#ff6f61;animation-duration:16s;"></div>
   <div class="shape" style="width:40px;height:40px;left:35%;background:#ffcc5c;animation-duration:12s;"></div>
@@ -159,12 +154,6 @@ document.getElementById('ai-btn').addEventListener('click',()=>{
   safePlay(clickSound);
   setTimeout(()=>location.href='ai.html',200);
 });
-document.querySelectorAll('.nav-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    safePlay(clickSound);
-    setTimeout(()=>location.href=btn.dataset.link,200);
-  });
-});
 
 // ✅ Show Rank on Home Page
 const rank = localStorage.getItem("playerRank");
@@ -200,10 +189,10 @@ document.addEventListener('mousemove', e=>{
   setTimeout(()=>sparkle.remove(),500);
 });
 
-// ✅ Register Service Worker
+// ✅ Register Service Worker (corrected filename)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('service-worker.js')
+    navigator.serviceWorker.register('sw.js')
       .then(reg => console.log('✅ Service Worker registered:', reg.scope))
       .catch(err => console.warn('❌ SW failed:', err));
   });
