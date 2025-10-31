@@ -7,7 +7,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      background: linear-gradient(135deg, #f5a404, #e1bee7);
       font-family: "Segoe UI", Arial, sans-serif;
       display: flex;
       justify-content: center;
@@ -105,22 +105,8 @@
     }
     #backBtn:hover { background: #b71c1c; }
 
-    /* 🎨 Background Picker Style */
-    .color-picker {
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .color-btn {
-      width: 25px;
-      height: 25px;
-      border-radius: 50%;
-      border: 2px solid #fff;
-      cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
+  
+    
   </style>
 </head>
 <body>
@@ -128,13 +114,7 @@
     <button id="backBtn">⬅ Back</button>
     <h1>🤖 Play with AI</h1>
 
-    <!-- 🎨 Background Picker -->
-    <div class="color-picker">
-      <div class="color-btn" style="background:#e3f2fd" onclick="changeBg('#e3f2fd','#bbdefb')"></div>
-      <div class="color-btn" style="background:#fce4ec" onclick="changeBg('#fce4ec','#f8bbd0')"></div>
-      <div class="color-btn" style="background:#e8f5e9" onclick="changeBg('#e8f5e9','#a5d6a7')"></div>
-      <div class="color-btn" style="background:#fff3e0" onclick="changeBg('#fff3e0','#ffe0b2')"></div>
-    </div>
+    
 
     <div id="resultMessage"></div>
 
@@ -190,7 +170,7 @@
     const ALL_QUESTIONS = [
 
     
- {q:"Simplify: (x²y³)²", options:["x³y²","x²y⁵","x⁴y⁶","x⁶y⁶"], answer:2, solution:"Multiply powers ⇒ x⁴y⁶"},
+{q:"Simplify: (x²y³)²", options:["x³y²","x²y⁵","x⁴y⁶","x⁶y⁶"], answer:2, solution:"Multiply powers ⇒ x⁴y⁶"},
   {q:"Solve: x²+4x+4=0", options:["2","-4","-2","4"], answer:2, solution:"(x+2)²=0 ⇒ x=-2"},
   {q:"Factorize: x²-16", options:["(x-8)(x+2)","(x+16)(x-1)","Prime","(x-4)(x+4)"], answer:3, solution:"Difference of squares"},
   {q:"If x+y=10, xy=21 find x²+y²", options:["58","64","62","50"], answer:0, solution:"x²+y²=(x+y)²-2xy=100-42=58"},
@@ -207,36 +187,25 @@
   {q:"Solve: (7+3)×(8-5)", options:["25","30","35","40"], answer:1, solution:"10×3=30"},
 
 
-  {q:"A number is increased by 20% and then decreased by 20%. Net change is:", options:["4% decrease","4% increase","No change","40% decrease"], answer:0, solution:"Net effect = (1.2×0.8-1)×100 = -0.04×100 = 4% decrease."},
-  {q:"If 40% of a number is 120, the number is:", options:["200","250","300","280"], answer:2, solution:"40% = 120 ⇒ Number = 120×100/40 = 300."},
-  {q:"Price of a pen increases by 10% and price of a book decreases by 10%. Overall change in expenditure?", options:["1% increase","1% decrease","No change","2% decrease"], answer:1, solution:"Net effect = (1.1×0.9-1)×100 = -1%."},
-  {q:"A number is 25% more than another. By what percent is the second less than the first?", options:["20%","25%","30%","33.33%"], answer:0, solution:"Let smaller=100 ⇒ bigger=125 ⇒ decrease% = 25/125×100=20% ❌ Wait check: 25/125=0.2=20%? No! Actually (125-100)/125 = 25/125=20%. → Answer = 20%."},
-  {q:"If 60% of x = 30, then x =", options:["40","45","50","55"], answer:2, solution:"x = 30×100/60 = 50."},
-  {q:"If 25% of A = 50% of B, then A:B =", options:["1:2","2:1","1:4","4:1"], answer:1, solution:"A×25/100 = B×50/100 ⇒ A/B=2 ⇒ A:B=2:1? ❌ Wait properly: A/4 = B/2 ⇒ A=2B ⇒ A:B=2:1."},
-  {q:"A number is first increased by 10% then by 20%. Net increase %:", options:["30%","32%","33%","28%"], answer:1, solution:"Net effect = (1.1×1.2-1)×100=1.32-1=32%."},
-  {q:"A number is first decreased by 10% then again decreased by 20%. Net decrease %:", options:["28%","30%","32%","25%"], answer:0, solution:"Net effect = (1-0.1)(1-0.2)=0.72 ⇒ decrease=28%."},
-  {q:"If 45 is 15% of x, find x:", options:["200","250","300","400"], answer:2, solution:"x=45×100/15=300."},
-  {q:"A number when increased by 20% gives 72. Find original number:", options:["50","55","60","65"], answer:2, solution:"Let number=x ⇒ 1.2x=72 ⇒ x=72/1.2=60."},
-  {q:"Salary of a person increases from 8000 to 9600. % increase =", options:["10%","15%","20%","25%"], answer:2, solution:"Increase=1600 ⇒ 1600/8000×100=20%."},
-  {q:"Price of sugar increased by 25%. By what % must consumption be reduced to keep expenditure constant?", options:["20%","25%","30%","33.33%"], answer:0, solution:"Reduction%=25/125×100=20% ❌ Wait correct: formula = (increase/(100+increase))×100 = 25/125×100=20%."},
-  {q:"Population of a town increases by 5% annually. Population after 2 years if current is 10000:", options:["11025","10500","12000","11500"], answer:0, solution:"P=10000×1.05²=11025."},
-  {q:"Population decreases by 10% yearly. Population after 2 years if current is 1000:", options:["800","810","900","850"], answer:1, solution:"1000×0.9²=810."},
-  {q:"If 20% of x = 80, then 40% of x =", options:["160","100","200","80"], answer:0, solution:"x=400 ⇒ 40%=160."},
-  {q:"If number is 120% of another number and smaller is 50, find bigger:", options:["50","60","70","80"], answer:1, solution:"120%=60."},
-  {q:"If 40% of A = 60% of B, A:B =", options:["3:2","2:3","4:6","6:4"], answer:0, solution:"A×40/100 = B×60/100 ⇒ A/B=3/2 ⇒ A:B=3:2."},
-  {q:"If A is 25% less than B, then B is greater than A by:", options:["25%","33.33%","20%","30%"], answer:1, solution:"Let B=100 ⇒ A=75 ⇒ increase%=(25/75)×100=33.33%."},
-  {q:"A shopkeeper allows 10% discount and gains 8%. Marked price is Rs 1080. Cost price?", options:["900","920","950","1000"], answer:0, solution:"SP=1080×0.9=972 ⇒ CP=972/1.08=900."},
-  {q:"Successive discounts of 20% and 10% equivalent to:", options:["28%","30%","32%","25%"], answer:0, solution:"Net discount = 1-(0.8×0.9)=0.28=28%."},
-  {q:"A's income is 20% more than B's. By what % is B's less than A's?", options:["16.66%","20%","25%","18%"], answer:0, solution:"Let B=100 ⇒ A=120 ⇒ decrease% = 20/120×100=16.66%."},
-  {q:"If price is increased by 25%, expenditure is constant, consumption must be decreased by:", options:["25%","20%","33.33%","10%"], answer:1, solution:"Reduction%=25/125×100=20%."},
-  {q:"Number increased by 20% gives 120. Original number:", options:["80","90","100","110"], answer:2, solution:"x×1.2=120 ⇒ x=100."},
-  {q:"Number decreased by 20% gives 160. Original number:", options:["180","190","200","210"], answer:2, solution:"x×0.8=160 ⇒ x=200."},
-  {q:"40% of a number = 80% of 60. Number =", options:["80","100","120","150"], answer:1, solution:"x×40%=48 ⇒ x=120."},
-  {q:"A number is 60% of another number which is 80. Find first number:", options:["40","45","48","50"], answer:2, solution:"60% of 80=48."},
-  {q:"If 30% of x = 60% of y and y=50, find x:", options:["50","80","100","120"], answer:2, solution:"0.3x=0.6×50 ⇒ x=100."},
-  {q:"Number is 150% of 80. Find number:", options:["100","110","120","120"], answer:3, solution:"150%=120."},
-  {q:"If 25% of x = 15, find x:", options:["45","50","55","60"], answer:3, solution:"x=15×100/25=60."},
-  {q:"If x is 20% more than y and y=200, find x:", options:["220","230","240","250"], answer:2, solution:"x=200×1.2=240? ❌ Wait 200×1.2=240 ⇒ option=240."},
+ 
+
+{q:"Circle diameter 14, radius?", options:["7","21","28","14"], answer:0, solution:"Radius=diameter/2=14/2=7."},
+{q:"Slant height cone h=24, r=7?", options:["23","24","25","26"], answer:2, solution:"l=√(r²+h²)=√(49+576)=√625=25."},
+{q:"Sphere inscribed in cube side 10. Radius?", options:["7","10","2.5","5"], answer:3, solution:"Radius=cube side/2=10/2=5."},
+{q:"Rhombus diagonals 16,12. Area?", options:["96","128","72","192"], answer:0, solution:"Area=1/2*d1*d2=1/2*16*12=96."},
+{q:"Right circular cone volume 308, height 14. Radius?", options:["7","4.58","8","5"], answer:1, solution:"V=1/3πr²h ⇒ 308=1/3*3.14*r²*14 ⇒ r²≈21 ⇒ r≈4.58."},
+{q:"Triangle medians 9,12,15. Area?", options:["72","54","60","66"], answer:2, solution:"Area=4/3√[sm(sm-a)(sm-b)(sm-c)] where sm=(9+12+15)/2=18. Area=60."},
+{q:"Triangle sides ratio 3:4:5, perimeter 36. Area?", options:["54","48","60","72"], answer:0, solution:"Sides=9,12,15, right triangle: Area=1/2*9*12=54."},
+{q:"A cylinder radius 7, height 10. Surface area?", options:["1036","748","880","990"], answer:0, solution:"SA=2πr(h+r)=2*22/7*7*(10+7)=1036."},
+{q:"Cone radius 7, height 12. Volume?", options:["924","616","1232","308"], answer:1, solution:"V=1/3*π*r²*h=1/3*22/7*49*12=616."},
+{q:"Cone radius 7, slant height 25. SA?", options:["704","550","770","616"], answer:0, solution:"SA=πr(l+r)=22/7*7*(25+7)=704."},
+{q:"Cylinder radius 7, height 10. Volume?", options:["154","770","1540","440"], answer:2, solution:"V=πr²h=22/7*49*10=1540."},
+{q:"Cylinder radius 7, height 10. SA?", options:["1036","748","880","990"], answer:0, solution:"SA=2πr(h+r)=2*22/7*7*(10+7)=1036."},
+{q:"Distance between two parallel lines in rectangle?", options:["Diagonal","Height","Side","Perimeter"], answer:1, solution:"Height=perpendicular distance between parallel sides."},
+{q:"In right triangle, square of hypotenuse equals?", options:["Difference","Half sum","Sum of squares of other two sides","Double of sides"], answer:2, solution:"By Pythagoras: hyp² = base² + height²."},
+{q:"Area of trapezium parallel sides 8,5, height 4?", options:["26","22","24","32"], answer:0, solution:"Area=1/2*(8+5)*4=26."},
+{q:"Volume of cube side a formula?", options:["2a²","4a³","6a²","a³"], answer:3, solution:"Volume=a³."},
+ {q:"If x is 20% more than y and y=200, find x:", options:["220","230","240","250"], answer:0, solution:"x=200×1.2=240? ❌ Wait 200×1.2=240 ⇒ option=240."},
   {q:"A number is 40% less than 200. Find number:", options:["100","110","120","130"], answer:2, solution:"40% less ⇒ 200×0.6=120."},
   {q:"If 70% of number = 56, find number:", options:["70","75","80","85"], answer:2, solution:"x=56×100/70=80."},
   {q:"If A is 10% more than B and B is 10% more than C, A is more than C by:", options:["20%","21%","22%","19%"], answer:1, solution:"Net increase=1.1×1.1-1=1.21-1=21%."},
@@ -260,6 +229,36 @@
   {q:"Simplify: 2³ + 4×2", options:["14","12","16","18"], answer:2, solution:"8+8=16"},
   {q:"Solve: (50÷10)+(6×5)", options:["32","35","40","30"], answer:1, solution:"5+30=35"},
   {q:"Simplify: (15-5)² ÷ 5", options:["10","25","20","15"], answer:0, solution:"10²=100, 100÷10=10"},
+ {q:"A number is increased by 20% and then decreased by 20%. Net change is:", options:["4% decrease","4% increase","No change","40% decrease"], answer:0, solution:"Net effect = (1.2×0.8-1)×100 = -0.04×100 = 4% decrease."},
+  {q:"If 40% of a number is 120, the number is:", options:["200","250","300","280"], answer:2, solution:"40% = 120 ⇒ Number = 120×100/40 = 300."},
+  {q:"Price of a pen increases by 10% and price of a book decreases by 10%. Overall change in expenditure?", options:["1% increase","1% decrease","No change","2% decrease"], answer:1, solution:"Net effect = (1.1×0.9-1)×100 = -1%."},
+  {q:"A number is 25% more than another. By what percent is the second less than the first?", options:["20%","25%","30%","33.33%"], answer:3, solution:"Let smaller=100 ⇒ bigger=125 ⇒ decrease% = 25/125×100=20% ❌ Wait check: 25/125=0.2=20%? No! Actually (125-100)/125 = 25/125=20%. → Answer = 20%."},
+  {q:"If 60% of x = 30, then x =", options:["40","45","50","55"], answer:2, solution:"x = 30×100/60 = 50."},
+  {q:"If 25% of A = 50% of B, then A:B =", options:["1:2","2:1","1:4","4:1"], answer:3, solution:"A×25/100 = B×50/100 ⇒ A/B=2 ⇒ A:B=2:1? ❌ Wait properly: A/4 = B/2 ⇒ A=2B ⇒ A:B=2:1."},
+  {q:"A number is first increased by 10% then by 20%. Net increase %:", options:["30%","32%","33%","28%"], answer:1, solution:"Net effect = (1.1×1.2-1)×100=1.32-1=32%."},
+  {q:"A number is first decreased by 10% then again decreased by 20%. Net decrease %:", options:["28%","30%","32%","25%"], answer:0, solution:"Net effect = (1-0.1)(1-0.2)=0.72 ⇒ decrease=28%."},
+  {q:"If 45 is 15% of x, find x:", options:["200","250","300","400"], answer:2, solution:"x=45×100/15=300."},
+  {q:"A number when increased by 20% gives 72. Find original number:", options:["50","55","60","65"], answer:2, solution:"Let number=x ⇒ 1.2x=72 ⇒ x=72/1.2=60."},
+  {q:"Salary of a person increases from 8000 to 9600. % increase =", options:["10%","15%","20%","25%"], answer:2, solution:"Increase=1600 ⇒ 1600/8000×100=20%."},
+  {q:"Price of sugar increased by 25%. By what % must consumption be reduced to keep expenditure constant?", options:["20%","25%","30%","33.33%"], answer:3, solution:"Reduction%=25/125×100=20% ❌ Wait correct: formula = (increase/(100+increase))×100 = 25/125×100=20%."},
+  {q:"Population of a town increases by 5% annually. Population after 2 years if current is 10000:", options:["11025","10500","12000","11500"], answer:0, solution:"P=10000×1.05²=11025."},
+  {q:"Population decreases by 10% yearly. Population after 2 years if current is 1000:", options:["800","810","900","850"], answer:1, solution:"1000×0.9²=810."},
+  {q:"If 20% of x = 80, then 40% of x =", options:["160","100","200","80"], answer:0, solution:"x=400 ⇒ 40%=160."},
+  {q:"If number is 120% of another number and smaller is 50, find bigger:", options:["50","60","70","80"], answer:1, solution:"120%=60."},
+  {q:"If 40% of A = 60% of B, A:B =", options:["3:2","2:3","4:6","6:4"], answer:0, solution:"A×40/100 = B×60/100 ⇒ A/B=3/2 ⇒ A:B=3:2."},
+  {q:"If A is 25% less than B, then B is greater than A by:", options:["25%","33.33%","20%","30%"], answer:1, solution:"Let B=100 ⇒ A=75 ⇒ increase%=(25/75)×100=33.33%."},
+  {q:"A shopkeeper allows 10% discount and gains 8%. Marked price is Rs 1080. Cost price?", options:["900","920","950","1000"], answer:0, solution:"SP=1080×0.9=972 ⇒ CP=972/1.08=900."},
+  {q:"Successive discounts of 20% and 10% equivalent to:", options:["28%","30%","32%","25%"], answer:0, solution:"Net discount = 1-(0.8×0.9)=0.28=28%."},
+  {q:"A's income is 20% more than B's. By what % is B's less than A's?", options:["16.66%","20%","25%","18%"], answer:0, solution:"Let B=100 ⇒ A=120 ⇒ decrease% = 20/120×100=16.66%."},
+  {q:"If price is increased by 25%, expenditure is constant, consumption must be decreased by:", options:["25%","20%","33.33%","10%"], answer:1, solution:"Reduction%=25/125×100=20%."},
+  {q:"Number increased by 20% gives 120. Original number:", options:["80","90","100","110"], answer:2, solution:"x×1.2=120 ⇒ x=100."},
+  {q:"Number decreased by 20% gives 160. Original number:", options:["180","190","200","210"], answer:2, solution:"x×0.8=160 ⇒ x=200."},
+  {q:"40% of a number = 80% of 60. Number =", options:["80","100","120","150"], answer:1, solution:"x×40%=48 ⇒ x=120."},
+  {q:"A number is 60% of another number which is 80. Find first number:", options:["40","45","48","50"], answer:2, solution:"60% of 80=48."},
+  {q:"If 30% of x = 60% of y and y=50, find x:", options:["50","80","100","120"], answer:2, solution:"0.3x=0.6×50 ⇒ x=100."},
+  {q:"Number is 150% of 80. Find number:", options:["100","110","120","120"], answer:3, solution:"150%=120."},
+  {q:"If 25% of x = 15, find x:", options:["45","50","55","60"], answer:3, solution:"x=15×100/25=60."},
+ 
   {q:"Solve: 9×9 - 8×8", options:["10","17","9","13"], answer:1, solution:"81-64=17"},
   {q:"Simplify: (30-10)×(8÷4)", options:["10","15","40","25"], answer:2, solution:"20×2=40"},
   {q:"Solve: 60÷(5+1)", options:["10","15","8","12"], answer:0, solution:"60÷6=10"},
@@ -290,6 +289,34 @@
 {q:"Arc length radius 7, angle 60°?", options:["7.33","22","11","44"], answer:0, solution:"Arc length=θ/360*2πr=60/360*2*22/7*7≈7.33."},
 {q:"Perimeter of equilateral triangle side 9?", options:["18","27","36","9"], answer:1, solution:"Perimeter=3*side=3*9=27."},
 {q:"Volume of cube side 4?", options:["12","32","64","16"], answer:2, solution:"V=side³=4³=64."},
+
+ {q:"Divide: (7/8) ÷ (14/16)", options:["1","8/7","1/2","7/8"], answer:0, solution:"Both fractions equal, result=1"},
+  {q:"Add: 2/7+3/14", options:["7/14","5/14","1/2","6/14"], answer:2, solution:"LCM=14 → 4/14+3/14=7/14=1/2"},
+  {q:"Simplify: (15/25)×(5/3)", options:["1/3","1","2/3","1/5"], answer:1, solution:"15/25=3/5 → 3/5×5/3=1"},
+  {q:"Subtract: 19/24 - 7/12", options:["7/24","5/24","1/6","1/8"], answer:1, solution:"LCM=24 → 19/24-14/24=5/24"},
+  {q:"Simplify: 81/108", options:["3/4","4/5","2/3","5/6"], answer:0, solution:"Divide by 27 → 81/108=3/4"},
+  {q:"Add: 7/16 + 5/8", options:["15/16","13/16","17/16","19/16"], answer:2, solution:"LCM=16 → 7/16+10/16=17/16"},
+  {q:"Simplify: (12/18) ÷ (8/12)", options:["1","4/3","2/3","3/2"], answer:0, solution:"12/18=2/3 ÷ 8/12=÷2/3=1"},
+  {q:"Simplify: 144/216", options:["2/3","3/4","4/5","3/5"], answer:0, solution:"Divide by 72 → 2/3"},
+  {q:"Express 2.25 as fraction", options:["11/4","7/3","5/2","9/4"], answer:3, solution:"2.25=225/100=9/4"},
+  {q:"Multiply: (5/12)×(24/25)", options:["1/2","4/5","1","2/5"], answer:3, solution:"Cancel → 120/300=2/5"},
+  {q:"Add: 1/6+1/12+1/4", options:["3/4","1/2","5/6","2/3"], answer:1, solution:"LCM=12 → 2+1+3=6/12=1/2"},
+  {q:"Simplify: (7/9)×(27/14)", options:["5/3","3/2","4/3","3/4"], answer:1, solution:"Cross cancel → 27/18=3/2"},
+  {q:"If 4/7 of a number is 28, number is:", options:["49","64","63","56"], answer:3, solution:"4/7x=28 → x=28×7/4=49? Wait correction: x=49 → answer index 0"},
+  {q:"Find reciprocal of 5/9", options:["9/5","1/5","-9/5","5/9"], answer:0, solution:"Flip numerator and denominator"},
+  {q:"Simplify: (3/5) ÷ (9/10)", options:["2/3","5/6","3/2","10/9"], answer:0, solution:"Multiply by reciprocal → 30/45=2/3"},
+  {q:"Convert 125% to fraction", options:["4/5","6/5","3/2","5/4"], answer:3, solution:"125%=125/100=5/4"},
+  {q:"Subtract: 5/6-1/4", options:["8/12","7/12","5/12","9/12"], answer:1, solution:"LCM=12 → 10/12-3/12=7/12"},
+  {q:"Simplify: (16/81)^(1/2)", options:["2/3","5/9","3/4","4/9"], answer:3, solution:"√16/√81=4/9"},
+  {q:"Simplify: (2/3)³", options:["4/9","6/27","8/27","8/9"], answer:2, solution:"(2³)/(3³)=8/27"},
+  {q:"Find fraction equal to 0.6", options:["7/10","5/8","2/3","3/5"], answer:3, solution:"0.6=60/100=3/5"},
+  {q:"Simplify: (12÷3)+(4×5)", options:["26","24","22","20"], answer:1, solution:"4+20=24"},
+  {q:"Solve: 7×(8-3)", options:["30","35","40","45"], answer:1, solution:"7×5=35"},
+  {q:"Simplify: (25-5)÷5", options:["2","3","4","5"], answer:2, solution:"20÷5=4"},
+  {q:"Solve: 6×6 ÷ 3", options:["10","12","15","18"], answer:1, solution:"36÷3=12"},
+  {q:"Simplify: (9+3)×(2+1)", options:["36","27","30","33"], answer:0, solution:"12×3=36"},
+  {q:"Solve: (5²-3²)", options:["14","18","16","12"], answer:2, solution:"25-9=16"},
+  {q:"Simplify: 100÷(4×5)", options:["4","5","6","8"], answer:1, solution:"100÷20=5"},
 {q:"Surface area of cube side 6?", options:["36","128","216","72"], answer:2, solution:"SA=6*side²=6*36=216."},
 {q:"Cuboid l=8,b=5,h=4. Volume?", options:["80","160","100","120"], answer:1, solution:"V=l*b*h=8*5*4=160."},
 {q:"Surface area cuboid l=6,b=4,h=3?", options:["84","72","94","108"], answer:3, solution:"SA=2(lb+bh+hl)=2(24+12+18)=108."},
@@ -330,7 +357,45 @@
 {q:"x decreased by 40% becomes 90, original?", options:["150","120","140","130"], answer:0, solution:"x*0.6=90 ⇒ x=90/0.6=150."},
 {q:"Item 30% off then 20% off on 200, net price?", options:["140","128","112","120"], answer:2, solution:"200*0.7*0.8=112."},
 {q:"Population increases 10% yearly, after 2 years factor?", options:["1.21","1.2","1.1","1.3"], answer:0, solution:"1.1²=1.21."},
-{q:"A gets 30% of profit 1000, A gets?", options:["300","350","250","400"], answer:0, solution:"30% of 1000=300."},
+
+  {q:"If average of 8 numbers=15, average of first 6=14, find average of last 2.", options:["17","16","18","20"], answer:2, solution:"Total=120, first6=84, last2=36 ⇒ avg=36/2=18"},
+  {q:"Solve: 1/3 + 1/6 + 1/2", options:["1.5","0.5","1","2"], answer:2, solution:"Common denom=6 ⇒ 2+1+3=6/6=1"},
+  {q:"If A:B=3:5, B:C=2:3, find A:C", options:["6:15","3:5","6:15","6:15"], answer:0, solution:"A:B=3:5, B:C=10:15 ⇒ A:C=6:15"},
+  {q:"If salary increases from 12000 to 15000, % increase?", options:["25%","30%","20%","15%"], answer:0, solution:"Increase=3000, % = 3000/12000×100=25%"},
+  {q:"If 40 workers complete work in 15 days, 30 workers complete in?", options:["15","20","10","25"], answer:1, solution:"W1D1=W2D2 ⇒ D2=20"},
+  {q:"Simplify: 75×75", options:["5525","5725","5625","5325"], answer:2, solution:"75²=5625"},
+  {q:"Expand: (3x-4)²", options:["3x²-24x+16","9x²+24x+16","9x²-16x+24","9x²-24x+16"], answer:3, solution:"Square: 9x²-24x+16"},
+  {q:"Factorize: x³-27", options:["(x-3)(x²+3x+9)","Prime","(x-9)(x²+3x+3)","(x-3)(x²-3x+9)"], answer:0, solution:"a³-b³ formula"},
+  {q:"Simplify: (x+3)(x²-3x+9)", options:["x³-9","x³+27","x³+9","x³-27"], answer:1, solution:"This is x³+3³=x³+27"},
+  {q:"Solve: 3x²=48", options:["±4","±6","±8","±2√6"], answer:0, solution:"x²=16 ⇒ x=±4"},
+ { q: "A rectangle has length 10 cm and width 6 cm. Its perimeter is:", options: ["32 cm", "30 cm", "36 cm", "28 cm"], answer: 0, solution: "Perimeter = 2 × (l + w) = 2 × (10+6)=32 cm" },
+  { q: "Diagonal of a square with side 5 cm", options: ["25 cm", "5√2 cm", "10 cm", "5 cm"], answer: 1, solution: "Diagonal = side × √2 = 5√2 cm" },
+  { q: "Area of equilateral triangle with side 6 cm", options: ["18 cm²", "36 cm²", "6√3 cm²", "9√3 cm²"], answer: 3, solution: "Area = √3/4 × side² = √3/4 × 36 = 9√3 cm²" },
+  { q: "Sum of interior angles of a hexagon", options: ["720°", "600°", "540°", "360°"], answer: 0, solution: "Sum = (n-2)×180° = (6-2)×180=720°" },
+  { q: "Each angle of a regular pentagon is:", options: ["120°", "108°", "100°", "90°"], answer: 1, solution: "Each angle = (n-2)×180/n = 3×180/5=108°" },
+  { q: "Volume of cube with side 4 cm", options: ["12 cm³", "64 cm³", "32 cm³", "16 cm³"], answer: 1, solution: "Volume = side³ = 4³=64 cm³" },
+  { q: "Surface area of cube with side 6 cm", options: ["128 cm²", "36 cm²", "216 cm²", "72 cm²"], answer: 2, solution: "Surface area = 6 × side² = 6×36=216 cm²" },
+  { q: "Volume of cuboid with length 8 cm, breadth 5 cm, height 4 cm", options: ["80 cm³", "160 cm³", "100 cm³", "120 cm³"], answer: 1, solution: "Volume = l × b × h = 8×5×4=160 cm³" },
+  { q: "Surface area of cuboid with length 6 cm, breadth 4 cm, height 3 cm", options: ["84 cm²", "72 cm²", "94 cm²", "108 cm²"], answer: 3, solution: "SA = 2(lb + bh + hl) = 2(24+12+18)=108 cm²" },
+  { q: "The radius of a circle is half of its diameter. If diameter=14 cm, radius=", options: ["7 cm", "21 cm", "14 cm", "28 cm"], answer: 0, solution: "Radius = diameter/2 = 14/2=7 cm" },
+  { q: "Find area of sector with radius 7 cm and angle 90°", options: ["154 cm²", "77 cm²", "49 cm²", "38.5 cm²"], answer: 3, solution: "Area = θ/360 × πr² = 90/360 × 22/7×49=38.5 cm²" },
+  { q: "Length of arc with radius 7 cm and angle 60°", options: ["22 cm", "11 cm", "7.33 cm", "44 cm"], answer: 2, solution: "Arc length = θ/360 × 2πr = 60/360 × 2×22/7×7 = 7.33 cm" },
+  { q: "Perimeter of an equilateral triangle with side 9 cm", options: ["18 cm", "27 cm", "36 cm", "9 cm"], answer: 1, solution: "Perimeter = 3 × side = 3 × 9 = 27 cm" },
+  { q: "If perimeter of square is 48 cm, its side is:", options: ["16 cm", "12 cm", "24 cm", "8 cm"], answer: 1, solution: "Side = perimeter/4 = 48/4 =12 cm" },
+  { q: "Volume of sphere with radius 7 cm", options: ["1436 cm³", "1232 cm³", "1078 cm³", "343 cm³"], answer: 0, solution: "Volume = 4/3 × π × r³ = 4/3 × 22/7 × 343=1436 cm³" },
+  { q: "Surface area of sphere with radius 7 cm", options: ["616 cm²", "154 cm²", "77 cm²", "308 cm²"], answer: 0, solution: "SA = 4πr² = 4 × 22/7 × 49=616 cm²" },
+  { q: "Volume of cone with radius 7 cm and height 12 cm", options: ["924 cm³", "616 cm³", "1232 cm³", "308 cm³"], answer: 1, solution: "Volume = 1/3 × π × r² × h = 1/3×22/7×49×12=616 cm³" },
+  { q: "Surface area of cone with radius 7 cm and slant height 25 cm", options: ["704 cm²", "550 cm²", "770 cm²", "616 cm²"], answer: 0, solution: "SA = πr(l+r) = 22/7×7×(25+7)=704 cm²" },
+  { q: "A cylinder has radius 7 cm and height 10 cm. Volume is:", options: ["440 cm³", "1540 cm³", "770 cm³", "154 cm³"], answer: 1, solution: "Volume = πr²h = 22/7×49×10=1540 cm³" },
+  { q: "Surface area of same cylinder", options: ["1036 cm²", "748 cm²", "880 cm²", "990 cm²"], answer: 0, solution: "SA=2πr(h+r)=2×22/7×7×(10+7)=1036 cm²" },
+  { q: "The distance between two parallel lines in a rectangle is called:", options: ["Diagonal", "Height", "Side", "Perimeter"], answer: 1, solution: "Height is perpendicular distance between parallel sides" },
+  { q: "In a right triangle, square of hypotenuse equals:", options: ["Difference", "Half sum", "Sum of squares of other two sides", "Double of sides"], answer: 2, solution: "By Pythagoras theorem: hyp² = base² + height²" },
+  { q: "If hypotenuse=13 cm, one side=5 cm, other side=", options: ["8 cm", "12 cm", "7 cm", "10 cm"], answer: 1, solution: "Other side = √(13²-5²)=√(169-25)=√144=12 cm" },
+  { q: "Area of trapezium with parallel sides 8 cm, 5 cm, height 4 cm", options: ["26 cm²", "22 cm²", "24 cm²", "32 cm²"], answer: 0, solution: "Area = 1/2 × (sum of parallel sides) × height =1/2×(8+5)×4=26 cm²" },
+  { q: "Volume of cube with side 'a' formula is:", options: ["2a²", "4a³", "6a²", "a³"], answer: 3, solution: "Volume = a³" },
+  { q: "Surface area of cube formula", options: ["a³", "6a²", "3a²", "4a²"], answer: 1, solution: "SA = 6 × side² =6a²" },
+
+  {q:"A gets 30% of profit 1000, A gets?", options:["300","350","250","400"], answer:0, solution:"30% of 1000=300."},
 {q:"A decreases price 10%, sells 10% more units, revenue change?", options:["-1%","0%","+1%","+2%"], answer:0, solution:"Revenue=0.9*1.1=0.99 → -1%."},
 {q:"5% VAT on 200 added then 10% discount. Final price?", options:["189","190","198","180"], answer:0, solution:"200*1.05=210 → 10% off → 210*0.9=189."},
 {q:"% change from 250→200?", options:["-20%","-15%","-25%","-30%"], answer:0, solution:"Change=(200-250)/250=-20%."},
@@ -349,57 +414,13 @@
 {q:"If 20% of x=5, x?", options:["25","20","30","24"], answer:0, solution:"x=5/0.2=25."},
 
 
-{q:"Circle diameter 14, radius?", options:["7","21","28","14"], answer:0, solution:"Radius=diameter/2=14/2=7."},
-{q:"Slant height cone h=24, r=7?", options:["23","24","25","26"], answer:2, solution:"l=√(r²+h²)=√(49+576)=√625=25."},
-{q:"Sphere inscribed in cube side 10. Radius?", options:["7","10","2.5","5"], answer:3, solution:"Radius=cube side/2=10/2=5."},
-{q:"Rhombus diagonals 16,12. Area?", options:["96","128","72","192"], answer:0, solution:"Area=1/2*d1*d2=1/2*16*12=96."},
-{q:"Right circular cone volume 308, height 14. Radius?", options:["7","4.58","8","5"], answer:1, solution:"V=1/3πr²h ⇒ 308=1/3*3.14*r²*14 ⇒ r²≈21 ⇒ r≈4.58."},
-{q:"Triangle medians 9,12,15. Area?", options:["72","54","60","66"], answer:2, solution:"Area=4/3√[sm(sm-a)(sm-b)(sm-c)] where sm=(9+12+15)/2=18. Area=60."},
-{q:"Triangle sides ratio 3:4:5, perimeter 36. Area?", options:["54","48","60","72"], answer:0, solution:"Sides=9,12,15, right triangle: Area=1/2*9*12=54."},
-{q:"A cylinder radius 7, height 10. Surface area?", options:["1036","748","880","990"], answer:0, solution:"SA=2πr(h+r)=2*22/7*7*(10+7)=1036."},
-{q:"Cone radius 7, height 12. Volume?", options:["924","616","1232","308"], answer:1, solution:"V=1/3*π*r²*h=1/3*22/7*49*12=616."},
-{q:"Cone radius 7, slant height 25. SA?", options:["704","550","770","616"], answer:0, solution:"SA=πr(l+r)=22/7*7*(25+7)=704."},
-{q:"Cylinder radius 7, height 10. Volume?", options:["154","770","1540","440"], answer:2, solution:"V=πr²h=22/7*49*10=1540."},
-{q:"Cylinder radius 7, height 10. SA?", options:["1036","748","880","990"], answer:0, solution:"SA=2πr(h+r)=2*22/7*7*(10+7)=1036."},
-{q:"Distance between two parallel lines in rectangle?", options:["Diagonal","Height","Side","Perimeter"], answer:1, solution:"Height=perpendicular distance between parallel sides."},
-{q:"In right triangle, square of hypotenuse equals?", options:["Difference","Half sum","Sum of squares of other two sides","Double of sides"], answer:2, solution:"By Pythagoras: hyp² = base² + height²."},
-{q:"Area of trapezium parallel sides 8,5, height 4?", options:["26","22","24","32"], answer:0, solution:"Area=1/2*(8+5)*4=26."},
-{q:"Volume of cube side a formula?", options:["2a²","4a³","6a²","a³"], answer:3, solution:"Volume=a³."},
-
-
   {q:"Add: 3/5 + 4/15", options:["14/15","15/15","1","13/15"], answer:3, solution:"LCM=15 → 9/15+4/15=13/15"},
   {q:"Simplify: 56/98", options:["6/7","4/7","3/7","5/7"], answer:1, solution:"Divide by 14 → 56/98=4/7"},
   {q:"Find fraction between 3/5 and 4/5", options:["5/6","7/10","2/3","3/4"], answer:1, solution:"(3/5+4/5)/2=7/10"},
   {q:"If x=2/3, find x²", options:["2/9","4/9","3/4","1/3"], answer:1, solution:"(2/3)²=4/9"},
   {q:"Subtract: 11/12 - 7/18", options:["19/36","7/36","8/36","9/36"], answer:0, solution:"LCM=36 → 33/36-14/36=19/36"},
   {q:"Simplify: (2/3)×(9/4)", options:["3/2","3/4","4/3","2/3"], answer:0, solution:"Multiply → 18/12=3/2"},
-  {q:"Divide: (7/8) ÷ (14/16)", options:["1","8/7","1/2","7/8"], answer:0, solution:"Both fractions equal, result=1"},
-  {q:"Add: 2/7+3/14", options:["7/14","5/14","1/2","6/14"], answer:2, solution:"LCM=14 → 4/14+3/14=7/14=1/2"},
-  {q:"Simplify: (15/25)×(5/3)", options:["1/3","1","2/3","1/5"], answer:1, solution:"15/25=3/5 → 3/5×5/3=1"},
-  {q:"Subtract: 19/24 - 7/12", options:["7/24","5/24","1/6","1/8"], answer:1, solution:"LCM=24 → 19/24-14/24=5/24"},
-  {q:"Simplify: 81/108", options:["3/4","4/5","2/3","5/6"], answer:0, solution:"Divide by 27 → 81/108=3/4"},
-  {q:"Add: 7/16 + 5/8", options:["15/16","13/16","17/16","19/16"], answer:2, solution:"LCM=16 → 7/16+10/16=17/16"},
-  {q:"Simplify: (12/18) ÷ (8/12)", options:["1","4/3","2/3","3/2"], answer:0, solution:"12/18=2/3 ÷ 8/12=÷2/3=1"},
-  {q:"Simplify: 144/216", options:["2/3","3/4","4/5","3/5"], answer:0, solution:"Divide by 72 → 2/3"},
-  {q:"Express 2.25 as fraction", options:["11/4","7/3","5/2","9/4"], answer:3, solution:"2.25=225/100=9/4"},
-  {q:"Multiply: (5/12)×(24/25)", options:["1/2","4/5","1","2/5"], answer:3, solution:"Cancel → 120/300=2/5"},
-  {q:"Add: 1/6+1/12+1/4", options:["3/4","1/2","5/6","2/3"], answer:1, solution:"LCM=12 → 2+1+3=6/12=1/2"},
-  {q:"Simplify: (7/9)×(27/14)", options:["5/3","3/2","4/3","3/4"], answer:1, solution:"Cross cancel → 27/18=3/2"},
-  {q:"If 4/7 of a number is 28, number is:", options:["49","64","63","56"], answer:3, solution:"4/7x=28 → x=28×7/4=49? Wait correction: x=49 → answer index 0"},
-  {q:"Find reciprocal of 5/9", options:["9/5","1/5","-9/5","5/9"], answer:0, solution:"Flip numerator and denominator"},
-  {q:"Simplify: (3/5) ÷ (9/10)", options:["2/3","5/6","3/2","10/9"], answer:0, solution:"Multiply by reciprocal → 30/45=2/3"},
-  {q:"Convert 125% to fraction", options:["4/5","6/5","3/2","5/4"], answer:3, solution:"125%=125/100=5/4"},
-  {q:"Subtract: 5/6-1/4", options:["8/12","7/12","5/12","9/12"], answer:1, solution:"LCM=12 → 10/12-3/12=7/12"},
-  {q:"Simplify: (16/81)^(1/2)", options:["2/3","5/9","3/4","4/9"], answer:3, solution:"√16/√81=4/9"},
-  {q:"Simplify: (2/3)³", options:["4/9","6/27","8/27","8/9"], answer:2, solution:"(2³)/(3³)=8/27"},
-  {q:"Find fraction equal to 0.6", options:["7/10","5/8","2/3","3/5"], answer:3, solution:"0.6=60/100=3/5"},
-  {q:"Simplify: (12÷3)+(4×5)", options:["26","24","22","20"], answer:1, solution:"4+20=24"},
-  {q:"Solve: 7×(8-3)", options:["30","35","40","45"], answer:1, solution:"7×5=35"},
-  {q:"Simplify: (25-5)÷5", options:["2","3","4","5"], answer:2, solution:"20÷5=4"},
-  {q:"Solve: 6×6 ÷ 3", options:["10","12","15","18"], answer:1, solution:"36÷3=12"},
-  {q:"Simplify: (9+3)×(2+1)", options:["36","27","30","33"], answer:0, solution:"12×3=36"},
-  {q:"Solve: (5²-3²)", options:["14","18","16","12"], answer:2, solution:"25-9=16"},
-  {q:"Simplify: 100÷(4×5)", options:["4","5","6","8"], answer:1, solution:"100÷20=5"},
+ 
   {q:"Solve: (8÷4)+3²", options:["11","12","8","9"], answer:0, solution:"2+9=11"},
   {q:"Simplify: 20-(2×5)+6", options:["16","14","12","18"], answer:0, solution:"20-10+6=16"},
   {q:"Solve: (50+30)÷(10-2)", options:["10","12","8","15"], answer:0, solution:"80÷8=10"},
@@ -487,42 +508,6 @@
   {q:"Solve: (35% of 640) + (45% of 360)", options:["380","350","360","370"], answer:0, solution:"224+162=386"},
   {q:"Find number which is 20% more than 250.", options:["300","350","275","280"], answer:0, solution:"250×1.2=300"},
   {q:"If SP=₹720, Loss=10%, find CP.", options:["750","700","650","800"], answer:3, solution:"SP=90%, CP=720×100/90=800"},
-  {q:"If average of 8 numbers=15, average of first 6=14, find average of last 2.", options:["17","16","18","20"], answer:2, solution:"Total=120, first6=84, last2=36 ⇒ avg=36/2=18"},
-  {q:"Solve: 1/3 + 1/6 + 1/2", options:["1.5","0.5","1","2"], answer:2, solution:"Common denom=6 ⇒ 2+1+3=6/6=1"},
-  {q:"If A:B=3:5, B:C=2:3, find A:C", options:["6:15","3:5","7:15","6:5"], answer:0, solution:"A:B=3:5, B:C=10:15 ⇒ A:C=6:15"},
-  {q:"If salary increases from 12000 to 15000, % increase?", options:["25%","30%","20%","15%"], answer:0, solution:"Increase=3000, % = 3000/12000×100=25%"},
-  {q:"If 40 workers complete work in 15 days, 30 workers complete in?", options:["15","20","10","25"], answer:1, solution:"W1D1=W2D2 ⇒ D2=20"},
-  {q:"Simplify: 75×75", options:["5525","5725","5625","5325"], answer:2, solution:"75²=5625"},
-  {q:"Expand: (3x-4)²", options:["3x²-24x+16","9x²+24x+16","9x²-16x+24","9x²-24x+16"], answer:3, solution:"Square: 9x²-24x+16"},
-  {q:"Factorize: x³-27", options:["(x-3)(x²+3x+9)","Prime","(x-9)(x²+3x+3)","(x-3)(x²-3x+9)"], answer:0, solution:"a³-b³ formula"},
-  {q:"Simplify: (x+3)(x²-3x+9)", options:["x³-9","x³+27","x³+9","x³-27"], answer:1, solution:"This is x³+3³=x³+27"},
-  {q:"Solve: 3x²=48", options:["±4","±6","±8","±2√6"], answer:0, solution:"x²=16 ⇒ x=±4"},
- { q: "A rectangle has length 10 cm and width 6 cm. Its perimeter is:", options: ["32 cm", "30 cm", "36 cm", "28 cm"], answer: 0, solution: "Perimeter = 2 × (l + w) = 2 × (10+6)=32 cm" },
-  { q: "Diagonal of a square with side 5 cm", options: ["25 cm", "5√2 cm", "10 cm", "5 cm"], answer: 1, solution: "Diagonal = side × √2 = 5√2 cm" },
-  { q: "Area of equilateral triangle with side 6 cm", options: ["18 cm²", "36 cm²", "6√3 cm²", "9√3 cm²"], answer: 3, solution: "Area = √3/4 × side² = √3/4 × 36 = 9√3 cm²" },
-  { q: "Sum of interior angles of a hexagon", options: ["720°", "600°", "540°", "360°"], answer: 0, solution: "Sum = (n-2)×180° = (6-2)×180=720°" },
-  { q: "Each angle of a regular pentagon is:", options: ["120°", "108°", "100°", "90°"], answer: 1, solution: "Each angle = (n-2)×180/n = 3×180/5=108°" },
-  { q: "Volume of cube with side 4 cm", options: ["12 cm³", "64 cm³", "32 cm³", "16 cm³"], answer: 1, solution: "Volume = side³ = 4³=64 cm³" },
-  { q: "Surface area of cube with side 6 cm", options: ["128 cm²", "36 cm²", "216 cm²", "72 cm²"], answer: 2, solution: "Surface area = 6 × side² = 6×36=216 cm²" },
-  { q: "Volume of cuboid with length 8 cm, breadth 5 cm, height 4 cm", options: ["80 cm³", "160 cm³", "100 cm³", "120 cm³"], answer: 1, solution: "Volume = l × b × h = 8×5×4=160 cm³" },
-  { q: "Surface area of cuboid with length 6 cm, breadth 4 cm, height 3 cm", options: ["84 cm²", "72 cm²", "94 cm²", "108 cm²"], answer: 3, solution: "SA = 2(lb + bh + hl) = 2(24+12+18)=108 cm²" },
-  { q: "The radius of a circle is half of its diameter. If diameter=14 cm, radius=", options: ["7 cm", "21 cm", "14 cm", "28 cm"], answer: 0, solution: "Radius = diameter/2 = 14/2=7 cm" },
-  { q: "Find area of sector with radius 7 cm and angle 90°", options: ["154 cm²", "77 cm²", "49 cm²", "38.5 cm²"], answer: 3, solution: "Area = θ/360 × πr² = 90/360 × 22/7×49=38.5 cm²" },
-  { q: "Length of arc with radius 7 cm and angle 60°", options: ["22 cm", "11 cm", "7.33 cm", "44 cm"], answer: 2, solution: "Arc length = θ/360 × 2πr = 60/360 × 2×22/7×7 = 7.33 cm" },
-  { q: "Perimeter of an equilateral triangle with side 9 cm", options: ["18 cm", "27 cm", "36 cm", "9 cm"], answer: 1, solution: "Perimeter = 3 × side = 3 × 9 = 27 cm" },
-  { q: "If perimeter of square is 48 cm, its side is:", options: ["16 cm", "12 cm", "24 cm", "8 cm"], answer: 1, solution: "Side = perimeter/4 = 48/4 =12 cm" },
-  { q: "Volume of sphere with radius 7 cm", options: ["1436 cm³", "1232 cm³", "1078 cm³", "343 cm³"], answer: 0, solution: "Volume = 4/3 × π × r³ = 4/3 × 22/7 × 343=1436 cm³" },
-  { q: "Surface area of sphere with radius 7 cm", options: ["616 cm²", "154 cm²", "77 cm²", "308 cm²"], answer: 0, solution: "SA = 4πr² = 4 × 22/7 × 49=616 cm²" },
-  { q: "Volume of cone with radius 7 cm and height 12 cm", options: ["924 cm³", "616 cm³", "1232 cm³", "308 cm³"], answer: 1, solution: "Volume = 1/3 × π × r² × h = 1/3×22/7×49×12=616 cm³" },
-  { q: "Surface area of cone with radius 7 cm and slant height 25 cm", options: ["704 cm²", "550 cm²", "770 cm²", "616 cm²"], answer: 0, solution: "SA = πr(l+r) = 22/7×7×(25+7)=704 cm²" },
-  { q: "A cylinder has radius 7 cm and height 10 cm. Volume is:", options: ["440 cm³", "1540 cm³", "770 cm³", "154 cm³"], answer: 1, solution: "Volume = πr²h = 22/7×49×10=1540 cm³" },
-  { q: "Surface area of same cylinder", options: ["1036 cm²", "748 cm²", "880 cm²", "990 cm²"], answer: 0, solution: "SA=2πr(h+r)=2×22/7×7×(10+7)=1036 cm²" },
-  { q: "The distance between two parallel lines in a rectangle is called:", options: ["Diagonal", "Height", "Side", "Perimeter"], answer: 1, solution: "Height is perpendicular distance between parallel sides" },
-  { q: "In a right triangle, square of hypotenuse equals:", options: ["Difference", "Half sum", "Sum of squares of other two sides", "Double of sides"], answer: 2, solution: "By Pythagoras theorem: hyp² = base² + height²" },
-  { q: "If hypotenuse=13 cm, one side=5 cm, other side=", options: ["8 cm", "12 cm", "7 cm", "10 cm"], answer: 1, solution: "Other side = √(13²-5²)=√(169-25)=√144=12 cm" },
-  { q: "Area of trapezium with parallel sides 8 cm, 5 cm, height 4 cm", options: ["26 cm²", "22 cm²", "24 cm²", "32 cm²"], answer: 0, solution: "Area = 1/2 × (sum of parallel sides) × height =1/2×(8+5)×4=26 cm²" },
-  { q: "Volume of cube with side 'a' formula is:", options: ["2a²", "4a³", "6a²", "a³"], answer: 3, solution: "Volume = a³" },
-  { q: "Surface area of cube formula", options: ["a³", "6a²", "3a²", "4a²"], answer: 1, solution: "SA = 6 × side² =6a²" },
   { q: "Diagonal of cuboid with l=3,b=4,h=12 cm", options: ["14 cm", "16 cm", "13 cm", "15 cm"], answer: 2, solution: "Diagonal = √(l²+b²+h²)=√(9+16+144)=√169=13 cm" },
   { q: "Each exterior angle of a regular polygon with 8 sides is:", options: ["60°", "120°", "45°", "90°"], answer: 2, solution: "Exterior angle = 360/n=360/8=45°" },
   { q: "If radius of circle is doubled, circumference changes by:", options: ["Remains same", "Quadruples", "Doubles", "Triples"], answer: 2, solution: "Circumference =2πr → doubles if r doubles" },
@@ -545,7 +530,6 @@
   {q:"Expand: (x+5)(x-5)", options:["x²+25","x²-10x+25","x²-25","x²+10x+25"], answer:2, solution:"Difference of squares"},
   {q:"Solve: 7x-21=0", options:["x=3","x=1","x=21","x=0"], answer:0, solution:"x=21/7=3"},
   {q:"Simplify: x⁵ ÷ x³", options:["x³","x","x²","x⁵"], answer:2, solution:"Subtract powers ⇒ x²"},
-
 
     ]; // Your questions here
     const QUESTIONS = ALL_QUESTIONS.sort(() => Math.random() - 0.5).slice(0, 10);
@@ -586,7 +570,7 @@
       aiAnswerDiv.innerHTML = "🤖 AI is thinking...";
       setTimeout(() => {
         let aiChoice;
-        if (Math.random() < (0.5 + Math.random() * 0.15)) aiChoice = correctIndex;
+        if (Math.random() < (0.8 + Math.random() * 0.15)) aiChoice = correctIndex;
         else {
           let wrongs = QUESTIONS[currentIndex].options.map((_, i) => i).filter(i => i !== correctIndex);
           aiChoice = wrongs[Math.floor(Math.random() * wrongs.length)];
@@ -638,4 +622,3 @@
   </script>
 </body>
 </html>
-
