@@ -10,7 +10,7 @@
   "icons": [
     {
       "src": "math1.png",
-      "sizes": "250x250",
+      "sizes": "450x450",
       "type": "image/png"
     },
     {
@@ -20,4 +20,5 @@
     }
   ]
 }
+
 
