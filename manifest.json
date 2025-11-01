@@ -9,8 +9,8 @@
   "theme_color": "#ffb347",
   "icons": [
     {
-      "src": "math1.png",
-      "sizes": "450x450",
+      "src": "math3.png",
+      "sizes": "400x400",
       "type": "image/png"
     },
     {
@@ -20,5 +20,6 @@
     }
   ]
 }
+
 
 
